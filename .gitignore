@@ -22,3 +22,6 @@ yarn-error.log*
 
 # package-lock
 package-lock.json
+
+# visual studio code settings
+.vscode/settings.json
