@@ -48,7 +48,7 @@ describe('helpers', () => {
     expect(registerYValue).toBe(0xcd)
   })
 
-  it('can parse one digit constant from opcode', () => {
+  it('parses one digit constant from opcode', () => {
     expect(
       chip8Selectors.opcodeOneDigitConstant({
         ...chip8InitialState,
@@ -57,7 +57,7 @@ describe('helpers', () => {
     ).toBe(0x2)
   })
 
-  it('can parse two digit constant from opcode', () => {
+  it('parses two digit constant from opcode', () => {
     expect(
       chip8Selectors.opcodeTwoDigitConstant({
         ...chip8InitialState,
@@ -66,7 +66,7 @@ describe('helpers', () => {
     ).toBe(0x2e)
   })
 
-  it('can parse three digit constant from opcode', () => {
+  it('parses three digit constant from opcode', () => {
     expect(
       chip8Selectors.opcodeThreeDigitConstant({
         ...chip8InitialState,
