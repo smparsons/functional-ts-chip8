@@ -5,12 +5,12 @@ import { continueToNextInstruction, skipNextInstruction } from './helpers'
 describe('helpers', () => {
   describe('continueToNextInstruction', () => {
     it('increments program counter by two', () => {
-      const initialState = {
+      const currentState = {
         ...chip8InitialState,
         programCounter: 0x2a0
       }
 
-      const { programCounter } = continueToNextInstruction(initialState)
+      const { programCounter } = continueToNextInstruction(currentState)
 
       expect(programCounter).toBe(0x2a2)
     })
@@ -18,12 +18,12 @@ describe('helpers', () => {
 
   describe('skipNextInstruction', () => {
     it('increments program counter by four', () => {
-      const initialState = {
+      const currentState = {
         ...chip8InitialState,
         programCounter: 0x3a0
       }
 
-      const { programCounter } = skipNextInstruction(initialState)
+      const { programCounter } = skipNextInstruction(currentState)
 
       expect(programCounter).toBe(0x3a4)
     })

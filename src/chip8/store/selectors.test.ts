@@ -26,15 +26,13 @@ describe('chip8Selectors', () => {
 
   describe('opcodeRegisterXValue', () => {
     it('gets the value stored in register x', () => {
-      const currentChip8State = {
+      const currentState = {
         ...chip8InitialState,
         opcode: 0x8574,
         vRegisters: Object.assign([], chip8InitialState.vRegisters, { 5: 0xa1 })
       }
 
-      const registerXValue = chip8Selectors.opcodeRegisterXValue(
-        currentChip8State
-      )
+      const registerXValue = chip8Selectors.opcodeRegisterXValue(currentState)
 
       expect(registerXValue).toBe(0xa1)
     })
@@ -42,15 +40,13 @@ describe('chip8Selectors', () => {
 
   describe('opcodeRegisterYValue', () => {
     it('gets the value stored in register y', () => {
-      const currentChip8State = {
+      const currentState = {
         ...chip8InitialState,
         opcode: 0x5300,
         vRegisters: Object.assign([], chip8InitialState.vRegisters, { 0: 0xcd })
       }
 
-      const registerYValue = chip8Selectors.opcodeRegisterYValue(
-        currentChip8State
-      )
+      const registerYValue = chip8Selectors.opcodeRegisterYValue(currentState)
 
       expect(registerYValue).toBe(0xcd)
     })
