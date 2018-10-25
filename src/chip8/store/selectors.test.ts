@@ -1,7 +1,7 @@
 import { chip8Selectors } from './selectors'
 import { chip8InitialState } from './types'
 
-describe('helpers', () => {
+describe('chip8Selectors', () => {
   it('parses register x from opcode', () => {
     expect(
       chip8Selectors.opcodeRegisterXNumber({
