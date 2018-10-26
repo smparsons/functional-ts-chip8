@@ -1,3 +1,4 @@
+import { Func1 } from 'redux'
 import { Chip8 } from 'src/chip8/store'
 
 export const continueToNextInstruction = (chip8State: Chip8): Chip8 => ({
@@ -8,4 +9,14 @@ export const continueToNextInstruction = (chip8State: Chip8): Chip8 => ({
 export const skipNextInstruction = (chip8State: Chip8): Chip8 => ({
   ...chip8State,
   programCounter: chip8State.programCounter + 0x4
+})
+
+interface RegisterMap {
+  readonly [registerNumber: number]: number
+}
+export const loadRegisters = (
+  registerMap: RegisterMap
+): Func1<Chip8, Chip8> => (chip8State: Chip8): Chip8 => ({
+  ...chip8State,
+  vRegisters: Object.assign([], chip8State.vRegisters, registerMap)
 })
