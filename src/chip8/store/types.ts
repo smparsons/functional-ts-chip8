@@ -20,14 +20,14 @@ export interface Chip8 {
 
 export const chip8InitialState = {
   opcode: 0x0000,
-  memory: Uint8Array.from({ length: 4096 }, () => 0x00),
-  vRegisters: Uint8Array.from({ length: 16 }, () => 0x00),
+  memory: Uint8Array.from({ length: 4096 }),
+  vRegisters: Uint8Array.from({ length: 16 }),
   indexRegister: 0x0000,
   programCounter: 0x200,
-  graphics: Uint8Array.from({ length: 2048 }, () => 0x00),
+  graphics: Uint8Array.from({ length: 2048 }),
   delayTimer: 0x00,
   soundTimer: 0x00,
-  stack: Uint16Array.from({ length: 16 }, () => 0x0000),
+  stack: Uint16Array.from({ length: 16 }),
   stackPointer: 0x0000,
   keyState: Array.from({ length: 16 }, () => KeyState.Released),
   drawFlag: false

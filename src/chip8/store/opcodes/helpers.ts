@@ -10,7 +10,7 @@ export const loadRegisters = (
 ): Func1<Chip8, Chip8> => (chip8State: Chip8): Chip8 => ({
   ...chip8State,
   vRegisters: Object.assign(
-    Uint8Array.from({ length: 16 }, () => 0x00),
+    Uint8Array.from({ length: 16 }),
     chip8State.vRegisters,
     registerMap
   )
