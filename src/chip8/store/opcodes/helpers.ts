@@ -11,6 +11,11 @@ export const skipNextInstruction = (chip8State: Chip8): Chip8 => ({
   programCounter: chip8State.programCounter + 0x4
 })
 
+export const skipNextInstructionIf = (
+  expressionResult: boolean
+): Func1<Chip8, Chip8> =>
+  expressionResult ? skipNextInstruction : continueToNextInstruction
+
 interface RegisterMap {
   readonly [registerNumber: number]: number
 }

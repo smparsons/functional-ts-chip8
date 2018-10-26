@@ -1,6 +1,8 @@
 import { chip8InitialState } from 'src/chip8/store'
 
-import { continueToNextInstruction, loadRegisters, skipNextInstruction } from './helpers'
+import {
+    continueToNextInstruction, loadRegisters, skipNextInstruction, skipNextInstructionIf
+} from './helpers'
 
 describe('helpers', () => {
   describe('continueToNextInstruction', () => {
@@ -26,6 +28,30 @@ describe('helpers', () => {
       const { programCounter } = skipNextInstruction(currentState)
 
       expect(programCounter).toBe(0x3a4)
+    })
+  })
+
+  describe('skipNextInstructionIf', () => {
+    it('increments program counter by four if value passed in is true', () => {
+      const currentState = {
+        ...chip8InitialState,
+        programCounter: 0x25f
+      }
+
+      const { programCounter } = skipNextInstructionIf(true)(currentState)
+
+      expect(programCounter).toBe(0x263)
+    })
+
+    it('increments program counter by two if value passed in is false', () => {
+      const currentState = {
+        ...chip8InitialState,
+        programCounter: 0x42a
+      }
+
+      const { programCounter } = skipNextInstructionIf(false)(currentState)
+
+      expect(programCounter).toBe(0x42c)
     })
   })
 
