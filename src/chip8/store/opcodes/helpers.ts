@@ -23,5 +23,9 @@ export const loadRegisters = (
   registerMap: RegisterMap
 ): Func1<Chip8, Chip8> => (chip8State: Chip8): Chip8 => ({
   ...chip8State,
-  vRegisters: Object.assign([], chip8State.vRegisters, registerMap)
+  vRegisters: Object.assign(
+    Uint8Array.from({ length: 16 }, () => 0x00),
+    chip8State.vRegisters,
+    registerMap
+  )
 })

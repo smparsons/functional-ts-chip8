@@ -1,10 +1,10 @@
 import { Chip8 } from './types'
 
 const opcodeRegisterXNumber = ({ opcode }: Chip8): number =>
-  (opcode & 0x0f00) >> 8
+  (opcode & 0x0f00) >>> 8
 
 const opcodeRegisterYNumber = ({ opcode }: Chip8): number =>
-  (opcode & 0x00f0) >> 4
+  (opcode & 0x00f0) >>> 4
 
 export const chip8Selectors = {
   opcodeRegisterXNumber,
