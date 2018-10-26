@@ -5,6 +5,18 @@ import {
 } from './helpers'
 
 describe('helpers', () => {
+  describe('loadRegisters', () => {
+    it('loads passed values into vRegisters', () => {
+      const { vRegisters } = loadRegisters({ 3: 0xac, 10: 0xdb, 14: 0x05 })(
+        chip8InitialState
+      )
+
+      expect(vRegisters[3]).toBe(0xac)
+      expect(vRegisters[10]).toBe(0xdb)
+      expect(vRegisters[14]).toBe(0x05)
+    })
+  })
+
   describe('continueToNextInstruction', () => {
     it('increments program counter by two', () => {
       const currentState = {
@@ -52,18 +64,6 @@ describe('helpers', () => {
       const { programCounter } = skipNextInstructionIf(false)(currentState)
 
       expect(programCounter).toBe(0x42c)
-    })
-  })
-
-  describe('loadRegisters', () => {
-    it('loads passed values into vRegisters', () => {
-      const { vRegisters } = loadRegisters({ 3: 0xac, 10: 0xdb, 14: 0x05 })(
-        chip8InitialState
-      )
-
-      expect(vRegisters[3]).toBe(0xac)
-      expect(vRegisters[10]).toBe(0xdb)
-      expect(vRegisters[14]).toBe(0x05)
     })
   })
 })
