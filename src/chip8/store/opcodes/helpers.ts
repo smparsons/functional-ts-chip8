@@ -1,7 +1,5 @@
 import { Func1 } from 'redux'
-import { Chip8, ParsedOpcode } from 'src/chip8/store'
-
-import { chip8Selectors } from '../selectors'
+import { Chip8, chip8Selectors, ParsedOpcode } from 'src/chip8/store'
 
 interface RegisterMap {
   readonly [registerNumber: number]: number
@@ -13,11 +11,7 @@ export const loadRegisters = (registerMap: RegisterMap): OpcodeFunc => (
   chip8State: Chip8
 ): Chip8 => ({
   ...chip8State,
-  vRegisters: Object.assign(
-    Uint8Array.from({ length: 16 }),
-    chip8State.vRegisters,
-    registerMap
-  )
+  vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, registerMap)
 })
 
 export const continueToNextInstruction = (chip8State: Chip8): Chip8 => ({

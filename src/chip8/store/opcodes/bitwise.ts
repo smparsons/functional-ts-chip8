@@ -56,28 +56,26 @@ export const bitwiseXor = withParsedOpcode(
   0x8XY6
   Stores the least significant bit of VX in VF and then shifts VX to the right by 1.
 */
-export const shiftRight = withParsedOpcode(
-  ({ registerXNumber, registerXValue }: ParsedOpcode) =>
-    pipe(
-      loadRegisters({
-        [registerXNumber]: registerXValue >>> 1,
-        [0xf]: registerXValue & 0x1
-      }),
-      continueToNextInstruction
-    )
+export const shiftRight = withParsedOpcode(({ registerXNumber, registerXValue }: ParsedOpcode) =>
+  pipe(
+    loadRegisters({
+      [registerXNumber]: registerXValue >>> 1,
+      [0xf]: registerXValue & 0x1
+    }),
+    continueToNextInstruction
+  )
 )
 
 /*
   0x8XYE
   Stores the most significant bit of VX in VF and then shifts VX to the left by 1.
 */
-export const shiftLeft = withParsedOpcode(
-  ({ registerXNumber, registerXValue }: ParsedOpcode) =>
-    pipe(
-      loadRegisters({
-        [registerXNumber]: registerXValue << 1,
-        [0xf]: registerXValue >>> 7
-      }),
-      continueToNextInstruction
-    )
+export const shiftLeft = withParsedOpcode(({ registerXNumber, registerXValue }: ParsedOpcode) =>
+  pipe(
+    loadRegisters({
+      [registerXNumber]: registerXValue << 1,
+      [0xf]: registerXValue >>> 7
+    }),
+    continueToNextInstruction
+  )
 )
