@@ -1,4 +1,4 @@
-import { Chip8, ParsedOpcode } from 'src/chip8/store'
+import { ParsedOpcode } from 'src/chip8/store'
 import { pipe } from 'src/functionalUtilities'
 
 import { continueToNextInstruction, loadRegisters, withParsedOpcode } from './helpers'
