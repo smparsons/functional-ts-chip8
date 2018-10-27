@@ -32,3 +32,20 @@ export const chip8InitialState = {
   keyState: Array.from({ length: 16 }, () => KeyState.Released),
   drawFlag: false
 } as Chip8
+
+export interface ParsedOpcode {
+  // registerXNumber is always the second digit in the opcode. ex: The X in opcode 8XYN
+  readonly registerXNumber: number
+  // registerYNumber is always the third digit in the opcode. ex: The Y in opcode 8XYN
+  readonly registerYNumber: number
+  // registerXValue is the value stored in register X
+  readonly registerXValue: number
+  // registerYValue is the value stored in register Y
+  readonly registerYValue: number
+  // oneDigitConstant is always the last digit in the opcode. ex: The N in opcode DXYN
+  readonly oneDigitConstant: number
+  // twoDigitConstant is always the last two digits in the opcode. ex: The NN in opcode CXNN
+  readonly twoDigitConstant: number
+  // threeDigitConstant is always the last three digits in the opcode. ex: The NNN in opcode ANNN
+  readonly threeDigitConstant: number
+}

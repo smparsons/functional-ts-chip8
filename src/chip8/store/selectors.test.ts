@@ -2,29 +2,29 @@ import { chip8Selectors } from './selectors'
 import { chip8InitialState } from './types'
 
 describe('chip8Selectors', () => {
-  describe('opcodeRegisterXNumber', () => {
+  describe('parsedOpcode', () => {
     it('parses register x from opcode', () => {
-      expect(
-        chip8Selectors.opcodeRegisterXNumber({
-          ...chip8InitialState,
-          opcode: 0x8ce4
-        })
-      ).toBe(0xc)
-    })
-  })
+      const currentState = {
+        ...chip8InitialState,
+        opcode: 0x8ce4
+      }
 
-  describe('opcodeRegisterYNumber', () => {
+      const { registerXNumber } = chip8Selectors.parsedOpcode(currentState)
+
+      expect(registerXNumber).toBe(0xc)
+    })
+
     it('parses register y from opcode', () => {
-      expect(
-        chip8Selectors.opcodeRegisterYNumber({
-          ...chip8InitialState,
-          opcode: 0x8ce4
-        })
-      ).toBe(0xe)
-    })
-  })
+      const currentState = {
+        ...chip8InitialState,
+        opcode: 0x8ce4
+      }
 
-  describe('opcodeRegisterXValue', () => {
+      const { registerYNumber } = chip8Selectors.parsedOpcode(currentState)
+
+      expect(registerYNumber).toBe(0xe)
+    })
+
     it('gets the value stored in register x', () => {
       const currentState = {
         ...chip8InitialState,
@@ -32,13 +32,11 @@ describe('chip8Selectors', () => {
         vRegisters: Object.assign([], chip8InitialState.vRegisters, { 5: 0xa1 })
       }
 
-      const registerXValue = chip8Selectors.opcodeRegisterXValue(currentState)
+      const { registerXValue } = chip8Selectors.parsedOpcode(currentState)
 
       expect(registerXValue).toBe(0xa1)
     })
-  })
 
-  describe('opcodeRegisterYValue', () => {
     it('gets the value stored in register y', () => {
       const currentState = {
         ...chip8InitialState,
@@ -46,42 +44,42 @@ describe('chip8Selectors', () => {
         vRegisters: Object.assign([], chip8InitialState.vRegisters, { 0: 0xcd })
       }
 
-      const registerYValue = chip8Selectors.opcodeRegisterYValue(currentState)
+      const { registerYValue } = chip8Selectors.parsedOpcode(currentState)
 
       expect(registerYValue).toBe(0xcd)
     })
-  })
 
-  describe('opcodeOneDigitConstant', () => {
     it('parses one digit constant from opcode', () => {
-      expect(
-        chip8Selectors.opcodeOneDigitConstant({
-          ...chip8InitialState,
-          opcode: 0xd7e2
-        })
-      ).toBe(0x2)
-    })
-  })
+      const currentState = {
+        ...chip8InitialState,
+        opcode: 0xd7e2
+      }
 
-  describe('opcodeTwoDigitContant', () => {
+      const { oneDigitConstant } = chip8Selectors.parsedOpcode(currentState)
+
+      expect(oneDigitConstant).toBe(0x2)
+    })
+
     it('parses two digit constant from opcode', () => {
-      expect(
-        chip8Selectors.opcodeTwoDigitConstant({
-          ...chip8InitialState,
-          opcode: 0x6f2e
-        })
-      ).toBe(0x2e)
-    })
-  })
+      const currentState = {
+        ...chip8InitialState,
+        opcode: 0x6f2e
+      }
 
-  describe('opcodeThreeDigitConstant', () => {
+      const { twoDigitConstant } = chip8Selectors.parsedOpcode(currentState)
+
+      expect(twoDigitConstant).toBe(0x2e)
+    })
+
     it('parses three digit constant from opcode', () => {
-      expect(
-        chip8Selectors.opcodeThreeDigitConstant({
-          ...chip8InitialState,
-          opcode: 0x2a1c
-        })
-      ).toBe(0xa1c)
+      const currentState = {
+        ...chip8InitialState,
+        opcode: 0x2a1c
+      }
+
+      const { threeDigitConstant } = chip8Selectors.parsedOpcode(currentState)
+
+      expect(threeDigitConstant).toBe(0xa1c)
     })
   })
 })
