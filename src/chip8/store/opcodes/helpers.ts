@@ -1,11 +1,9 @@
 import { Func1 } from 'redux'
-import { Chip8, chip8Selectors, ParsedOpcode } from 'src/chip8/store'
+import { Chip8, chip8Selectors, OpcodeFunc, ParsedOpcode } from 'src/chip8/store'
 
 interface RegisterMap {
   readonly [registerNumber: number]: number
 }
-
-type OpcodeFunc = Func1<Chip8, Chip8>
 
 export const loadRegisters = (registerMap: RegisterMap): OpcodeFunc => (
   chip8State: Chip8

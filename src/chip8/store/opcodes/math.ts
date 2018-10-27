@@ -1,4 +1,4 @@
-import { ParsedOpcode } from 'src/chip8/store'
+import { OpcodeFunc, ParsedOpcode } from 'src/chip8/store'
 import { pipe } from 'src/functionalUtilities'
 
 import { continueToNextInstruction, loadRegisters, withParsedOpcode } from './helpers'
@@ -8,7 +8,7 @@ import { continueToNextInstruction, loadRegisters, withParsedOpcode } from './he
   Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't.
 */
 export const addTwoRegisters = withParsedOpcode(
-  ({ registerXNumber, registerXValue, registerYValue }: ParsedOpcode) =>
+  ({ registerXNumber, registerXValue, registerYValue }: ParsedOpcode): OpcodeFunc =>
     pipe(
       loadRegisters({
         [registerXNumber]: registerXValue + registerYValue,
@@ -23,7 +23,7 @@ export const addTwoRegisters = withParsedOpcode(
   VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
 */
 export const registerXMinusRegisterY = withParsedOpcode(
-  ({ registerXNumber, registerXValue, registerYValue }: ParsedOpcode) =>
+  ({ registerXNumber, registerXValue, registerYValue }: ParsedOpcode): OpcodeFunc =>
     pipe(
       loadRegisters({
         [registerXNumber]: registerXValue - registerYValue,
@@ -38,7 +38,7 @@ export const registerXMinusRegisterY = withParsedOpcode(
   Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
 */
 export const registerYMinusRegisterX = withParsedOpcode(
-  ({ registerXNumber, registerXValue, registerYValue }: ParsedOpcode) =>
+  ({ registerXNumber, registerXValue, registerYValue }: ParsedOpcode): OpcodeFunc =>
     pipe(
       loadRegisters({
         [registerXNumber]: registerYValue - registerXValue,

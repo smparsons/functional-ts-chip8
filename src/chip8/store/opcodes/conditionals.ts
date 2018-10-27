@@ -1,4 +1,4 @@
-import { ParsedOpcode } from 'src/chip8/store'
+import { OpcodeFunc, ParsedOpcode } from 'src/chip8/store'
 
 import { skipNextInstructionIf, withParsedOpcode } from './helpers'
 
@@ -8,7 +8,7 @@ import { skipNextInstructionIf, withParsedOpcode } from './helpers'
   skip a code block)
 */
 export const registerEqualsConstant = withParsedOpcode(
-  ({ registerXValue, twoDigitConstant }: ParsedOpcode) =>
+  ({ registerXValue, twoDigitConstant }: ParsedOpcode): OpcodeFunc =>
     skipNextInstructionIf(registerXValue === twoDigitConstant)
 )
 
@@ -18,7 +18,7 @@ export const registerEqualsConstant = withParsedOpcode(
   to skip a code block)
 */
 export const registerDoesNotEqualConstant = withParsedOpcode(
-  ({ registerXValue, twoDigitConstant }: ParsedOpcode) =>
+  ({ registerXValue, twoDigitConstant }: ParsedOpcode): OpcodeFunc =>
     skipNextInstructionIf(registerXValue !== twoDigitConstant)
 )
 
@@ -28,7 +28,7 @@ export const registerDoesNotEqualConstant = withParsedOpcode(
   to skip a code block)
 */
 export const registersAreEqual = withParsedOpcode(
-  ({ registerXValue, registerYValue }: ParsedOpcode) =>
+  ({ registerXValue, registerYValue }: ParsedOpcode): OpcodeFunc =>
     skipNextInstructionIf(registerXValue === registerYValue)
 )
 
@@ -38,6 +38,6 @@ export const registersAreEqual = withParsedOpcode(
   jump to skip a code block)
 */
 export const registersAreNotEqual = withParsedOpcode(
-  ({ registerXValue, registerYValue }: ParsedOpcode) =>
+  ({ registerXValue, registerYValue }: ParsedOpcode): OpcodeFunc =>
     skipNextInstructionIf(registerXValue !== registerYValue)
 )

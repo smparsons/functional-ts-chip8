@@ -1,3 +1,5 @@
+import { Func1 } from 'redux'
+
 export enum KeyState {
   Pressed,
   Released
@@ -49,3 +51,5 @@ export interface ParsedOpcode {
   // threeDigitConstant is always the last three digits in the opcode. ex: The NNN in opcode ANNN
   readonly threeDigitConstant: number
 }
+
+export type OpcodeFunc = Func1<Chip8, Chip8>
