@@ -1,5 +1,4 @@
-import { Func1 } from 'redux'
-import { Chip8, OpcodeFunc, ParsedOpcode } from 'src/chip8/store'
+import { OpcodeFunc, ParsedOpcode } from 'src/chip8/store'
 import { pipe } from 'src/functionalUtilities'
 
 import { continueToNextInstruction, loadRegisters, withParsedOpcode } from './helpers'
