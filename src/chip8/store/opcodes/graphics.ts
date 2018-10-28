@@ -79,9 +79,9 @@ const calculatePixelUpdate = (chip8State: Chip8): Func1<CoordinateOffset, PixelU
   const yCoordinateToUpdate = (coordinateY + rowOffset) % chip8NumberOfRows
   const index = xCoordinateToUpdate + yCoordinateToUpdate * chip8NumberOfColumns
   const currentPixelState = chip8State.graphics[index]
-  const memoryValue = chip8State.memory[chip8State.indexRegister + rowOffset]
+  const memoryPixelRow = chip8State.memory[chip8State.indexRegister + rowOffset]
   const memoryPixel =
-    (memoryValue & (0x80 >>> columnOffset)) >>> (chip8SpriteWidth - 1 - columnOffset)
+    (memoryPixelRow & (0x80 >>> columnOffset)) >>> (chip8SpriteWidth - 1 - columnOffset)
 
   return {
     index,
