@@ -30,24 +30,18 @@ export const setRegisterToDelayTimer = (chip8State: Chip8): Chip8 => {
   0xFX15
   Sets the delay timer to VX.
 */
-export const setDelayTimerToRegister = (chip8State: Chip8): Chip8 => {
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-
-  return pipe(
-    setDelayTimer(registerXValue),
+export const setDelayTimerToRegister = (chip8State: Chip8): Chip8 =>
+  pipe(
+    setDelayTimer(chip8Selectors.opcodeRegisterXValue(chip8State)),
     continueToNextInstruction
   )(chip8State)
-}
 
 /*
   0xFX18
   Sets the sound timer to VX.
 */
-export const setSoundTimerToRegister = (chip8State: Chip8): Chip8 => {
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-
-  return pipe(
-    setSoundTimer(registerXValue),
+export const setSoundTimerToRegister = (chip8State: Chip8): Chip8 =>
+  pipe(
+    setSoundTimer(chip8Selectors.opcodeRegisterXValue(chip8State)),
     continueToNextInstruction
   )(chip8State)
-}
