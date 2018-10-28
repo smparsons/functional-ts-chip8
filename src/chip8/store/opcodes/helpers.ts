@@ -1,5 +1,4 @@
-import { Func1 } from 'redux'
-import { Chip8, chip8Selectors, OpcodeFunc, ParsedOpcode } from 'src/chip8/store'
+import { Chip8, OpcodeFunc } from 'src/chip8/store'
 
 interface RegisterMap {
   readonly [registerNumber: number]: number
@@ -24,8 +23,3 @@ export const skipNextInstruction = (chip8State: Chip8): Chip8 => ({
 
 export const skipNextInstructionIf = (expressionResult: boolean): OpcodeFunc =>
   expressionResult ? skipNextInstruction : continueToNextInstruction
-
-export const withParsedOpcode = (
-  enhancedOpcodeFunc: Func1<ParsedOpcode, OpcodeFunc>
-): OpcodeFunc => (chip8State: Chip8): Chip8 =>
-  enhancedOpcodeFunc(chip8Selectors.parsedOpcode(chip8State))(chip8State)
