@@ -1,4 +1,4 @@
-import { chip8InitialState } from 'src/chip8/store'
+import { chip8InitialState } from 'src/chip8/types'
 
 import { setDelayTimerToRegister, setRegisterToDelayTimer, setSoundTimerToRegister } from './timer'
 
@@ -9,7 +9,7 @@ describe('timer', () => {
       opcode: 0xf207,
       programCounter: 0x27d,
       delayTimer: 0x13,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         2: 0x4a
       })
     }
@@ -31,7 +31,7 @@ describe('timer', () => {
       opcode: 0xf515,
       programCounter: 0x232,
       delayTimer: 0x4b,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         5: 0x51
       })
     }
@@ -53,7 +53,7 @@ describe('timer', () => {
       opcode: 0xfa18,
       programCounter: 0x280,
       soundTimer: 0x2c,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         10: 0x3c
       })
     }

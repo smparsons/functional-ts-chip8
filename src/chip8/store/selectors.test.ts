@@ -1,5 +1,6 @@
+import { chip8InitialState } from 'src/chip8/types'
+
 import { chip8Selectors } from './selectors'
-import { chip8InitialState } from './types'
 
 describe('chip8Selectors', () => {
   describe('registerXNumber', () => {

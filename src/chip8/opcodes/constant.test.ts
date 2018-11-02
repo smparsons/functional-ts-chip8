@@ -1,4 +1,4 @@
-import { chip8InitialState } from 'src/chip8/store'
+import { chip8InitialState } from 'src/chip8/types'
 
 import { addConstantToRegister, setRegisterToConstant } from './constant'
 

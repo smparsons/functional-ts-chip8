@@ -1,4 +1,4 @@
-import { chip8InitialState } from 'src/chip8/store'
+import { chip8InitialState } from 'src/chip8/types'
 
 import { addTwoRegisters, registerXMinusRegisterY, registerYMinusRegisterX } from './math'
 
@@ -9,7 +9,7 @@ describe('math', () => {
         ...chip8InitialState,
         opcode: 0x87a4,
         programCounter: 0x25d,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           7: 0xce,
           10: 0xa1
         })
@@ -35,7 +35,7 @@ describe('math', () => {
         ...chip8InitialState,
         opcode: 0x82b4,
         programCounter: 0x29b,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           2: 0x2b,
           11: 0x1f
         })
@@ -63,7 +63,7 @@ describe('math', () => {
         ...chip8InitialState,
         opcode: 0x82d5,
         programCounter: 0x29c,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           2: 0x1e,
           13: 0xa2
         })
@@ -89,7 +89,7 @@ describe('math', () => {
         ...chip8InitialState,
         opcode: 0x8ef5,
         programCounter: 0x21f,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           14: 0xc2,
           15: 0xa1
         })
@@ -117,7 +117,7 @@ describe('math', () => {
         ...chip8InitialState,
         opcode: 0x8a77,
         programCounter: 0x222,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           10: 0x7a,
           7: 0x5b
         })
@@ -143,7 +143,7 @@ describe('math', () => {
         ...chip8InitialState,
         opcode: 0x8cb7,
         programCounter: 0x200,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           12: 0x8f,
           11: 0xd3
         })

@@ -1,5 +1,6 @@
 import { Func1 } from 'redux'
-import { Chip8, chip8Selectors, OpcodeFunc } from 'src/chip8/store'
+import { chip8Selectors } from 'src/chip8/store'
+import { Chip8, OpcodeFunc } from 'src/chip8/types'
 import { chip8NumberOfColumns, chip8NumberOfRows, chip8SpriteWidth } from 'src/constants'
 import { pipe } from 'src/functionalUtilities'
 
@@ -11,7 +12,7 @@ interface PixelMap {
 
 const updateGraphics = (pixelMap: PixelMap): OpcodeFunc => (chip8State: Chip8): Chip8 => ({
   ...chip8State,
-  graphics: Object.assign(Uint8Array.from({ length: 2048 }), chip8State.graphics, pixelMap)
+  graphics: Object.assign(chip8State.graphics, pixelMap)
 })
 
 const resetGraphics = (chip8State: Chip8): Chip8 => ({

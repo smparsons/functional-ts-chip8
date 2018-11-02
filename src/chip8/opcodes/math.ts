@@ -1,4 +1,5 @@
-import { Chip8, chip8Selectors } from 'src/chip8/store'
+import { chip8Selectors } from 'src/chip8/store'
+import { Chip8 } from 'src/chip8/types'
 import { pipe } from 'src/functionalUtilities'
 
 import { continueToNextInstruction, loadRegisters } from './helpers'

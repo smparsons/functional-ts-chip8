@@ -1,4 +1,4 @@
-import { chip8InitialState } from 'src/chip8/store'
+import { chip8InitialState } from 'src/chip8/types'
 
 import {
     bitwiseAnd, bitwiseOr, bitwiseXor, randomBitwiseAnd, shiftLeft, shiftRight
@@ -10,7 +10,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0x8bd1,
       programCounter: 0x24a,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         11: 0xce,
         13: 0xa1
       })
@@ -54,7 +54,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0xc523,
       programCounter: 0x24d,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         5: 0xde
       })
     }
@@ -75,7 +75,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0x85a3,
       programCounter: 0x27d,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         5: 0xc1,
         10: 0x0f
       })
@@ -97,7 +97,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0x87b6,
       programCounter: 0x31e,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         7: 0xb1
       })
     }
@@ -122,7 +122,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0x812e,
       programCounter: 0x30f,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         1: 0xb7
       })
     }

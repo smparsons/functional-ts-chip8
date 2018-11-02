@@ -1,4 +1,4 @@
-import { Chip8, OpcodeFunc } from 'src/chip8/store'
+import { Chip8, OpcodeFunc } from 'src/chip8/types'
 
 interface RegisterMap {
   readonly [registerNumber: number]: number
@@ -8,7 +8,7 @@ export const loadRegisters = (registerMap: RegisterMap): OpcodeFunc => (
   chip8State: Chip8
 ): Chip8 => ({
   ...chip8State,
-  vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, registerMap)
+  vRegisters: Object.assign(chip8State.vRegisters, registerMap)
 })
 
 export const continueToNextInstruction = (chip8State: Chip8): Chip8 => ({

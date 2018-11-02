@@ -1,4 +1,5 @@
-import { Chip8, chip8Selectors, OpcodeFunc } from 'src/chip8/store'
+import { chip8Selectors } from 'src/chip8/store'
+import { Chip8, OpcodeFunc } from 'src/chip8/types'
 import { pipe } from 'src/functionalUtilities'
 
 const updateStack = (stack: Uint16Array): OpcodeFunc => (chip8State: Chip8): Chip8 => ({
