@@ -1,39 +1,18 @@
 import { Func1 } from 'redux'
 import { chip8Selectors } from 'src/chip8/store'
-import { Chip8, OpcodeFunc } from 'src/chip8/types'
+import { Chip8 } from 'src/chip8/types'
 import { chip8NumberOfColumns, chip8NumberOfRows, chip8SpriteWidth } from 'src/constants'
-import { pipe } from 'src/functionalUtilities'
-
-import { continueToNextInstruction, loadRegisters } from './helpers'
-
-interface PixelMap {
-  readonly [pixelIndex: number]: number
-}
-
-const updateGraphics = (pixelMap: PixelMap): OpcodeFunc => (chip8State: Chip8): Chip8 => ({
-  ...chip8State,
-  graphics: Object.assign(chip8State.graphics, pixelMap)
-})
-
-const resetGraphics = (chip8State: Chip8): Chip8 => ({
-  ...chip8State,
-  graphics: Uint8Array.from({ length: 2048 })
-})
-
-const setDrawFlag = (chip8State: Chip8): Chip8 => ({
-  ...chip8State,
-  drawFlag: true
-})
 
 /*
   0x00E0
   Clears the screen.
 */
-export const clearScreen = pipe(
-  resetGraphics,
-  setDrawFlag,
-  continueToNextInstruction
-)
+export const clearScreen = (chip8State: Chip8): Chip8 => ({
+  ...chip8State,
+  graphics: Uint8Array.from({ length: 2048 }),
+  drawFlag: true,
+  programCounter: chip8State.programCounter + 0x2
+})
 
 /*
   0xDXYN
@@ -94,12 +73,16 @@ const calculatePixelUpdate = (chip8State: Chip8): Func1<CoordinateOffset, PixelU
 export const drawGraphics = (chip8State: Chip8): Chip8 => {
   const pixelUpdates = getCoordinateOffsets(chip8State).map(calculatePixelUpdate(chip8State))
 
-  return pipe(
-    updateGraphics(
-      Object.assign({}, ...pixelUpdates.map(({ index, result }) => ({ [index]: result })))
+  return {
+    ...chip8State,
+    graphics: Object.assign(
+      chip8State.graphics,
+      ...pixelUpdates.map(({ index, result }) => ({ [index]: result }))
     ),
-    loadRegisters({ [0xf]: pixelUpdates.some(({ collision }) => collision) ? 0x1 : 0x0 }),
-    setDrawFlag,
-    continueToNextInstruction
-  )(chip8State)
+    vRegisters: Object.assign(chip8State.vRegisters, {
+      [0xf]: pixelUpdates.some(({ collision }) => collision) ? 0x1 : 0x0
+    }),
+    drawFlag: true,
+    programCounter: chip8State.programCounter + 0x2
+  }
 }

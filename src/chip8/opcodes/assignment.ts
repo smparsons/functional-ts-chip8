@@ -1,8 +1,5 @@
 import { chip8Selectors } from 'src/chip8/store'
 import { Chip8 } from 'src/chip8/types'
-import { pipe } from 'src/functionalUtilities'
-
-import { continueToNextInstruction, loadRegisters } from './helpers'
 
 /*
   0x8XY0
@@ -12,8 +9,9 @@ export const assignToRegister = (chip8State: Chip8): Chip8 => {
   const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
   const registerYValue = chip8Selectors.opcodeRegisterYValue(chip8State)
 
-  return pipe(
-    loadRegisters({ [registerXNumber]: registerYValue }),
-    continueToNextInstruction
-  )(chip8State)
+  return {
+    ...chip8State,
+    vRegisters: Object.assign(chip8State.vRegisters, { [registerXNumber]: registerYValue }),
+    programCounter: chip8State.programCounter + 0x2
+  }
 }

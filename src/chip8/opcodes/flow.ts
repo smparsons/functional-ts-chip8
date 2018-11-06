@@ -1,21 +1,5 @@
 import { chip8Selectors } from 'src/chip8/store'
-import { Chip8, OpcodeFunc } from 'src/chip8/types'
-import { pipe } from 'src/functionalUtilities'
-
-const updateStack = (stack: Uint16Array): OpcodeFunc => (chip8State: Chip8): Chip8 => ({
-  ...chip8State,
-  stack
-})
-
-const updateStackPointer = (stackPointer: number): OpcodeFunc => (chip8State: Chip8): Chip8 => ({
-  ...chip8State,
-  stackPointer
-})
-
-const updateProgramCounter = (newAddress: number): OpcodeFunc => (chip8State: Chip8): Chip8 => ({
-  ...chip8State,
-  programCounter: newAddress
-})
+import { Chip8 } from 'src/chip8/types'
 
 /*
   0x00EE
@@ -24,21 +8,23 @@ const updateProgramCounter = (newAddress: number): OpcodeFunc => (chip8State: Ch
 export const returnFromSubroutine = (chip8State: Chip8): Chip8 => {
   const lastAddressInStack = chip8State.stack[chip8State.stack.length - 1]
 
-  return pipe(
-    updateStack(chip8State.stack.slice(0, -1)),
-    updateStackPointer(chip8State.stackPointer - 1),
-    updateProgramCounter(lastAddressInStack + 0x2)
-  )(chip8State)
+  return {
+    ...chip8State,
+    stack: chip8State.stack.slice(0, -1),
+    stackPointer: chip8State.stackPointer - 1,
+    programCounter: lastAddressInStack + 0x2
+  }
 }
 
 /*
   0x1NNN
   Jumps to address NNN.
 */
-export const jumpToAddress = (chip8State: Chip8): Chip8 => {
-  const newAddress = chip8Selectors.opcodeThreeDigitConstant(chip8State)
-  return updateProgramCounter(newAddress)(chip8State)
-}
+export const jumpToAddress = (chip8State: Chip8): Chip8 => ({
+  ...chip8State,
+  programCounter: chip8Selectors.opcodeThreeDigitConstant(chip8State)
+})  
+
 
 /*
   0x2NNN
@@ -47,11 +33,12 @@ export const jumpToAddress = (chip8State: Chip8): Chip8 => {
 export const callSubroutine = (chip8State: Chip8): Chip8 => {
   const newAddress = chip8Selectors.opcodeThreeDigitConstant(chip8State)
 
-  return pipe(
-    updateStack(Uint16Array.from([...Array.from(chip8State.stack), chip8State.programCounter])),
-    updateStackPointer(chip8State.stackPointer + 1),
-    updateProgramCounter(newAddress)
-  )(chip8State)
+  return {
+    ...chip8State,
+    stack: Uint16Array.from([...Array.from(chip8State.stack), chip8State.programCounter]),
+    stackPointer: chip8State.stackPointer + 1,
+    programCounter: newAddress
+  }
 }
 
 /*
@@ -60,5 +47,9 @@ export const callSubroutine = (chip8State: Chip8): Chip8 => {
 */
 export const jumpToAddressPlusRegisterZero = (chip8State: Chip8): Chip8 => {
   const constant = chip8Selectors.opcodeThreeDigitConstant(chip8State)
-  return updateProgramCounter(chip8State.vRegisters[0] + constant)(chip8State)
+
+  return {
+    ...chip8State,
+    programCounter: chip8State.vRegisters[0] + constant
+  }
 }

@@ -1,8 +1,6 @@
 import { chip8Selectors } from 'src/chip8/store'
 import { Chip8 } from 'src/chip8/types'
 
-import { skipNextInstructionIf } from './helpers'
-
 /*
   0x3XNN
   Skips the next instruction if VX equals NN. (Usually the next instruction is a jump to 
@@ -11,7 +9,12 @@ import { skipNextInstructionIf } from './helpers'
 export const registerEqualsConstant = (chip8State: Chip8): Chip8 => {
   const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
   const constant = chip8Selectors.opcodeTwoDigitConstant(chip8State)
-  return skipNextInstructionIf(registerXValue === constant)(chip8State)
+  return {
+    ...chip8State,
+    programCounter: registerXValue === constant
+      ? chip8State.programCounter + 0x4
+      : chip8State.programCounter + 0x2
+  }
 }
 
 /*
@@ -22,7 +25,12 @@ export const registerEqualsConstant = (chip8State: Chip8): Chip8 => {
 export const registerDoesNotEqualConstant = (chip8State: Chip8): Chip8 => {
   const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
   const constant = chip8Selectors.opcodeTwoDigitConstant(chip8State)
-  return skipNextInstructionIf(registerXValue !== constant)(chip8State)
+  return {
+    ...chip8State,
+    programCounter: registerXValue !== constant
+      ? chip8State.programCounter + 0x4
+      : chip8State.programCounter + 0x2
+  }
 }
 
 /*
@@ -33,7 +41,12 @@ export const registerDoesNotEqualConstant = (chip8State: Chip8): Chip8 => {
 export const registersAreEqual = (chip8State: Chip8): Chip8 => {
   const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
   const registerYValue = chip8Selectors.opcodeRegisterYValue(chip8State)
-  return skipNextInstructionIf(registerXValue === registerYValue)(chip8State)
+  return {
+    ...chip8State,
+    programCounter: registerXValue === registerYValue
+      ? chip8State.programCounter + 0x4
+      : chip8State.programCounter + 0x2
+  }
 }
 
 /*
@@ -44,5 +57,10 @@ export const registersAreEqual = (chip8State: Chip8): Chip8 => {
 export const registersAreNotEqual = (chip8State: Chip8): Chip8 => {
   const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
   const registerYValue = chip8Selectors.opcodeRegisterYValue(chip8State)
-  return skipNextInstructionIf(registerXValue !== registerYValue)(chip8State)
+  return {
+    ...chip8State,
+    programCounter: registerXValue !== registerYValue
+      ? chip8State.programCounter + 0x4
+      : chip8State.programCounter + 0x2
+  }
 }
