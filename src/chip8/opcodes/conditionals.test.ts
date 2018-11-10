@@ -11,7 +11,7 @@ describe('conditionals', () => {
         ...chip8InitialState,
         opcode: 0x3a23,
         programCounter: 0x25b,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           10: 0x23
         })
       }
@@ -26,7 +26,7 @@ describe('conditionals', () => {
         ...chip8InitialState,
         opcode: 0x3c5a,
         programCounter: 0x2d4,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           12: 0xe1
         })
       }
@@ -43,7 +43,7 @@ describe('conditionals', () => {
         ...chip8InitialState,
         opcode: 0x456b,
         programCounter: 0x31c,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           5: 0x6c
         })
       }
@@ -58,7 +58,7 @@ describe('conditionals', () => {
         ...chip8InitialState,
         opcode: 0x41a8,
         programCounter: 0x23c,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           1: 0xa8
         })
       }
@@ -75,7 +75,7 @@ describe('conditionals', () => {
         ...chip8InitialState,
         opcode: 0x5bd0,
         programCounter: 0x21a,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           11: 0x9a,
           13: 0x9a
         })
@@ -91,7 +91,7 @@ describe('conditionals', () => {
         ...chip8InitialState,
         opcode: 0x52c0,
         programCounter: 0x2ff,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           2: 0xe1,
           12: 0x3c
         })
@@ -109,7 +109,7 @@ describe('conditionals', () => {
         ...chip8InitialState,
         opcode: 0x9c20,
         programCounter: 0x231,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           12: 0x4a,
           2: 0x29
         })
@@ -125,7 +125,7 @@ describe('conditionals', () => {
         ...chip8InitialState,
         opcode: 0x9bf0,
         programCounter: 0x2ee,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           11: 0x7c,
           15: 0x7c
         })

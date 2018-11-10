@@ -23,8 +23,7 @@ export const returnFromSubroutine = (chip8State: Chip8): Chip8 => {
 export const jumpToAddress = (chip8State: Chip8): Chip8 => ({
   ...chip8State,
   programCounter: chip8Selectors.opcodeThreeDigitConstant(chip8State)
-})  
-
+})
 
 /*
   0x2NNN

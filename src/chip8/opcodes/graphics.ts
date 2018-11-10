@@ -76,10 +76,11 @@ export const drawGraphics = (chip8State: Chip8): Chip8 => {
   return {
     ...chip8State,
     graphics: Object.assign(
+      Uint8Array.from({ length: 2048 }),
       chip8State.graphics,
       ...pixelUpdates.map(({ index, result }) => ({ [index]: result }))
     ),
-    vRegisters: Object.assign(chip8State.vRegisters, {
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
       [0xf]: pixelUpdates.some(({ collision }) => collision) ? 0x1 : 0x0
     }),
     drawFlag: true,

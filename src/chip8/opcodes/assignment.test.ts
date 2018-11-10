@@ -8,7 +8,7 @@ describe('assignment', () => {
       ...chip8InitialState,
       opcode: 0x8c50,
       programCounter: 0x27a,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         [0xc]: 0x25,
         [0x5]: 0xa1
       })

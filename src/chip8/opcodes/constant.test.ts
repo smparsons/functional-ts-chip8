@@ -8,7 +8,7 @@ describe('constant', () => {
       ...chip8InitialState,
       opcode: 0x6c23,
       programCounter: 0x180,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         [0xc]: 0x5a
       })
     }
@@ -29,7 +29,7 @@ describe('constant', () => {
       ...chip8InitialState,
       opcode: 0x7ea2,
       programCounter: 0x210,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         [0xe]: 0x15
       })
     }

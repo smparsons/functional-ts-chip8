@@ -44,7 +44,7 @@ export const awaitKeyPress = (chip8State: Chip8): Chip8 => {
   return pressedKey !== -1
     ? {
         ...chip8State,
-        vRegisters: Object.assign(chip8State.vRegisters, {
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
           [registerXNumber]: pressedKey
         }),
         programCounter: chip8State.programCounter + 0x2

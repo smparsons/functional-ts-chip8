@@ -10,7 +10,7 @@ export const setRegisterToDelayTimer = (chip8State: Chip8): Chip8 => {
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(chip8State.vRegisters, {
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
       [registerXNumber]: chip8State.delayTimer
     }),
     programCounter: chip8State.programCounter + 0x2

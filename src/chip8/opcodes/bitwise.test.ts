@@ -32,7 +32,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0x8372,
       programCounter: 0x28c,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         3: 0x0a,
         7: 0xcf
       })

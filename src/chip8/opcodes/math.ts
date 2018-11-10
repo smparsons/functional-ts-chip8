@@ -12,7 +12,7 @@ export const addTwoRegisters = (chip8State: Chip8): Chip8 => {
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(chip8State.vRegisters, {
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
       [registerXNumber]: registerXValue + registerYValue,
       [0xf]: registerYValue > 0xff - registerXValue ? 0x1 : 0x0
     }),
@@ -31,7 +31,7 @@ export const registerXMinusRegisterY = (chip8State: Chip8): Chip8 => {
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(chip8State.vRegisters, {
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
       [registerXNumber]: registerXValue - registerYValue,
       [0xf]: registerYValue > registerXValue ? 0x0 : 0x1
     }),
@@ -50,7 +50,7 @@ export const registerYMinusRegisterX = (chip8State: Chip8): Chip8 => {
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(chip8State.vRegisters, {
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
       [registerXNumber]: registerYValue - registerXValue,
       [0xf]: registerXValue > registerYValue ? 0x0 : 0x1
     }),

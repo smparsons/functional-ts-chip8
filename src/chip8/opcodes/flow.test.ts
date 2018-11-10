@@ -79,7 +79,7 @@ describe('flow', () => {
     const currentState = {
       ...chip8InitialState,
       opcode: 0xb1fa,
-      vRegisters: Object.assign([], chip8InitialState.vRegisters, {
+      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         0: 0x51
       }),
       programCounter: 0x12a
