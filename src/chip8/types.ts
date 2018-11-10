@@ -1,8 +1,8 @@
 import { Func1 } from 'redux'
 
 export enum KeyState {
-  Pressed,
-  Released
+  Released,
+  Pressed
 }
 
 export interface Chip8 {
@@ -31,7 +31,7 @@ export const chip8InitialState = {
   soundTimer: 0x00,
   stack: Uint16Array.from({ length: 16 }),
   stackPointer: 0x0000,
-  keyState: Array.from({ length: 16 }, () => KeyState.Released),
+  keyState: Array.from({ length: 16 }),
   drawFlag: false
 } as Chip8
 
