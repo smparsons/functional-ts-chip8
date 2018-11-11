@@ -6,6 +6,17 @@ import { Chip8InternalCpuAction, chip8InternalCpuActions } from './actions'
 
 export const chip8Reducer = (state: Chip8, action: Chip8InternalCpuAction): Chip8 => {
   switch (action.type) {
+    case getType(chip8InternalCpuActions.decrementTimers):
+      return {
+        ...state,
+        delayTimer: state.delayTimer > 0 ? state.delayTimer - 1 : state.delayTimer,
+        soundTimer: state.soundTimer > 0 ? state.soundTimer - 1 : state.soundTimer,
+        audioFlag: state.soundTimer === 1
+      }
+    case getType(chip8InternalCpuActions.unknownOpcode):
+      return { ...state, error: `Opcode is not recognized: ${action.payload.toString(16)}` }
+    case getType(chip8InternalCpuActions.loadOpcode):
+      return { ...state, opcode: action.payload }
     case getType(chip8InternalCpuActions.addConstantToRegister):
       return chip8Opcodes.addConstantToRegister(state)
     case getType(chip8InternalCpuActions.addRegisterXToIndexRegister):

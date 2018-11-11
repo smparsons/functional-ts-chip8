@@ -18,6 +18,8 @@ export interface Chip8 {
   readonly stackPointer: number
   readonly keyState: ReadonlyArray<KeyState>
   readonly drawFlag: boolean
+  readonly audioFlag: boolean
+  readonly error: string | null
 }
 
 export const chip8InitialState = {
@@ -32,7 +34,9 @@ export const chip8InitialState = {
   stack: Uint16Array.from({ length: 16 }),
   stackPointer: 0x0000,
   keyState: Array.from({ length: 16 }),
-  drawFlag: false
+  drawFlag: false,
+  audioFlag: false,
+  error: null
 } as Chip8
 
 export type OpcodeFunc = Func1<Chip8, Chip8>
