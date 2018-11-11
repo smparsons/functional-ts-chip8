@@ -34,7 +34,9 @@ describe('chip8Selectors', () => {
       const currentState = {
         ...chip8InitialState,
         opcode: 0x8574,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, { 5: 0xa1 })
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+          5: 0xa1
+        })
       }
 
       const registerXValue = chip8Selectors.opcodeRegisterXValue(currentState)
@@ -48,7 +50,9 @@ describe('chip8Selectors', () => {
       const currentState = {
         ...chip8InitialState,
         opcode: 0x5300,
-        vRegisters: Object.assign([], chip8InitialState.vRegisters, { 0: 0xcd })
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+          0: 0xcd
+        })
       }
 
       const registerYValue = chip8Selectors.opcodeRegisterYValue(currentState)
