@@ -4,11 +4,8 @@ const opcodeRegisterXNumber = ({ opcode }: Chip8): number => (opcode & 0x0f00) >
 const opcodeRegisterYNumber = ({ opcode }: Chip8): number => (opcode & 0x00f0) >>> 4
 
 export const chip8Selectors = {
-  getNextOpcodeFromMemory: (chip8State: Chip8): number => {
-    const opcodeFirstHalf = chip8State.memory[chip8State.programCounter]
-    const opcodeSecondHalf = chip8State.memory[chip8State.programCounter + 1]
-    return (opcodeFirstHalf << 8) | opcodeSecondHalf
-  },
+  getNextOpcodeFromMemory: ({ memory, programCounter }: Chip8): number =>
+    (memory[programCounter] << 8) | memory[programCounter + 1],
   opcodeRegisterXNumber,
   opcodeRegisterYNumber,
   opcodeRegisterXValue: (chip8State: Chip8): number =>
