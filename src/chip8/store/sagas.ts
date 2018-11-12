@@ -108,5 +108,7 @@ function* executeNextOpcode(opcode: number): SagaIterator {
           yield put(chip8Actions.unknownOpcode(opcode))
       }
     }
+    default:
+      yield put(chip8Actions.unknownOpcode(opcode))
   }
 }
