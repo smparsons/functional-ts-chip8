@@ -1,6 +1,6 @@
 import { ActionType, createStandardAction } from 'typesafe-actions'
 
-export const chip8InternalCpuActions = {
+export const chip8Actions = {
   decrementTimers: createStandardAction('[chip8] DecrementTimers')<void>(),
   loadOpcode: createStandardAction('[chip8] LoadOpcode')<number>(),
   unknownOpcode: createStandardAction('[chip8] UnknownOpcode')<number>(),
@@ -40,4 +40,4 @@ export const chip8InternalCpuActions = {
   setSoundTimerToRegister: createStandardAction('[chip8] LOADS_Vx')<void>()
 }
 
-export type Chip8InternalCpuAction = ActionType<typeof chip8InternalCpuActions>
+export type Chip8Action = ActionType<typeof chip8Actions>
