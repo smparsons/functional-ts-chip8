@@ -33,7 +33,7 @@ export const chip8InitialState = {
   soundTimer: 0x00,
   stack: Uint16Array.from({ length: 16 }),
   stackPointer: 0x0000,
-  keyState: Array.from({ length: 16 }),
+  keyState: Array.from({ length: 16 }, () => 0x0),
   drawFlag: false,
   audioFlag: false,
   error: null
