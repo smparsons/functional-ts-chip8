@@ -1,4 +1,4 @@
-import { chip8Opcodes } from 'src/chip8/services/opcodes'
+import { chip8Opcodes, chip8Timers } from 'src/chip8/services'
 import { Chip8 } from 'src/chip8/types'
 import { getType } from 'typesafe-actions'
 
@@ -7,12 +7,7 @@ import { Chip8Action, chip8Actions } from './actions'
 export const chip8Reducer = (state: Chip8, action: Chip8Action): Chip8 => {
   switch (action.type) {
     case getType(chip8Actions.decrementTimers):
-      return {
-        ...state,
-        delayTimer: state.delayTimer > 0 ? state.delayTimer - 1 : state.delayTimer,
-        soundTimer: state.soundTimer > 0 ? state.soundTimer - 1 : state.soundTimer,
-        audioFlag: state.soundTimer === 1
-      }
+      return chip8Timers.decrement(state)
     case getType(chip8Actions.unknownOpcode):
       return { ...state, error: `Opcode is not recognized: ${action.payload.toString(16)}` }
     case getType(chip8Actions.loadOpcode):
