@@ -1,6 +1,8 @@
 import { ActionType, createAsyncAction, createStandardAction } from 'typesafe-actions'
 
 export const chip8Actions = {
+  startGame: createStandardAction('[chip8] StartGame')<string>(),
+  stopGame: createStandardAction('[chip8] StopGame')<void>(),
   loadFontset: createStandardAction('[chip8] LoadFontset')<void>(),
   loadGame: createAsyncAction(
     '[chip8] LoadGame - REQUEST',

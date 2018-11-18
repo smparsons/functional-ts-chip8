@@ -1,9 +1,19 @@
 import axios from 'axios'
-import { SagaIterator } from 'redux-saga'
-import { all, call, put, select, takeLatest } from 'redux-saga/effects'
+import { delay, SagaIterator } from 'redux-saga'
+import { all, call, cancel, fork, put, select, take, takeLatest } from 'redux-saga/effects'
 import { chip8Actions, chip8Selectors } from 'src/chip8/store'
 import { gameUrls } from 'src/constants'
 import { ActionType, getType } from 'typesafe-actions'
+
+function* startGame(action: ActionType<typeof chip8Actions.startGame>): SagaIterator {
+  yield put(chip8Actions.loadFontset())
+  const selectedGame = action.payload
+  yield put(chip8Actions.loadGame.request(selectedGame))
+
+  const loopTask = yield fork(emulatorLoop)
+  yield take(chip8Actions.stopGame)
+  yield cancel(loopTask)
+}
 
 function* loadGame(action: ActionType<typeof chip8Actions.loadGame.request>): SagaIterator {
   const url = gameUrls[action.payload]
@@ -12,6 +22,14 @@ function* loadGame(action: ActionType<typeof chip8Actions.loadGame.request>): Sa
     yield put(chip8Actions.loadGame.success(Uint8Array.from(buffer)))
   } else {
     yield put(chip8Actions.loadGame.failure())
+  }
+}
+
+function* emulatorLoop(): SagaIterator {
+  while (true) {
+    yield call(emulateCpuCycle)
+    // Check state and play audio if necessary
+    yield call(delay, 1500)
   }
 }
 
@@ -163,5 +181,8 @@ function* executeNextOpcode(opcode: number): SagaIterator {
 }
 
 export function* chip8Sagas(): SagaIterator {
-  yield all([yield takeLatest(getType(chip8Actions.loadGame.request), loadGame)])
+  yield all([
+    yield takeLatest(getType(chip8Actions.startGame), startGame),
+    yield takeLatest(getType(chip8Actions.loadGame.request), loadGame)
+  ])
 }
