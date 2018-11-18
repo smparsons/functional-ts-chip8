@@ -1,4 +1,4 @@
-import { chip8Opcodes } from 'src/chip8/opcodes'
+import { chip8Opcodes } from 'src/chip8/services/opcodes'
 import { Chip8 } from 'src/chip8/types'
 import { getType } from 'typesafe-actions'
 
