@@ -1,7 +1,13 @@
-import { ActionType, createStandardAction } from 'typesafe-actions'
+import { Chip8Game } from 'src/chip8/types'
+import { ActionType, createAsyncAction, createStandardAction } from 'typesafe-actions'
 
 export const chip8Actions = {
   loadFontset: createStandardAction('[chip8] LoadFontset')<void>(),
+  loadGame: createAsyncAction(
+    '[chip8] LoadGame - REQUEST',
+    '[chip8] LoadGame - SUCCESS',
+    '[chip8] LoadGame - FAILURE'
+  )<Chip8Game, Uint8Array, void>(),
   decrementTimers: createStandardAction('[chip8] DecrementTimers')<void>(),
   assignToRegister: createStandardAction('[chip8] MOVE_Vx_Vy')<void>(),
   bitwiseOr: createStandardAction('[chip8] OR_Vx_Vy')<void>(),

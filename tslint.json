@@ -1,10 +1,5 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint-react",
-    "tslint-config-prettier",
-    "tslint-immutable"
-  ],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier", "tslint-immutable"],
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
@@ -20,7 +15,7 @@
     "no-bitwise": false,
     "no-class": true,
     "no-delete": true,
-    "no-if-statement": true,
+    "no-if-statement": false,
     "no-let": true,
     "no-method-signature": true,
     "no-mixed-interface": true,

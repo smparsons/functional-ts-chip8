@@ -1,6 +1,15 @@
+import { Chip8Game } from 'src/chip8/types'
+
 export const chip8NumberOfColumns = 64
 export const chip8NumberOfRows = 32
 export const chip8SpriteWidth = 8
+
+export const gameUrls = {
+  [Chip8Game.Blinky]: '/roms/BLINKY',
+  [Chip8Game.Blitz]: '/roms/BLITZ',
+  [Chip8Game.Brix]: '/roms/BRIX',
+  [Chip8Game.Maze]: '/roms/MAZE'
+}
 
 // prettier-ignore
 export const chip8Fontset: Uint8Array = 

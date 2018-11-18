@@ -1,8 +1,19 @@
+import axios from 'axios'
 import { SagaIterator } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
-import { chip8Selectors } from 'src/chip8/store'
+import { all, call, put, select, takeLatest } from 'redux-saga/effects'
+import { chip8Actions, chip8Selectors } from 'src/chip8/store'
+import { gameUrls } from 'src/constants'
+import { ActionType, getType } from 'typesafe-actions'
 
-import { chip8Actions } from './actions'
+function* loadGame(action: ActionType<typeof chip8Actions.loadGame.request>): SagaIterator {
+  const url = gameUrls[action.payload]
+  if (url) {
+    const buffer = yield call(axios.get, url, { responseType: 'arraybuffer' })
+    yield put(chip8Actions.loadGame.success(Uint8Array.from(buffer)))
+  } else {
+    yield put(chip8Actions.loadGame.failure())
+  }
+}
 
 function* emulateCpuCycle(): SagaIterator {
   const nextOpcode = yield select(chip8Selectors.getNextOpcodeFromMemory)
@@ -149,4 +160,8 @@ function* executeNextOpcode(opcode: number): SagaIterator {
     default:
       yield put(chip8Actions.unknownOpcode(opcode))
   }
+}
+
+export function* chip8Sagas(): SagaIterator {
+  yield all([yield takeLatest(getType(chip8Actions.loadGame.request), loadGame)])
 }

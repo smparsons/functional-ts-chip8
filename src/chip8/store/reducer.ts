@@ -8,6 +8,10 @@ export const chip8Reducer = (state: Chip8, action: Chip8Action): Chip8 => {
   switch (action.type) {
     case getType(chip8Actions.loadFontset):
       return chip8MemoryLoader.loadFontset(state)
+    case getType(chip8Actions.loadGame.success):
+      return chip8MemoryLoader.loadGame(action.payload)(state)
+    case getType(chip8Actions.loadGame.failure):
+      return { ...state, error: 'Game is not recognized.' }
     case getType(chip8Actions.decrementTimers):
       return chip8Timers.decrement(state)
     case getType(chip8Actions.addConstantToRegister):
@@ -82,5 +86,7 @@ export const chip8Reducer = (state: Chip8, action: Chip8Action): Chip8 => {
       return { ...state, opcode: action.payload }
     case getType(chip8Actions.unknownOpcode):
       return { ...state, error: `Opcode is not recognized: ${action.payload.toString(16)}` }
+    default:
+      return state
   }
 }
