@@ -1,14 +1,5 @@
 import { Func1 } from 'redux'
 
-export enum Chip8Game {
-  FifteenPuzzle,
-  Blinky,
-  Blitz,
-  Brix,
-  Connect4,
-  Maze
-}
-
 export enum KeyState {
   Released,
   Pressed

@@ -1,14 +1,25 @@
-import { Chip8Game } from 'src/chip8/types'
-
 export const chip8NumberOfColumns = 64
 export const chip8NumberOfRows = 32
 export const chip8SpriteWidth = 8
 
+export const Chip8Games = {
+  fifteenPuzzle: '15PUZZLE',
+  blinky: 'BLINKY',
+  blitz: 'BLITZ',
+  brix: 'BRIX',
+  connect4: 'CONNECT4',
+  maze: 'MAZE',
+  pong: 'PONG'
+}
+
 export const gameUrls = {
-  [Chip8Game.Blinky]: '/roms/BLINKY',
-  [Chip8Game.Blitz]: '/roms/BLITZ',
-  [Chip8Game.Brix]: '/roms/BRIX',
-  [Chip8Game.Maze]: '/roms/MAZE'
+  [Chip8Games.fifteenPuzzle]: '/roms/15PUZZLE',
+  [Chip8Games.blinky]: '/roms/BLINKY',
+  [Chip8Games.blitz]: '/roms/BLITZ',
+  [Chip8Games.brix]: '/roms/BRIX',
+  [Chip8Games.connect4]: '/roms/CONNECT4',
+  [Chip8Games.maze]: '/roms/MAZE',
+  [Chip8Games.pong]: 'roms/PONG'
 }
 
 // prettier-ignore
