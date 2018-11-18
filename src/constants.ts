@@ -19,7 +19,7 @@ export const gameUrls = {
   [Chip8Games.brix]: '/roms/BRIX',
   [Chip8Games.connect4]: '/roms/CONNECT4',
   [Chip8Games.maze]: '/roms/MAZE',
-  [Chip8Games.pong]: 'roms/PONG'
+  [Chip8Games.pong]: '/roms/PONG'
 }
 
 // prettier-ignore
