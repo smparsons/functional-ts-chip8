@@ -1,4 +1,4 @@
-import { chip8Opcodes, chip8Timers } from 'src/chip8/services'
+import { chip8MemoryLoader, chip8Opcodes, chip8Timers } from 'src/chip8/services'
 import { Chip8 } from 'src/chip8/types'
 import { getType } from 'typesafe-actions'
 
@@ -6,12 +6,10 @@ import { Chip8Action, chip8Actions } from './actions'
 
 export const chip8Reducer = (state: Chip8, action: Chip8Action): Chip8 => {
   switch (action.type) {
+    case getType(chip8Actions.loadFontset):
+      return chip8MemoryLoader.loadFontset(state)
     case getType(chip8Actions.decrementTimers):
       return chip8Timers.decrement(state)
-    case getType(chip8Actions.unknownOpcode):
-      return { ...state, error: `Opcode is not recognized: ${action.payload.toString(16)}` }
-    case getType(chip8Actions.loadOpcode):
-      return { ...state, opcode: action.payload }
     case getType(chip8Actions.addConstantToRegister):
       return chip8Opcodes.addConstantToRegister(state)
     case getType(chip8Actions.addRegisterXToIndexRegister):
@@ -80,5 +78,9 @@ export const chip8Reducer = (state: Chip8, action: Chip8Action): Chip8 => {
       return chip8Opcodes.storeBCD(state)
     case getType(chip8Actions.storeSpriteLocation):
       return chip8Opcodes.storeSpriteLocation(state)
+    case getType(chip8Actions.loadOpcode):
+      return { ...state, opcode: action.payload }
+    case getType(chip8Actions.unknownOpcode):
+      return { ...state, error: `Opcode is not recognized: ${action.payload.toString(16)}` }
   }
 }

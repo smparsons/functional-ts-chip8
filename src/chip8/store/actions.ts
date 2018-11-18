@@ -1,9 +1,8 @@
 import { ActionType, createStandardAction } from 'typesafe-actions'
 
 export const chip8Actions = {
+  loadFontset: createStandardAction('[chip8] LoadFontset')<void>(),
   decrementTimers: createStandardAction('[chip8] DecrementTimers')<void>(),
-  loadOpcode: createStandardAction('[chip8] LoadOpcode')<number>(),
-  unknownOpcode: createStandardAction('[chip8] UnknownOpcode')<number>(),
   assignToRegister: createStandardAction('[chip8] MOVE_Vx_Vy')<void>(),
   bitwiseOr: createStandardAction('[chip8] OR_Vx_Vy')<void>(),
   bitwiseAnd: createStandardAction('[chip8] AND_Vx_Vy')<void>(),
@@ -37,7 +36,9 @@ export const chip8Actions = {
   storeSpriteLocation: createStandardAction('[chip8] LDSPR_Vx')<void>(),
   setRegisterToDelayTimer: createStandardAction('[chip8] MOVED_Vx')<void>(),
   setDelayTimerToRegister: createStandardAction('[chip8] LOADD_Vx')<void>(),
-  setSoundTimerToRegister: createStandardAction('[chip8] LOADS_Vx')<void>()
+  setSoundTimerToRegister: createStandardAction('[chip8] LOADS_Vx')<void>(),
+  loadOpcode: createStandardAction('[chip8] LoadOpcode')<number>(),
+  unknownOpcode: createStandardAction('[chip8] UnknownOpcode')<number>()
 }
 
 export type Chip8Action = ActionType<typeof chip8Actions>
