@@ -14,5 +14,10 @@ export const chip8Selectors = {
     chip8State.vRegisters[opcodeRegisterYNumber(chip8State)],
   opcodeOneDigitConstant: ({ opcode }: Chip8): number => opcode & 0x000f,
   opcodeTwoDigitConstant: ({ opcode }: Chip8): number => opcode & 0x00ff,
-  opcodeThreeDigitConstant: ({ opcode }: Chip8): number => opcode & 0x0fff
+  opcodeThreeDigitConstant: ({ opcode }: Chip8): number => opcode & 0x0fff,
+  graphicsForRendering: ({ graphics }: Chip8): ReadonlyArray<number> => {
+    const blackPixel: ReadonlyArray<number> = [0x0, 0x0, 0x0, 0xff]
+    const whitePixel: ReadonlyArray<number> = [0xff, 0xff, 0xff, 0xff]
+    return [].concat.apply([], Array.from(graphics).map(pixel => (pixel ? whitePixel : blackPixel)))
+  }
 }
