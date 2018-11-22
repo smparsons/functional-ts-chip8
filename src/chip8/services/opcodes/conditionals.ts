@@ -1,5 +1,6 @@
-import { chip8Selectors } from 'src/chip8/store'
 import { Chip8 } from 'src/chip8/types'
+
+import { parseOpcode } from './helpers'
 
 /*
   0x3XNN
@@ -7,13 +8,12 @@ import { Chip8 } from 'src/chip8/types'
   skip a code block)
 */
 export const registerEqualsConstant = (chip8State: Chip8): Chip8 => {
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const constant = chip8Selectors.opcodeTwoDigitConstant(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, twoDigitConstant } = parseOpcode(opcode)
   return {
     ...chip8State,
-    programCounter: registerXValue === constant
-      ? chip8State.programCounter + 0x4
-      : chip8State.programCounter + 0x2
+    programCounter:
+      vRegisters[registerX] === twoDigitConstant ? programCounter + 0x4 : programCounter + 0x2
   }
 }
 
@@ -23,13 +23,12 @@ export const registerEqualsConstant = (chip8State: Chip8): Chip8 => {
   to skip a code block)
 */
 export const registerDoesNotEqualConstant = (chip8State: Chip8): Chip8 => {
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const constant = chip8Selectors.opcodeTwoDigitConstant(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, twoDigitConstant } = parseOpcode(opcode)
   return {
     ...chip8State,
-    programCounter: registerXValue !== constant
-      ? chip8State.programCounter + 0x4
-      : chip8State.programCounter + 0x2
+    programCounter:
+      vRegisters[registerX] !== twoDigitConstant ? programCounter + 0x4 : programCounter + 0x2
   }
 }
 
@@ -39,13 +38,12 @@ export const registerDoesNotEqualConstant = (chip8State: Chip8): Chip8 => {
   to skip a code block)
 */
 export const registersAreEqual = (chip8State: Chip8): Chip8 => {
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const registerYValue = chip8Selectors.opcodeRegisterYValue(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, registerY } = parseOpcode(opcode)
   return {
     ...chip8State,
-    programCounter: registerXValue === registerYValue
-      ? chip8State.programCounter + 0x4
-      : chip8State.programCounter + 0x2
+    programCounter:
+      vRegisters[registerX] === vRegisters[registerY] ? programCounter + 0x4 : programCounter + 0x2
   }
 }
 
@@ -55,12 +53,11 @@ export const registersAreEqual = (chip8State: Chip8): Chip8 => {
   jump to skip a code block)
 */
 export const registersAreNotEqual = (chip8State: Chip8): Chip8 => {
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const registerYValue = chip8Selectors.opcodeRegisterYValue(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, registerY } = parseOpcode(opcode)
   return {
     ...chip8State,
-    programCounter: registerXValue !== registerYValue
-      ? chip8State.programCounter + 0x4
-      : chip8State.programCounter + 0x2
+    programCounter:
+      vRegisters[registerX] !== vRegisters[registerY] ? programCounter + 0x4 : programCounter + 0x2
   }
 }

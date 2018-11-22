@@ -1,3 +1,5 @@
+import { Game } from 'src/game/types'
+
 export const chip8NumberOfColumns = 64
 export const chip8NumberOfRows = 32
 export const chip8SpriteWidth = 8
@@ -21,25 +23,28 @@ export const chip8KeyMapping = {
   ['v']: 0xf
 }
 
-export const chip8Games = {
-  fifteenPuzzle: '15PUZZLE',
-  blinky: 'BLINKY',
-  blitz: 'BLITZ',
-  brix: 'BRIX',
-  connect4: 'CONNECT4',
-  maze: 'MAZE',
-  pong: 'PONG'
-}
-
-export const gameUrls = {
-  [chip8Games.fifteenPuzzle]: '/roms/15PUZZLE',
-  [chip8Games.blinky]: '/roms/BLINKY',
-  [chip8Games.blitz]: '/roms/BLITZ',
-  [chip8Games.brix]: '/roms/BRIX',
-  [chip8Games.connect4]: '/roms/CONNECT4',
-  [chip8Games.maze]: '/roms/MAZE',
-  [chip8Games.pong]: '/roms/PONG'
-}
+export const chip8Games = [
+  {
+    name: '15PUZZLE',
+    url: '/roms/15PUZZLE'
+  },
+  {
+    name: 'BLINKY',
+    url: '/roms/BLINKY'
+  },
+  {
+    name: 'BRIX',
+    url: '/roms/BRIX'
+  },
+  {
+    name: 'MAZE',
+    url: '/roms/MAZE'
+  },
+  {
+    name: 'PONG',
+    url: '/roms/PONG'
+  }
+] as ReadonlyArray<Game>
 
 // prettier-ignore
 export const chip8Fontset: Uint8Array = 

@@ -2,13 +2,12 @@ import axios from 'axios'
 import { delay, SagaIterator } from 'redux-saga'
 import { all, call, cancel, fork, put, select, take, takeLatest } from 'redux-saga/effects'
 import { chip8Actions, chip8Selectors } from 'src/chip8/store'
-import { gameUrls } from 'src/constants'
+import { gameSelectors } from 'src/game/store'
 import { ActionType, getType } from 'typesafe-actions'
 
 function* startGame(action: ActionType<typeof chip8Actions.startGame>): SagaIterator {
   yield put(chip8Actions.loadFontset())
-  const selectedGame = action.payload
-  yield put(chip8Actions.loadGame.request(selectedGame))
+  yield put(chip8Actions.loadGame.request())
 
   const loopTask = yield fork(emulatorLoop)
   yield take(chip8Actions.stopGame)
@@ -16,7 +15,7 @@ function* startGame(action: ActionType<typeof chip8Actions.startGame>): SagaIter
 }
 
 function* loadGame(action: ActionType<typeof chip8Actions.loadGame.request>): SagaIterator {
-  const url = gameUrls[action.payload]
+  const { url } = yield select(gameSelectors.selectedGame)
   if (url) {
     const buffer = yield call(axios.get, url, { responseType: 'arraybuffer' })
     yield put(chip8Actions.loadGame.success(Uint8Array.from(buffer)))

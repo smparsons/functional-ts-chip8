@@ -1,5 +1,6 @@
-import { chip8Selectors } from 'src/chip8/store'
 import { Chip8, KeyState } from 'src/chip8/types'
+
+import { parseOpcode } from './helpers'
 
 /*
   0xEX9E
@@ -7,13 +8,15 @@ import { Chip8, KeyState } from 'src/chip8/types'
   is a jump to skip a code block)
 */
 export const keyIsPressed = (chip8State: Chip8): Chip8 => {
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
+  const { keyState, programCounter, vRegisters, opcode } = chip8State
+  const { registerX } = parseOpcode(opcode)
+
   return {
     ...chip8State,
     programCounter:
-      chip8State.keyState[registerXValue] === KeyState.Pressed
-        ? chip8State.programCounter + 0x4
-        : chip8State.programCounter + 0x2
+      keyState[vRegisters[registerX]] === KeyState.Pressed
+        ? programCounter + 0x4
+        : programCounter + 0x2
   }
 }
 
@@ -23,13 +26,15 @@ export const keyIsPressed = (chip8State: Chip8): Chip8 => {
   is a jump to skip a code block)
 */
 export const keyIsNotPressed = (chip8State: Chip8): Chip8 => {
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
+  const { keyState, programCounter, vRegisters, opcode } = chip8State
+  const { registerX } = parseOpcode(opcode)
+
   return {
     ...chip8State,
     programCounter:
-      chip8State.keyState[registerXValue] === KeyState.Released
-        ? chip8State.programCounter + 0x4
-        : chip8State.programCounter + 0x2
+      keyState[vRegisters[registerX]] === KeyState.Released
+        ? programCounter + 0x4
+        : programCounter + 0x2
   }
 }
 
@@ -39,15 +44,17 @@ export const keyIsNotPressed = (chip8State: Chip8): Chip8 => {
   until next key event)
 */
 export const awaitKeyPress = (chip8State: Chip8): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const pressedKey = chip8State.keyState.findIndex(key => key === KeyState.Pressed)
+  const { keyState, programCounter, vRegisters, opcode } = chip8State
+  const { registerX } = parseOpcode(opcode)
+  const pressedKey = keyState.findIndex(key => key === KeyState.Pressed)
+
   return pressedKey !== -1
     ? {
         ...chip8State,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-          [registerXNumber]: pressedKey
+        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+          [registerX]: pressedKey
         }),
-        programCounter: chip8State.programCounter + 0x2
+        programCounter: programCounter + 0x2
       }
     : chip8State
 }

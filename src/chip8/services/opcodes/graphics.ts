@@ -1,7 +1,8 @@
 import { Func1 } from 'redux'
-import { chip8Selectors } from 'src/chip8/store'
 import { Chip8 } from 'src/chip8/types'
 import { chip8NumberOfColumns, chip8NumberOfRows, chip8SpriteWidth } from 'src/constants'
+
+import { parseOpcode } from './helpers'
 
 /*
   0x00E0
@@ -34,7 +35,7 @@ interface PixelUpdateResult {
 }
 
 const getCoordinateOffsets = (chip8State: Chip8): ReadonlyArray<CoordinateOffset> => {
-  const spriteHeight = chip8Selectors.opcodeOneDigitConstant(chip8State)
+  const { oneDigitConstant: spriteHeight } = parseOpcode(chip8State.opcode)
   const allColumnOffsets = Array.from(Array(chip8SpriteWidth).keys())
   const allRowOffsets = Array.from(Array(spriteHeight).keys())
   return [].concat.apply(
@@ -52,14 +53,16 @@ const calculatePixelUpdate = (chip8State: Chip8): Func1<CoordinateOffset, PixelU
   rowOffset,
   columnOffset
 }: CoordinateOffset): PixelUpdateResult => {
-  const coordinateX = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const coordinateY = chip8Selectors.opcodeRegisterYValue(chip8State)
+  const { graphics, memory, vRegisters, indexRegister, opcode } = chip8State
+  const { registerX, registerY } = parseOpcode(opcode)
+  const coordinateX = vRegisters[registerX]
+  const coordinateY = vRegisters[registerY]
 
   const xCoordinateToUpdate = (coordinateX + columnOffset) % chip8NumberOfColumns
   const yCoordinateToUpdate = (coordinateY + rowOffset) % chip8NumberOfRows
   const index = xCoordinateToUpdate + yCoordinateToUpdate * chip8NumberOfColumns
-  const currentPixelState = chip8State.graphics[index]
-  const memoryPixelRow = chip8State.memory[chip8State.indexRegister + rowOffset]
+  const currentPixelState = graphics[index]
+  const memoryPixelRow = memory[indexRegister + rowOffset]
   const memoryPixel =
     (memoryPixelRow & (0x80 >>> columnOffset)) >>> (chip8SpriteWidth - 1 - columnOffset)
 
@@ -71,19 +74,20 @@ const calculatePixelUpdate = (chip8State: Chip8): Func1<CoordinateOffset, PixelU
 }
 
 export const drawGraphics = (chip8State: Chip8): Chip8 => {
+  const { graphics, vRegisters, programCounter } = chip8State
   const pixelUpdates = getCoordinateOffsets(chip8State).map(calculatePixelUpdate(chip8State))
 
   return {
     ...chip8State,
     graphics: Object.assign(
       Uint8Array.from({ length: 2048 }),
-      chip8State.graphics,
+      graphics,
       ...pixelUpdates.map(({ index, result }) => ({ [index]: result }))
     ),
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
       [0xf]: pixelUpdates.some(({ collision }) => collision) ? 0x1 : 0x0
     }),
     drawFlag: true,
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }

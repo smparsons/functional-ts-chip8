@@ -1,21 +1,21 @@
-import { chip8Selectors } from 'src/chip8/store'
 import { Chip8, OpcodeFunc } from 'src/chip8/types'
+
+import { parseOpcode } from './helpers'
 
 /*
   0x8XY1
   Sets VX to VX or VY. (Bitwise OR operation)
 */
 export const bitwiseOr = (chip8State: Chip8): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const registerYValue = chip8Selectors.opcodeRegisterYValue(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, registerY } = parseOpcode(opcode)
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-      [registerXNumber]: registerXValue | registerYValue
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+      [registerX]: vRegisters[registerX] | vRegisters[registerY]
     }),
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }
 
@@ -24,16 +24,15 @@ export const bitwiseOr = (chip8State: Chip8): Chip8 => {
   Sets VX to VX and VY. (Bitwise AND operation)
 */
 export const bitwiseAnd = (chip8State: Chip8): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const registerYValue = chip8Selectors.opcodeRegisterYValue(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, registerY } = parseOpcode(opcode)
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-      [registerXNumber]: registerXValue & registerYValue
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+      [registerX]: vRegisters[registerX] & vRegisters[registerY]
     }),
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }
 
@@ -44,15 +43,15 @@ export const bitwiseAnd = (chip8State: Chip8): Chip8 => {
 export const randomBitwiseAnd = (randomNumber: number): OpcodeFunc => (
   chip8State: Chip8
 ): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const twoDigitConstant = chip8Selectors.opcodeTwoDigitConstant(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, twoDigitConstant } = parseOpcode(opcode)
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-      [registerXNumber]: randomNumber & twoDigitConstant
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+      [registerX]: randomNumber & twoDigitConstant
     }),
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }
 
@@ -61,16 +60,15 @@ export const randomBitwiseAnd = (randomNumber: number): OpcodeFunc => (
   Sets VX to VX xor VY.
 */
 export const bitwiseXor = (chip8State: Chip8): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const registerYValue = chip8Selectors.opcodeRegisterYValue(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, registerY } = parseOpcode(opcode)
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-      [registerXNumber]: registerXValue ^ registerYValue
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+      [registerX]: vRegisters[registerX] ^ vRegisters[registerY]
     }),
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }
 
@@ -79,16 +77,16 @@ export const bitwiseXor = (chip8State: Chip8): Chip8 => {
   Stores the least significant bit of VX in VF and then shifts VX to the right by 1.
 */
 export const shiftRight = (chip8State: Chip8): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX } = parseOpcode(opcode)
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-      [registerXNumber]: registerXValue >>> 1,
-      [0xf]: registerXValue & 0x1
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+      [registerX]: vRegisters[registerX] >>> 1,
+      [0xf]: vRegisters[registerX] & 0x1
     }),
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }
 
@@ -97,15 +95,15 @@ export const shiftRight = (chip8State: Chip8): Chip8 => {
   Stores the most significant bit of VX in VF and then shifts VX to the left by 1.
 */
 export const shiftLeft = (chip8State: Chip8): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX } = parseOpcode(opcode)
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-      [registerXNumber]: registerXValue << 1,
-      [0xf]: registerXValue >>> 7
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+      [registerX]: vRegisters[registerX] << 1,
+      [0xf]: vRegisters[registerX] >>> 7
     }),
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }

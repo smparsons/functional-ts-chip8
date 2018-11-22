@@ -1,20 +1,21 @@
-import { chip8Selectors } from 'src/chip8/store'
 import { Chip8 } from 'src/chip8/types'
+
+import { parseOpcode } from './helpers'
 
 /*
   0x6XNN
   Sets VX to NN.
 */
 export const setRegisterToConstant = (chip8State: Chip8): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const constant = chip8Selectors.opcodeTwoDigitConstant(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, twoDigitConstant } = parseOpcode(opcode)
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-      [registerXNumber]: constant
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+      [registerX]: twoDigitConstant
     }),
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }
 
@@ -23,15 +24,14 @@ export const setRegisterToConstant = (chip8State: Chip8): Chip8 => {
   Adds NN to VX. (Carry flag is not changed)
 */
 export const addConstantToRegister = (chip8State: Chip8): Chip8 => {
-  const registerXNumber = chip8Selectors.opcodeRegisterXNumber(chip8State)
-  const registerXValue = chip8Selectors.opcodeRegisterXValue(chip8State)
-  const constant = chip8Selectors.opcodeTwoDigitConstant(chip8State)
+  const { vRegisters, programCounter, opcode } = chip8State
+  const { registerX, twoDigitConstant } = parseOpcode(opcode)
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8State.vRegisters, {
-      [registerXNumber]: registerXValue + constant
+    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+      [registerX]: vRegisters[registerX] + twoDigitConstant
     }),
-    programCounter: chip8State.programCounter + 0x2
+    programCounter: programCounter + 0x2
   }
 }
