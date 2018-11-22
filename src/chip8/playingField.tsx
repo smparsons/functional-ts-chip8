@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import PixelGrid from './pixelGrid'
 
 const StyledPixelGrid = styled(PixelGrid)`
-  margin: 32px;
+  margin: 16px;
 `
 
 const PlayingField = (): JSX.Element => (
