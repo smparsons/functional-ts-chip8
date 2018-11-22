@@ -1,5 +1,6 @@
 import { RootState } from 'src/rootReducer'
 
 export const gameSelectors = {
-  selectedGame: ({ game }: RootState) => game.selectedGame
+  selectedGameUrl: (state: RootState): string | null =>
+    state.game.selectedGame ? `/roms/${state.game.selectedGame}` : null
 }
