@@ -21,10 +21,10 @@ const ScaledCanvas = styled.canvas`
   image-rendering: pixelated;
 `
 
-class PixelGrid extends React.Component<PixelGridProps> {
+class PixelGrid extends React.Component<Props> {
   private readonly canvas: React.RefObject<HTMLCanvasElement>
 
-  constructor(props: PixelGridProps) {
+  constructor(props: Props) {
     super(props)
     this.canvas = React.createRef()
   }
@@ -71,9 +71,7 @@ interface PixelGridDimensions {
   readonly scale: number
 }
 
-interface PixelGridProps
-  extends PixelGridDimensions,
-    React.CanvasHTMLAttributes<HTMLCanvasElement> {
+interface Props extends PixelGridDimensions, React.CanvasHTMLAttributes<HTMLCanvasElement> {
   readonly pixels: ReadonlyArray<number>
 }
 
