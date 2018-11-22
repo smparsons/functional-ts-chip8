@@ -17,7 +17,7 @@ const PlayButton = styled.button`
   justify-self: start;
 `
 
-const GameSelectionPanel = () => (
+const GameSelectionPanel = (): JSX.Element => (
   <Panel>
     <GameSelection>
       <span>Please Select a Game:</span>
