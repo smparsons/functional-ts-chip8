@@ -11,8 +11,8 @@ import styled from 'styled-components'
 // a stateless component.
 
 const ScaledCanvas = styled.canvas`
-  width: ${(props: PixelGridDimensions) => props.columns * props.scale}px;
-  height: ${(props: PixelGridDimensions) => props.rows * props.scale}px;
+  width: ${(props: PixelGridViewProps) => props.columns * props.scale}px;
+  height: ${(props: PixelGridViewProps) => props.rows * props.scale}px;
 
   image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
@@ -65,13 +65,13 @@ class PixelGrid extends React.Component<Props> {
   }
 }
 
-interface PixelGridDimensions {
+interface PixelGridViewProps {
   readonly columns: number
   readonly rows: number
   readonly scale: number
 }
 
-interface Props extends PixelGridDimensions, React.CanvasHTMLAttributes<HTMLCanvasElement> {
+interface Props extends PixelGridViewProps, React.CanvasHTMLAttributes<HTMLCanvasElement> {
   readonly pixels: ReadonlyArray<number>
 }
 
