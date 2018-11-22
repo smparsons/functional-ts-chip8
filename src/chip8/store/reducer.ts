@@ -1,10 +1,10 @@
 import { chip8MemoryLoader, chip8Opcodes, chip8Timers } from 'src/chip8/services'
-import { Chip8 } from 'src/chip8/types'
+import { Chip8, chip8InitialState } from 'src/chip8/types'
 import { getType } from 'typesafe-actions'
 
 import { Chip8Action, chip8Actions } from './actions'
 
-export const chip8Reducer = (state: Chip8, action: Chip8Action): Chip8 => {
+export const chip8Reducer = (state: Chip8 = chip8InitialState, action: Chip8Action): Chip8 => {
   switch (action.type) {
     case getType(chip8Actions.loadFontset):
       return chip8MemoryLoader.loadFontset(state)

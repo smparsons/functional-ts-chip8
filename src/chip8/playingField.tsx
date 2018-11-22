@@ -1,19 +1,32 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
+import PixelGrid from 'src/chip8/pixelGrid'
+import { chip8Selectors } from 'src/chip8/store'
+import { Chip8 } from 'src/chip8/types'
 import styled from 'styled-components'
-
-import PixelGrid from './pixelGrid'
 
 const StyledPixelGrid = styled(PixelGrid)`
   margin: 16px;
 `
 
-const PlayingField = (): JSX.Element => (
-  <StyledPixelGrid
-    columns={64}
-    rows={32}
-    scale={10}
-    pixels={[].concat.apply([], Array(1024).fill([0x0, 0x0, 0x0, 0xff, 0xff, 0xff, 0xff, 0xff]))}
-  />
+const PlayingField = ({ graphics }: StateProps): JSX.Element => (
+  <StyledPixelGrid columns={64} rows={32} scale={10} pixels={graphics} />
 )
 
-export default PlayingField
+interface StateProps {
+  readonly graphics: ReadonlyArray<number>
+}
+
+const mapStateToProps = (state: Chip8): StateProps => ({
+  graphics: chip8Selectors.graphicsForRendering(state)
+})
+
+// We only want to re-render this component if the draw flag is true.
+const areStatesEqual = ({ drawFlag }: Chip8) => !drawFlag
+
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { areStatesEqual }
+)(PlayingField)
