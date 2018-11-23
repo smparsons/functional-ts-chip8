@@ -43,6 +43,7 @@ function* executeNextOpcode(opcode: number): SagaIterator {
       switch (opcode & 0x000f) {
         case 0x0000:
           yield put(chip8Actions.clearScreen())
+          yield put(chip8Actions.stopDrawing())
           break
         case 0x000e:
           yield put(chip8Actions.returnFromSubroutine())
@@ -123,6 +124,7 @@ function* executeNextOpcode(opcode: number): SagaIterator {
     }
     case 0xd000: {
       yield put(chip8Actions.drawGraphics())
+      yield put(chip8Actions.stopDrawing())
       break
     }
     case 0xe000: {

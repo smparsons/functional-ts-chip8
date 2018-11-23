@@ -10,6 +10,7 @@ export const chip8Actions = {
     '[chip8] LoadGame - SUCCESS',
     '[chip8] LoadGame - FAILURE'
   )<string, Uint8Array, void>(),
+  stopDrawing: createStandardAction('[chip8] StopDrawing')<void>(),
   decrementTimers: createStandardAction('[chip8] DecrementTimers')<void>(),
   assignToRegister: createStandardAction('[chip8] MOVE_Vx_Vy')<void>(),
   bitwiseOr: createStandardAction('[chip8] OR_Vx_Vy')<void>(),

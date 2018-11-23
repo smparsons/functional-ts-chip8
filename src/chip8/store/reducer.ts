@@ -12,6 +12,8 @@ export const chip8Reducer = (state: Chip8 = chip8InitialState, action: Chip8Acti
       return chip8MemoryLoader.loadGame(action.payload)(state)
     case getType(chip8Actions.loadGame.failure):
       return { ...state, error: 'An error occurred when trying to load the game.' }
+    case getType(chip8Actions.stopDrawing):
+      return { ...state, drawFlag: false }
     case getType(chip8Actions.decrementTimers):
       return chip8Timers.decrement(state)
     case getType(chip8Actions.addConstantToRegister):
