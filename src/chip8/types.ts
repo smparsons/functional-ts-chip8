@@ -40,3 +40,7 @@ export const chip8InitialState = {
 } as Chip8
 
 export type OpcodeFunc = Func1<Chip8, Chip8>
+
+export interface StartGameRequest {
+  readonly gameName: string
+}

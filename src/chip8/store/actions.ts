@@ -1,14 +1,15 @@
+import { StartGameRequest } from 'src/chip8/types'
 import { ActionType, createAsyncAction, createStandardAction } from 'typesafe-actions'
 
 export const chip8Actions = {
-  startGame: createStandardAction('[chip8] StartGame')<void>(),
+  startGame: createStandardAction('[chip8] StartGame')<StartGameRequest>(),
   stopGame: createStandardAction('[chip8] StopGame')<void>(),
   loadFontset: createStandardAction('[chip8] LoadFontset')<void>(),
   loadGame: createAsyncAction(
     '[chip8] LoadGame - REQUEST',
     '[chip8] LoadGame - SUCCESS',
     '[chip8] LoadGame - FAILURE'
-  )<void, Uint8Array, void>(),
+  )<string, Uint8Array, void>(),
   decrementTimers: createStandardAction('[chip8] DecrementTimers')<void>(),
   assignToRegister: createStandardAction('[chip8] MOVE_Vx_Vy')<void>(),
   bitwiseOr: createStandardAction('[chip8] OR_Vx_Vy')<void>(),

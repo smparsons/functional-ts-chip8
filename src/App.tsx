@@ -1,5 +1,5 @@
 import * as React from 'react'
-import GameSelectionPanel from 'src/chip8/gameSelectionPanel'
+import GameSelectionForm from 'src/chip8/gameSelectionForm'
 import PlayingField from 'src/chip8/playingField'
 import styled, { createGlobalStyle } from 'styled-components'
 
@@ -25,7 +25,7 @@ const App = () => (
     <GlobalStyle />
     <PageContainer>
       <PlayingField />
-      <GameSelectionPanel />
+      <GameSelectionForm />
     </PageContainer>
   </>
 )

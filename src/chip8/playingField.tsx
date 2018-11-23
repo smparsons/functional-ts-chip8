@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import PixelGrid from 'src/chip8/pixelGrid'
 import { chip8Selectors } from 'src/chip8/store'
-import { RootState } from 'src/rootReducer'
+import { Chip8 } from 'src/chip8/types'
 import styled from 'styled-components'
 
 const StyledPixelGrid = styled(PixelGrid)`
@@ -17,12 +17,12 @@ interface StateProps {
   readonly graphics: ReadonlyArray<number>
 }
 
-const mapStateToProps = (state: RootState): StateProps => ({
+const mapStateToProps = (state: Chip8): StateProps => ({
   graphics: chip8Selectors.graphicsForRendering(state)
 })
 
 // We only want to re-render this component if the draw flag is true.
-const areStatesEqual = ({ chip8: { drawFlag } }: RootState) => !drawFlag
+const areStatesEqual = ({ drawFlag }: Chip8) => !drawFlag
 
 export default connect(
   mapStateToProps,

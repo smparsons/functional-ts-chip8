@@ -2,24 +2,22 @@ import axios from 'axios'
 import { delay, SagaIterator } from 'redux-saga'
 import { all, call, cancel, fork, put, select, take, takeLatest } from 'redux-saga/effects'
 import { chip8Actions, chip8Selectors } from 'src/chip8/store'
-import { gameSelectors } from 'src/game/store'
-import { getType } from 'typesafe-actions'
+import { ActionType, getType } from 'typesafe-actions'
 
-function* startGame(): SagaIterator {
+function* startGame(action: ActionType<typeof chip8Actions.startGame>): SagaIterator {
   yield put(chip8Actions.loadFontset())
-  yield put(chip8Actions.loadGame.request())
+  yield put(chip8Actions.loadGame.request(action.payload.gameName))
 
   const loopTask = yield fork(emulatorLoop)
   yield take(chip8Actions.stopGame)
   yield cancel(loopTask)
 }
 
-function* loadGame(): SagaIterator {
-  const url = yield select(gameSelectors.selectedGameUrl)
-  if (url) {
-    const buffer = yield call(axios.get, url, { responseType: 'arraybuffer' })
+function* loadGame(action: ActionType<typeof chip8Actions.startGame>): SagaIterator {
+  try {
+    const buffer = yield call(axios.get, `/roms/${action.payload}`, { responseType: 'arraybuffer' })
     yield put(chip8Actions.loadGame.success(Uint8Array.from(buffer)))
-  } else {
+  } catch (error) {
     yield put(chip8Actions.loadGame.failure())
   }
 }
