@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { delay, SagaIterator } from 'redux-saga'
 import { all, call, cancel, fork, put, select, take, takeLatest } from 'redux-saga/effects'
+import { generateRandomNumber } from 'src/chip8/services'
 import { chip8Actions, chip8Selectors } from 'src/chip8/store'
 import { ActionType, getType } from 'typesafe-actions'
 
@@ -23,7 +24,7 @@ function* emulatorLoop(): SagaIterator {
   while (true) {
     yield call(emulateCpuCycle)
     // Check state and play audio if necessary
-    yield call(delay, 1)
+    yield call(delay, 1.5)
   }
 }
 
@@ -115,7 +116,7 @@ function* executeNextOpcode(opcode: number): SagaIterator {
       yield put(chip8Actions.jumpToAddressPlusRegisterZero())
       break
     case 0xc000: {
-      const randomNumber = yield call(Math.random)
+      const randomNumber = yield call(generateRandomNumber)
       yield put(chip8Actions.randomBitwiseAnd(randomNumber))
       break
     }
