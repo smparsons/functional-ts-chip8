@@ -9,17 +9,15 @@ const StyledPixelGrid = styled(PixelGrid)`
   margin: 16px;
 `
 
-const PlayingField = ({ drawFlag, graphics }: StateProps): JSX.Element => {
+const PlayingField = ({ graphics }: StateProps): JSX.Element => {
   return <StyledPixelGrid columns={64} rows={32} scale={10} pixels={graphics} />
 }
 
 interface StateProps {
-  readonly drawFlag: boolean
   readonly graphics: ReadonlyArray<number>
 }
 
 const mapStateToProps = (state: Chip8): StateProps => ({
-  drawFlag: state.drawFlag,
   graphics: chip8Selectors.graphicsForRendering(state)
 })
 
