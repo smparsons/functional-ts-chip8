@@ -13,7 +13,7 @@ function* startGame(action: ActionType<typeof chip8Actions.startGame>): SagaIter
   yield cancel(loopTask)
 }
 
-function* loadGame(action: ActionType<typeof chip8Actions.startGame>): SagaIterator {
+function* loadGame(action: ActionType<typeof chip8Actions.loadGame.request>): SagaIterator {
   try {
     const buffer = yield call(axios.get, `/roms/${action.payload}`, { responseType: 'arraybuffer' })
     yield put(chip8Actions.loadGame.success(Uint8Array.from(buffer)))
