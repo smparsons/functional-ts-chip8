@@ -9,9 +9,9 @@ const StyledPixelGrid = styled(PixelGrid)`
   margin: 16px;
 `
 
-const PlayingField = ({ graphics }: StateProps): JSX.Element => {
-  return <StyledPixelGrid columns={64} rows={32} scale={10} pixels={graphics} />
-}
+const PlayingField = ({ graphics }: StateProps): JSX.Element => (
+  <StyledPixelGrid columns={64} rows={32} scale={10} pixels={graphics} />
+)
 
 interface StateProps {
   readonly graphics: ReadonlyArray<number>
