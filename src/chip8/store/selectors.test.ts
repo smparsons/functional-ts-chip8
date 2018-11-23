@@ -44,31 +44,4 @@ describe('chip8Selectors', () => {
       expect(fourthOpcode).toBe(0xfa29)
     })
   })
-
-  describe('graphicsForRendering', () => {
-    it('should convert graphics into a array where each pixel is represented in RGBA format', () => {
-      const currentState = {
-        ...chip8InitialState,
-        graphics: Object.assign(Uint8Array.from({ length: 2048 }), chip8InitialState.graphics, {
-          [0x1]: 1,
-          [0x3]: 1,
-          [0x7fc]: 1,
-          [0x7fe]: 1
-        })
-      }
-
-      const graphics = chip8Selectors.graphicsForRendering(currentState)
-      const numberOfBytesToSlice = 16
-
-      const firstRow = graphics.slice(0, numberOfBytesToSlice)
-      // prettier-ignore
-      expect(firstRow)
-        .toEqual([0x0, 0x0, 0x0, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0, 0x0, 0x0, 0xff, 0xff, 0xff, 0xff, 0xff])
-
-      const lastRow = graphics.slice(0x1ff0, 0x1ff0 + numberOfBytesToSlice)
-      // prettier-ignore
-      expect(lastRow)
-        .toEqual([0xff, 0xff, 0xff, 0xff, 0x0, 0x0, 0x0, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0, 0x0, 0x0, 0xff])
-    })
-  })
 })

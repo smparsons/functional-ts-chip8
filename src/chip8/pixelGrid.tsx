@@ -57,9 +57,12 @@ class PixelGrid extends React.Component<Props> {
       const context = canvas.getContext('2d')
 
       if (context) {
-        const screen = context.createImageData(this.props.columns, this.props.rows)
-        screen.data.set(this.props.pixels)
-        context.putImageData(screen, 0, 0)
+        this.props.pixels.forEach((pixel, index) => {
+          const coordinateX = index % this.props.columns
+          const coordinateY = Math.floor(index / this.props.columns)
+          context.fillStyle = pixel ? '#ffffff' : '#000000'
+          context.fillRect(coordinateX, coordinateY, 1, 1)
+        })
       }
     }
   }
@@ -72,7 +75,7 @@ interface PixelGridViewProps {
 }
 
 interface Props extends PixelGridViewProps, React.CanvasHTMLAttributes<HTMLCanvasElement> {
-  readonly pixels: ReadonlyArray<number>
+  readonly pixels: Uint8Array
 }
 
 export default PixelGrid

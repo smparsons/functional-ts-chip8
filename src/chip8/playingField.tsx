@@ -14,11 +14,11 @@ const PlayingField = ({ graphics }: StateProps): JSX.Element => (
 )
 
 interface StateProps {
-  readonly graphics: ReadonlyArray<number>
+  readonly graphics: Uint8Array
 }
 
 const mapStateToProps = (state: Chip8): StateProps => ({
-  graphics: chip8Selectors.graphicsForRendering(state)
+  graphics: chip8Selectors.graphics(state)
 })
 
 // We only want to re-render this component if the draw flag is true.
