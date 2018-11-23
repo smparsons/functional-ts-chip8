@@ -6,12 +6,12 @@ import { Chip8Action, chip8Actions } from './actions'
 
 export const chip8Reducer = (state: Chip8 = chip8InitialState, action: Chip8Action): Chip8 => {
   switch (action.type) {
+    case getType(chip8Actions.initializeChip8State):
+      return chip8InitialState
     case getType(chip8Actions.loadFontset):
       return chip8MemoryLoader.loadFontset(state)
-    case getType(chip8Actions.loadGame.success):
+    case getType(chip8Actions.loadGame):
       return chip8MemoryLoader.loadGame(action.payload)(state)
-    case getType(chip8Actions.loadGame.failure):
-      return { ...state, error: 'An error occurred when trying to load the game.' }
     case getType(chip8Actions.stopDrawing):
       return { ...state, drawFlag: false }
     case getType(chip8Actions.decrementTimers):

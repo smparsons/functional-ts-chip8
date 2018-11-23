@@ -9,7 +9,10 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 
 const sagaMiddleware = createSagaMiddleware()
-const store = createStore(chip8Reducer, compose(applyMiddleware(sagaMiddleware)))
+const composeEnhancers = compose
+// (window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose) || compose
+
+const store = createStore(chip8Reducer, composeEnhancers(applyMiddleware(sagaMiddleware)))
 sagaMiddleware.run(chip8Sagas)
 
 ReactDOM.render(

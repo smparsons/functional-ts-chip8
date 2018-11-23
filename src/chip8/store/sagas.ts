@@ -5,35 +5,32 @@ import { chip8Actions, chip8Selectors } from 'src/chip8/store'
 import { ActionType, getType } from 'typesafe-actions'
 
 function* startGame(action: ActionType<typeof chip8Actions.startGame>): SagaIterator {
+  yield put(chip8Actions.initializeChip8State())
   yield put(chip8Actions.loadFontset())
-  yield put(chip8Actions.loadGame.request(action.payload.gameName))
+  yield call(loadGame, action.payload.gameName)
 
   const loopTask = yield fork(emulatorLoop)
-  yield take(chip8Actions.stopGame)
+  yield take(getType(chip8Actions.stopGame))
   yield cancel(loopTask)
 }
 
-function* loadGame(action: ActionType<typeof chip8Actions.loadGame.request>): SagaIterator {
-  try {
-    const buffer = yield call(axios.get, `/roms/${action.payload}`, { responseType: 'arraybuffer' })
-    yield put(chip8Actions.loadGame.success(Uint8Array.from(buffer)))
-  } catch (error) {
-    yield put(chip8Actions.loadGame.failure())
-  }
+function* loadGame(gameName: string): SagaIterator {
+  const buffer = yield call(axios.get, `/roms/${gameName}`, { responseType: 'arraybuffer' })
+  yield put(chip8Actions.loadGame(new Uint8Array(buffer.data)))
 }
 
 function* emulatorLoop(): SagaIterator {
   while (true) {
     yield call(emulateCpuCycle)
     // Check state and play audio if necessary
-    yield call(delay, 1500)
+    yield call(delay, 1)
   }
 }
 
 function* emulateCpuCycle(): SagaIterator {
   const nextOpcode = yield select(chip8Selectors.getNextOpcodeFromMemory)
   yield put(chip8Actions.loadOpcode(nextOpcode))
-  yield call(() => executeNextOpcode(nextOpcode))
+  yield call(executeNextOpcode, nextOpcode)
   yield put(chip8Actions.decrementTimers())
 }
 
@@ -180,8 +177,5 @@ function* executeNextOpcode(opcode: number): SagaIterator {
 }
 
 export function* chip8Sagas(): SagaIterator {
-  yield all([
-    yield takeLatest(getType(chip8Actions.startGame), startGame),
-    yield takeLatest(getType(chip8Actions.loadGame.request), loadGame)
-  ])
+  yield all([yield takeLatest(getType(chip8Actions.startGame), startGame)])
 }
