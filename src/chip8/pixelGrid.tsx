@@ -21,6 +21,9 @@ const ScaledCanvas = styled.canvas`
   image-rendering: pixelated;
 `
 
+const defaultForeground = '#ffffff'
+const defaultBackground = '#000000'
+
 class PixelGrid extends React.Component<Props> {
   private readonly canvas: React.RefObject<HTMLCanvasElement>
 
@@ -60,7 +63,10 @@ class PixelGrid extends React.Component<Props> {
         this.props.pixels.forEach((pixel, index) => {
           const coordinateX = index % this.props.columns
           const coordinateY = Math.floor(index / this.props.columns)
-          context.fillStyle = pixel ? '#ffffff' : '#000000'
+
+          context.fillStyle = pixel
+            ? this.props.foregroundColor || defaultForeground
+            : this.props.backgroundColor || defaultBackground
           context.fillRect(coordinateX, coordinateY, 1, 1)
         })
       }
@@ -72,6 +78,8 @@ interface PixelGridViewProps {
   readonly columns: number
   readonly rows: number
   readonly scale: number
+  readonly foregroundColor?: string
+  readonly backgroundColor?: string
 }
 
 interface Props extends PixelGridViewProps, React.CanvasHTMLAttributes<HTMLCanvasElement> {
