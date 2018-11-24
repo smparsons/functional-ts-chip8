@@ -1,3 +1,4 @@
+import prand, { RandomGenerator } from 'pure-rand'
 import { Func1 } from 'redux'
 
 export enum KeyState {
@@ -19,6 +20,7 @@ export interface Chip8 {
   readonly keyState: ReadonlyArray<KeyState>
   readonly drawFlag: boolean
   readonly audioFlag: boolean
+  readonly randomGenerator: RandomGenerator
   readonly error: string | null
 }
 
@@ -36,6 +38,7 @@ export const chip8InitialState = {
   keyState: Array.from({ length: 16 }, () => 0x0),
   drawFlag: false,
   audioFlag: false,
+  randomGenerator: prand.mersenne(0),
   error: null
 } as Chip8
 

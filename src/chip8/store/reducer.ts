@@ -1,3 +1,4 @@
+import prand from 'pure-rand'
 import { chip8MemoryLoader, chip8Opcodes, chip8Timers } from 'src/chip8/services'
 import { Chip8, chip8InitialState } from 'src/chip8/types'
 import { getType } from 'typesafe-actions'
@@ -12,6 +13,8 @@ export const chip8Reducer = (state: Chip8 = chip8InitialState, action: Chip8Acti
       return chip8MemoryLoader.loadFontset(state)
     case getType(chip8Actions.loadGame):
       return chip8MemoryLoader.loadGame(action.payload)(state)
+    case getType(chip8Actions.initializeRandomGenerator):
+      return { ...state, randomGenerator: prand.mersenne(action.payload) }
     case getType(chip8Actions.stopDrawing):
       return { ...state, drawFlag: false }
     case getType(chip8Actions.decrementTimers):
@@ -47,7 +50,7 @@ export const chip8Reducer = (state: Chip8 = chip8InitialState, action: Chip8Acti
     case getType(chip8Actions.keyIsPressed):
       return chip8Opcodes.keyIsPressed(state)
     case getType(chip8Actions.randomBitwiseAnd):
-      return chip8Opcodes.randomBitwiseAnd(action.payload)(state)
+      return chip8Opcodes.randomBitwiseAnd(state)
     case getType(chip8Actions.registerDoesNotEqualConstant):
       return chip8Opcodes.registerDoesNotEqualConstant(state)
     case getType(chip8Actions.registerDump):

@@ -1,3 +1,4 @@
+import prand from 'pure-rand'
 import { chip8InitialState } from 'src/chip8/types'
 
 import {
@@ -54,15 +55,16 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0xc523,
       programCounter: 0x24d,
+      randomGenerator: prand.mersenne(1),
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         5: 0xde
       })
     }
 
-    const { programCounter, vRegisters } = randomBitwiseAnd(0x42)(currentState)
+    const { programCounter, vRegisters } = randomBitwiseAnd(currentState)
 
     it('stores the result of doing a bitwise and on a random number and NN', () => {
-      expect(vRegisters[5]).toBe(0x2)
+      expect(vRegisters[5]).toBe(0x21)
     })
 
     it('increments program counter by two', () => {

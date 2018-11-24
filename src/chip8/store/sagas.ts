@@ -1,14 +1,20 @@
 import axios from 'axios'
 import { delay, SagaIterator } from 'redux-saga'
 import { all, call, cancel, fork, put, select, take, takeLatest } from 'redux-saga/effects'
-import { generateRandomNumber } from 'src/chip8/services'
 import { chip8Actions, chip8Selectors } from 'src/chip8/store'
 import { ActionType, getType } from 'typesafe-actions'
+
+// Generates a random seed for creating a random number generator.
+// The seed is a random number between 0 and 1000.
+const generateRandomSeed = () => Math.floor(Math.random() * 1000)
 
 function* startGame(action: ActionType<typeof chip8Actions.startGame>): SagaIterator {
   yield put(chip8Actions.initializeChip8State())
   yield put(chip8Actions.loadFontset())
   yield call(loadGame, action.payload.gameName)
+
+  const randomSeed = yield call(generateRandomSeed)
+  yield put(chip8Actions.initializeRandomGenerator(randomSeed))
 
   const loopTask = yield fork(emulatorLoop)
   yield take(getType(chip8Actions.stopGame))
@@ -116,8 +122,7 @@ function* executeNextOpcode(opcode: number): SagaIterator {
       yield put(chip8Actions.jumpToAddressPlusRegisterZero())
       break
     case 0xc000: {
-      const randomNumber = yield call(generateRandomNumber)
-      yield put(chip8Actions.randomBitwiseAnd(randomNumber))
+      yield put(chip8Actions.randomBitwiseAnd())
       break
     }
     case 0xd000: {

@@ -1,4 +1,5 @@
-import { Chip8, OpcodeFunc } from 'src/chip8/types'
+import prand from 'pure-rand'
+import { Chip8 } from 'src/chip8/types'
 
 import { parseOpcode } from './helpers'
 
@@ -40,17 +41,17 @@ export const bitwiseAnd = (chip8State: Chip8): Chip8 => {
   0xCXNN
   Sets VX to the result of a bitwise and operation on a random number (Typically: 0 to 255) and NN.
 */
-export const randomBitwiseAnd = (randomNumber: number): OpcodeFunc => (
-  chip8State: Chip8
-): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
+export const randomBitwiseAnd = (chip8State: Chip8): Chip8 => {
+  const { vRegisters, programCounter, opcode, randomGenerator } = chip8State
   const { registerX, twoDigitConstant } = parseOpcode(opcode)
+  const [randomNumber, newRandomGenerator] = prand.uniformIntDistribution(0, 255)(randomGenerator)
 
   return {
     ...chip8State,
     vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
       [registerX]: randomNumber & twoDigitConstant
     }),
+    randomGenerator: newRandomGenerator,
     programCounter: programCounter + 0x2
   }
 }
