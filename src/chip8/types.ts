@@ -38,7 +38,7 @@ export const chip8InitialState = {
   keyState: Array.from({ length: 16 }, () => 0x0),
   drawFlag: false,
   audioFlag: false,
-  randomGenerator: prand.mersenne(0),
+  randomGenerator: prand.congruential(0),
   error: null
 } as Chip8
 

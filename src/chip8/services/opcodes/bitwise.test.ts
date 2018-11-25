@@ -55,7 +55,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0xc523,
       programCounter: 0x24d,
-      randomGenerator: prand.mersenne(1),
+      randomGenerator: prand.congruential(1),
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         5: 0xde
       })

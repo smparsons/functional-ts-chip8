@@ -14,7 +14,7 @@ export const chip8Reducer = (state: Chip8 = chip8InitialState, action: Chip8Acti
     case getType(chip8Actions.loadGame):
       return chip8MemoryLoader.loadGame(action.payload)(state)
     case getType(chip8Actions.initializeRandomGenerator):
-      return { ...state, randomGenerator: prand.mersenne(action.payload) }
+      return { ...state, randomGenerator: prand.congruential(action.payload) }
     case getType(chip8Actions.stopDrawing):
       return { ...state, drawFlag: false }
     case getType(chip8Actions.decrementTimers):
