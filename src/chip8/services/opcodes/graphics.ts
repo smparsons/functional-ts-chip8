@@ -1,8 +1,7 @@
 import { Func1 } from 'redux'
+import { ParsedOpcode } from 'src/chip8/services'
 import { Chip8 } from 'src/chip8/types'
 import { chip8NumberOfColumns, chip8NumberOfRows, chip8SpriteWidth } from 'src/constants'
-
-import { parseOpcode } from './helpers'
 
 /*
   0x00E0
@@ -34,8 +33,7 @@ interface PixelUpdateResult {
   readonly collision: boolean
 }
 
-const getCoordinateOffsets = (chip8State: Chip8): ReadonlyArray<CoordinateOffset> => {
-  const { oneDigitConstant: spriteHeight } = parseOpcode(chip8State.opcode)
+const getCoordinateOffsets = (spriteHeight: number): ReadonlyArray<CoordinateOffset> => {
   const allColumnOffsets = Array.from(Array(chip8SpriteWidth).keys())
   const allRowOffsets = Array.from(Array(spriteHeight).keys())
   return [].concat.apply(
@@ -49,14 +47,15 @@ const getCoordinateOffsets = (chip8State: Chip8): ReadonlyArray<CoordinateOffset
   )
 }
 
-const calculatePixelUpdate = (chip8State: Chip8): Func1<CoordinateOffset, PixelUpdateResult> => ({
+const calculatePixelUpdate = (
+  chip8State: Chip8,
+  coordinateX: number,
+  coordinateY: number
+): Func1<CoordinateOffset, PixelUpdateResult> => ({
   rowOffset,
   columnOffset
 }: CoordinateOffset): PixelUpdateResult => {
-  const { graphics, memory, vRegisters, indexRegister, opcode } = chip8State
-  const { registerX, registerY } = parseOpcode(opcode)
-  const coordinateX = vRegisters[registerX]
-  const coordinateY = vRegisters[registerY]
+  const { graphics, memory, indexRegister } = chip8State
 
   const xCoordinateToUpdate = (coordinateX + columnOffset) % chip8NumberOfColumns
   const yCoordinateToUpdate = (coordinateY + rowOffset) % chip8NumberOfRows
@@ -73,9 +72,16 @@ const calculatePixelUpdate = (chip8State: Chip8): Func1<CoordinateOffset, PixelU
   }
 }
 
-export const drawGraphics = (chip8State: Chip8): Chip8 => {
+export const drawGraphics = (
+  chip8State: Chip8,
+  { oneDigitConstant, registerX, registerY }: ParsedOpcode
+): Chip8 => {
   const { graphics, vRegisters, programCounter } = chip8State
-  const pixelUpdates = getCoordinateOffsets(chip8State).map(calculatePixelUpdate(chip8State))
+  const coordinateX = vRegisters[registerX]
+  const coordinateY = vRegisters[registerY]
+  const pixelUpdates = getCoordinateOffsets(oneDigitConstant).map(
+    calculatePixelUpdate(chip8State, coordinateX, coordinateY)
+  )
 
   return {
     ...chip8State,

@@ -1,3 +1,4 @@
+import { parsedOpcodeInitialState } from 'src/chip8/services'
 import { chip8InitialState } from 'src/chip8/types'
 
 import { setDelayTimerToRegister, setRegisterToDelayTimer, setSoundTimerToRegister } from './timer'
@@ -6,7 +7,6 @@ describe('timer', () => {
   describe('setRegisterToDelayTimer', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xf207,
       programCounter: 0x27d,
       delayTimer: 0x13,
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
@@ -14,7 +14,9 @@ describe('timer', () => {
       })
     }
 
-    const { vRegisters, programCounter } = setRegisterToDelayTimer(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x2 }
+
+    const { vRegisters, programCounter } = setRegisterToDelayTimer(currentState, parsedOpcode)
 
     it('sets delay timer to value stored in VX', () => {
       expect(vRegisters[2]).toBe(0x13)
@@ -28,7 +30,6 @@ describe('timer', () => {
   describe('setDelayTimerToRegister', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xf515,
       programCounter: 0x232,
       delayTimer: 0x4b,
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
@@ -36,7 +37,9 @@ describe('timer', () => {
       })
     }
 
-    const { delayTimer, programCounter } = setDelayTimerToRegister(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x5 }
+
+    const { delayTimer, programCounter } = setDelayTimerToRegister(currentState, parsedOpcode)
 
     it('sets delay timer to value stored in VX', () => {
       expect(delayTimer).toBe(0x51)
@@ -50,7 +53,6 @@ describe('timer', () => {
   describe('setSoundTimerToRegister', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xfa18,
       programCounter: 0x280,
       soundTimer: 0x2c,
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
@@ -58,7 +60,9 @@ describe('timer', () => {
       })
     }
 
-    const { soundTimer, programCounter } = setSoundTimerToRegister(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0xa }
+
+    const { soundTimer, programCounter } = setSoundTimerToRegister(currentState, parsedOpcode)
 
     it('sets delay timer to value stored in VX', () => {
       expect(soundTimer).toBe(0x3c)

@@ -1,15 +1,16 @@
+import { ParsedOpcode } from 'src/chip8/services'
 import { Chip8 } from 'src/chip8/types'
-
-import { parseOpcode } from './helpers'
 
 /*
   0x3XNN
   Skips the next instruction if VX equals NN. (Usually the next instruction is a jump to 
   skip a code block)
 */
-export const registerEqualsConstant = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, twoDigitConstant } = parseOpcode(opcode)
+export const registerEqualsConstant = (
+  chip8State: Chip8,
+  { registerX, twoDigitConstant }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     programCounter:
@@ -22,9 +23,11 @@ export const registerEqualsConstant = (chip8State: Chip8): Chip8 => {
   Skips the next instruction if VX doesn't equal NN. (Usually the next instruction is a jump 
   to skip a code block)
 */
-export const registerDoesNotEqualConstant = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, twoDigitConstant } = parseOpcode(opcode)
+export const registerDoesNotEqualConstant = (
+  chip8State: Chip8,
+  { registerX, twoDigitConstant }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     programCounter:
@@ -37,9 +40,11 @@ export const registerDoesNotEqualConstant = (chip8State: Chip8): Chip8 => {
   Skips the next instruction if VX equals VY. (Usually the next instruction is a jump 
   to skip a code block)
 */
-export const registersAreEqual = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, registerY } = parseOpcode(opcode)
+export const registersAreEqual = (
+  chip8State: Chip8,
+  { registerX, registerY }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     programCounter:
@@ -52,9 +57,11 @@ export const registersAreEqual = (chip8State: Chip8): Chip8 => {
   Skips the next instruction if VX doesn't equal VY. (Usually the next instruction is a 
   jump to skip a code block)
 */
-export const registersAreNotEqual = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, registerY } = parseOpcode(opcode)
+export const registersAreNotEqual = (
+  chip8State: Chip8,
+  { registerX, registerY }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     programCounter:

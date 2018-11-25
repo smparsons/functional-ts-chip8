@@ -1,3 +1,4 @@
+import { parsedOpcodeInitialState } from 'src/chip8/services'
 import { chip8InitialState } from 'src/chip8/types'
 
 import { addTwoRegisters, registerXMinusRegisterY, registerYMinusRegisterX } from './math'
@@ -7,7 +8,6 @@ describe('math', () => {
     describe('when carry', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0x87a4,
         programCounter: 0x25d,
         vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           7: 0xce,
@@ -15,7 +15,9 @@ describe('math', () => {
         })
       }
 
-      const { programCounter, vRegisters } = addTwoRegisters(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x7, registerY: 0xa }
+
+      const { programCounter, vRegisters } = addTwoRegisters(currentState, parsedOpcode)
 
       it('stores VX + VY in VX', () => {
         expect(vRegisters[7]).toBe(0x6f)
@@ -41,7 +43,9 @@ describe('math', () => {
         })
       }
 
-      const { programCounter, vRegisters } = addTwoRegisters(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x2, registerY: 0xb }
+
+      const { programCounter, vRegisters } = addTwoRegisters(currentState, parsedOpcode)
 
       it('stores VX + VY in VX', () => {
         expect(vRegisters[2]).toBe(0x4a)
@@ -69,7 +73,9 @@ describe('math', () => {
         })
       }
 
-      const { programCounter, vRegisters } = registerXMinusRegisterY(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x2, registerY: 0xd }
+
+      const { programCounter, vRegisters } = registerXMinusRegisterY(currentState, parsedOpcode)
 
       it('stores VX - VY in VX', () => {
         expect(vRegisters[2]).toBe(0x7c)
@@ -95,7 +101,9 @@ describe('math', () => {
         })
       }
 
-      const { programCounter, vRegisters } = registerXMinusRegisterY(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0xe, registerY: 0xf }
+
+      const { programCounter, vRegisters } = registerXMinusRegisterY(currentState, parsedOpcode)
 
       it('stores VX - VY in VX', () => {
         expect(vRegisters[14]).toBe(0x21)
@@ -123,7 +131,9 @@ describe('math', () => {
         })
       }
 
-      const { programCounter, vRegisters } = registerYMinusRegisterX(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0xa, registerY: 0x7 }
+
+      const { programCounter, vRegisters } = registerYMinusRegisterX(currentState, parsedOpcode)
 
       it('stores VY - VX in VX', () => {
         expect(vRegisters[10]).toBe(0xe1)
@@ -149,7 +159,9 @@ describe('math', () => {
         })
       }
 
-      const { programCounter, vRegisters } = registerYMinusRegisterX(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0xc, registerY: 0xb }
+
+      const { programCounter, vRegisters } = registerYMinusRegisterX(currentState, parsedOpcode)
 
       it('stores VY - VX in VX', () => {
         expect(vRegisters[12]).toBe(0x44)

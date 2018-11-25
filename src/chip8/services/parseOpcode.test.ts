@@ -1,4 +1,4 @@
-import { parseOpcode } from './helpers'
+import { parseOpcode } from './parseOpcode'
 
 describe('helpers', () => {
   describe('parseOpcode', () => {

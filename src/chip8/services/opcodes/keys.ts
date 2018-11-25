@@ -1,16 +1,13 @@
+import { ParsedOpcode } from 'src/chip8/services'
 import { Chip8, KeyState } from 'src/chip8/types'
-
-import { parseOpcode } from './helpers'
 
 /*
   0xEX9E
   Skips the next instruction if the key stored in VX is pressed. (Usually the next instruction 
   is a jump to skip a code block)
 */
-export const keyIsPressed = (chip8State: Chip8): Chip8 => {
-  const { keyState, programCounter, vRegisters, opcode } = chip8State
-  const { registerX } = parseOpcode(opcode)
-
+export const keyIsPressed = (chip8State: Chip8, { registerX }: ParsedOpcode): Chip8 => {
+  const { keyState, programCounter, vRegisters } = chip8State
   return {
     ...chip8State,
     programCounter:
@@ -25,10 +22,8 @@ export const keyIsPressed = (chip8State: Chip8): Chip8 => {
   Skips the next instruction if the key stored in VX isn't pressed. (Usually the next instruction 
   is a jump to skip a code block)
 */
-export const keyIsNotPressed = (chip8State: Chip8): Chip8 => {
-  const { keyState, programCounter, vRegisters, opcode } = chip8State
-  const { registerX } = parseOpcode(opcode)
-
+export const keyIsNotPressed = (chip8State: Chip8, { registerX }: ParsedOpcode): Chip8 => {
+  const { keyState, programCounter, vRegisters } = chip8State
   return {
     ...chip8State,
     programCounter:
@@ -43,9 +38,8 @@ export const keyIsNotPressed = (chip8State: Chip8): Chip8 => {
   A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted 
   until next key event)
 */
-export const awaitKeyPress = (chip8State: Chip8): Chip8 => {
-  const { keyState, programCounter, vRegisters, opcode } = chip8State
-  const { registerX } = parseOpcode(opcode)
+export const awaitKeyPress = (chip8State: Chip8, { registerX }: ParsedOpcode): Chip8 => {
+  const { keyState, programCounter, vRegisters } = chip8State
   const pressedKey = keyState.findIndex(key => key === KeyState.Pressed)
 
   return pressedKey !== -1

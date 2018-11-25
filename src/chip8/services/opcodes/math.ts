@@ -1,15 +1,15 @@
+import { ParsedOpcode } from 'src/chip8/services'
 import { Chip8 } from 'src/chip8/types'
-
-import { parseOpcode } from './helpers'
 
 /*
   0x8XY4
   Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't.
 */
-export const addTwoRegisters = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, registerY } = parseOpcode(opcode)
-
+export const addTwoRegisters = (
+  chip8State: Chip8,
+  { registerX, registerY }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
@@ -24,10 +24,11 @@ export const addTwoRegisters = (chip8State: Chip8): Chip8 => {
   0x8XY5
   VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
 */
-export const registerXMinusRegisterY = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, registerY } = parseOpcode(opcode)
-
+export const registerXMinusRegisterY = (
+  chip8State: Chip8,
+  { registerX, registerY }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
@@ -42,10 +43,11 @@ export const registerXMinusRegisterY = (chip8State: Chip8): Chip8 => {
   0x8XY7
   Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
 */
-export const registerYMinusRegisterX = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, registerY } = parseOpcode(opcode)
-
+export const registerYMinusRegisterX = (
+  chip8State: Chip8,
+  { registerX, registerY }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {

@@ -1,3 +1,4 @@
+import { parsedOpcodeInitialState } from 'src/chip8/services'
 import { chip8InitialState } from 'src/chip8/types'
 
 import {
@@ -8,7 +9,6 @@ describe('flow', () => {
   describe('returnToSubroutine', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0x00ee,
       stackPointer: 2,
       stack: Uint16Array.from([0x150, 0x2f2]),
       programCounter: 0x316
@@ -36,11 +36,12 @@ describe('flow', () => {
   describe('jumpToAddress', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0x11ef,
       programCounter: 0x3ff
     }
 
-    const { programCounter } = jumpToAddress(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, threeDigitConstant: 0x1ef }
+
+    const { programCounter } = jumpToAddress(currentState, parsedOpcode)
 
     it('jumps to address NNN', () => {
       expect(programCounter).toBe(0x1ef)
@@ -50,13 +51,14 @@ describe('flow', () => {
   describe('callSubroutine', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0x0225f,
       stackPointer: 1,
       stack: Uint16Array.from([0x210]),
       programCounter: 0x220
     }
 
-    const { stack, stackPointer, programCounter } = callSubroutine(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, threeDigitConstant: 0x25f }
+
+    const { stack, stackPointer, programCounter } = callSubroutine(currentState, parsedOpcode)
 
     it('stores the current address in the stack', () => {
       expect(stack[stack.length - 1]).toBe(0x220)
@@ -78,14 +80,15 @@ describe('flow', () => {
   describe('jumpToAddressPlusRegisterZero', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xb1fa,
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         0: 0x51
       }),
       programCounter: 0x12a
     }
 
-    const { programCounter } = jumpToAddressPlusRegisterZero(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, threeDigitConstant: 0x1fa }
+
+    const { programCounter } = jumpToAddressPlusRegisterZero(currentState, parsedOpcode)
 
     it('jumps to address NNN + V0', () => {
       expect(programCounter).toBe(0x24b)

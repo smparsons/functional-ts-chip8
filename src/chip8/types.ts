@@ -7,7 +7,6 @@ export enum KeyState {
 }
 
 export interface Chip8 {
-  readonly opcode: number
   readonly memory: Uint8Array
   readonly vRegisters: Uint8Array
   readonly indexRegister: number
@@ -25,7 +24,6 @@ export interface Chip8 {
 }
 
 export const chip8InitialState = {
-  opcode: 0x0000,
   memory: Uint8Array.from({ length: 4096 }),
   vRegisters: Uint8Array.from({ length: 16 }),
   indexRegister: 0x0000,

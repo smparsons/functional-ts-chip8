@@ -1,3 +1,4 @@
+import { parsedOpcodeInitialState } from 'src/chip8/services'
 import { chip8InitialState, KeyState } from 'src/chip8/types'
 
 import { awaitKeyPress, keyIsNotPressed, keyIsPressed } from './keys'
@@ -7,7 +8,6 @@ describe('keys', () => {
     describe('when key is pressed', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0xea9e,
         programCounter: 0x200,
         vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           10: 0xc
@@ -17,7 +17,9 @@ describe('keys', () => {
         })
       }
 
-      const { programCounter } = keyIsPressed(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0xa }
+
+      const { programCounter } = keyIsPressed(currentState, parsedOpcode)
 
       it('increments program counter by four', () => {
         expect(programCounter).toBe(0x204)
@@ -27,7 +29,6 @@ describe('keys', () => {
     describe('when key is not pressed', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0xe59e,
         programCounter: 0x250,
         vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           5: 0xa
@@ -37,7 +38,9 @@ describe('keys', () => {
         })
       }
 
-      const { programCounter } = keyIsPressed(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x5 }
+
+      const { programCounter } = keyIsPressed(currentState, parsedOpcode)
 
       it('increments program counter by two', () => {
         expect(programCounter).toBe(0x252)
@@ -59,7 +62,9 @@ describe('keys', () => {
         })
       }
 
-      const { programCounter } = keyIsNotPressed(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x7 }
+
+      const { programCounter } = keyIsNotPressed(currentState, parsedOpcode)
 
       it('increments program counter by four', () => {
         expect(programCounter).toBe(0x224)
@@ -69,7 +74,6 @@ describe('keys', () => {
     describe('when key is pressed', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0xe2a1,
         programCounter: 0x27a,
         vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           2: 0xd
@@ -79,7 +83,9 @@ describe('keys', () => {
         })
       }
 
-      const { programCounter } = keyIsNotPressed(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x2 }
+
+      const { programCounter } = keyIsNotPressed(currentState, parsedOpcode)
 
       it('increments program counter by two', () => {
         expect(programCounter).toBe(0x27c)
@@ -91,14 +97,15 @@ describe('keys', () => {
     describe('when no keys are pressed', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0xf60a,
         programCounter: 0x280,
         vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           6: 0x3b
         })
       }
 
-      const { programCounter, vRegisters } = awaitKeyPress(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x6 }
+
+      const { programCounter, vRegisters } = awaitKeyPress(currentState, parsedOpcode)
 
       it('leaves register untouched', () => {
         expect(vRegisters[6]).toBe(0x3b)
@@ -112,7 +119,6 @@ describe('keys', () => {
     describe('when key is pressed', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0xf90a,
         programCounter: 0x312,
         vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
           9: 0x7c
@@ -122,7 +128,9 @@ describe('keys', () => {
         })
       }
 
-      const { programCounter, vRegisters } = awaitKeyPress(currentState)
+      const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x9 }
+
+      const { programCounter, vRegisters } = awaitKeyPress(currentState, parsedOpcode)
 
       it('stores key press in register', () => {
         expect(vRegisters[9]).toBe(0x3)

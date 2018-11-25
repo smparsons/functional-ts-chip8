@@ -1,15 +1,15 @@
+import { ParsedOpcode } from 'src/chip8/services'
 import { Chip8 } from 'src/chip8/types'
-
-import { parseOpcode } from './helpers'
 
 /*
   0x6XNN
   Sets VX to NN.
 */
-export const setRegisterToConstant = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, twoDigitConstant } = parseOpcode(opcode)
-
+export const setRegisterToConstant = (
+  chip8State: Chip8,
+  { registerX, twoDigitConstant }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
@@ -23,10 +23,11 @@ export const setRegisterToConstant = (chip8State: Chip8): Chip8 => {
   7XNN
   Adds NN to VX. (Carry flag is not changed)
 */
-export const addConstantToRegister = (chip8State: Chip8): Chip8 => {
-  const { vRegisters, programCounter, opcode } = chip8State
-  const { registerX, twoDigitConstant } = parseOpcode(opcode)
-
+export const addConstantToRegister = (
+  chip8State: Chip8,
+  { registerX, twoDigitConstant }: ParsedOpcode
+): Chip8 => {
+  const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
     vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {

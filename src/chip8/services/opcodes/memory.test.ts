@@ -1,3 +1,4 @@
+import { parsedOpcodeInitialState } from 'src/chip8/services'
 import { chip8InitialState } from 'src/chip8/types'
 
 import {
@@ -9,11 +10,12 @@ describe('memory', () => {
   describe('setIndexRegisterToAddress', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xa2f0,
       programCounter: 0x2ac
     }
 
-    const { indexRegister, programCounter } = setIndexRegisterToAddress(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, threeDigitConstant: 0x2f0 }
+
+    const { indexRegister, programCounter } = setIndexRegisterToAddress(currentState, parsedOpcode)
 
     it('sets index register to three digit address NNN', () => {
       expect(indexRegister).toBe(0x2f0)
@@ -27,7 +29,6 @@ describe('memory', () => {
   describe('addRegisterXToIndexRegister', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xfc1e,
       indexRegister: 0x2bf,
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         12: 0x5c
@@ -35,7 +36,12 @@ describe('memory', () => {
       programCounter: 0x2fd
     }
 
-    const { indexRegister, programCounter } = addRegisterXToIndexRegister(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0xc }
+
+    const { indexRegister, programCounter } = addRegisterXToIndexRegister(
+      currentState,
+      parsedOpcode
+    )
 
     it('adds register x to index register', () => {
       expect(indexRegister).toBe(0x31b)
@@ -49,7 +55,6 @@ describe('memory', () => {
   describe('registerDump', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xf755,
       indexRegister: 0x1ac,
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         0: 0x13,
@@ -64,7 +69,9 @@ describe('memory', () => {
       programCounter: 0x3cc
     }
 
-    const { memory, programCounter } = registerDump(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x7 }
+
+    const { memory, programCounter } = registerDump(currentState, parsedOpcode)
 
     it('updates memory at address I through address I + X', () => {
       const numberOfBytesToSlice = 8
@@ -94,7 +101,9 @@ describe('memory', () => {
       programCounter: 0x13f
     }
 
-    const { programCounter, vRegisters } = registerLoad(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x5 }
+
+    const { programCounter, vRegisters } = registerLoad(currentState, parsedOpcode)
 
     it('updates registers 0 through X with values in memory at address I through I + X', () => {
       const numberOfRegistersToSlice = 6
@@ -110,7 +119,6 @@ describe('memory', () => {
   describe('storeBCD', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xf733,
       indexRegister: 0x17b,
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         7: 0xaf
@@ -118,7 +126,9 @@ describe('memory', () => {
       programCounter: 0x232
     }
 
-    const { memory, programCounter } = storeBCD(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x7 }
+
+    const { memory, programCounter } = storeBCD(currentState, parsedOpcode)
 
     it('updates memory at location I, I + 1, and I + 2 with the BCD representation of register X', () => {
       const numberOfBytesToSlice = 3
@@ -135,7 +145,6 @@ describe('memory', () => {
   describe('storeSpriteLocation', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0xf529,
       indexRegister: 0x213,
       vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
         5: 0xa
@@ -143,7 +152,9 @@ describe('memory', () => {
       programCounter: 0x240
     }
 
-    const { indexRegister, programCounter } = storeSpriteLocation(currentState)
+    const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0x5 }
+
+    const { indexRegister, programCounter } = storeSpriteLocation(currentState, parsedOpcode)
 
     it('updates I to the location of the 4x5 font representation of the character in X', () => {
       expect(indexRegister).toBe(0x32)

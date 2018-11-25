@@ -1,3 +1,4 @@
+import { parsedOpcodeInitialState } from 'src/chip8/services'
 import { chip8InitialState } from 'src/chip8/types'
 
 import { clearScreen, drawGraphics } from './graphics'
@@ -6,7 +7,6 @@ describe('graphics', () => {
   describe('clearScreen', () => {
     const currentState = {
       ...chip8InitialState,
-      opcode: 0x00e0,
       programCounter: 0x2d2,
       graphics: Uint8Array.from({ length: 2048 }, () => 0x1)
     }
@@ -30,7 +30,6 @@ describe('graphics', () => {
     describe('when drawing on clear screen', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0xd7b3,
         indexRegister: 0x3ac,
         memory: Object.assign(Uint8Array.from({ length: 4096 }), chip8InitialState.memory, {
           [0x3ac]: 0x25,
@@ -45,7 +44,17 @@ describe('graphics', () => {
         programCounter: 0x2f0
       }
 
-      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(currentState)
+      const parsedOpcode = {
+        ...parsedOpcodeInitialState,
+        registerX: 0x7,
+        registerY: 0xb,
+        oneDigitConstant: 0x3
+      }
+
+      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(
+        currentState,
+        parsedOpcode
+      )
 
       it('correctly updates pixel state using the xor operation', () => {
         const numberOfBytesToSlice = 8
@@ -79,7 +88,6 @@ describe('graphics', () => {
     describe('when drawing on screen with some pixel state', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0xdca3,
         indexRegister: 0x2fd,
         memory: Object.assign(Uint8Array.from({ length: 4096 }), chip8InitialState.memory, {
           [0x2fd]: 0x42,
@@ -104,7 +112,17 @@ describe('graphics', () => {
         programCounter: 0x3ca
       }
 
-      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(currentState)
+      const parsedOpcode = {
+        ...parsedOpcodeInitialState,
+        registerX: 0xc,
+        registerY: 0xa,
+        oneDigitConstant: 0x3
+      }
+
+      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(
+        currentState,
+        parsedOpcode
+      )
 
       it('correctly updates pixel state using the xor operation', () => {
         const numberOfBytesToSlice = 8
@@ -138,7 +156,6 @@ describe('graphics', () => {
     describe('when drawing on screen past the screen boundary', () => {
       const currentState = {
         ...chip8InitialState,
-        opcode: 0xdb53,
         indexRegister: 0x31b,
         memory: Object.assign(Uint8Array.from({ length: 4096 }), chip8InitialState.memory, {
           [0x31b]: 0x25,
@@ -162,7 +179,17 @@ describe('graphics', () => {
         programCounter: 0x29b
       }
 
-      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(currentState)
+      const parsedOpcode = {
+        ...parsedOpcodeInitialState,
+        registerX: 0xb,
+        registerY: 0x5,
+        oneDigitConstant: 0x3
+      }
+
+      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(
+        currentState,
+        parsedOpcode
+      )
 
       it('correctly updates pixel state using the xor operation, and wraps to the other side of the screen', () => {
         const numberOfBytesToSlice = 8
