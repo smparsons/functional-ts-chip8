@@ -1,5 +1,4 @@
-import { parsedOpcodeInitialState } from 'src/chip8/services'
-import { chip8InitialState, KeyState } from 'src/chip8/types'
+import { chip8InitialState, KeyState, parsedOpcodeInitialState } from 'src/chip8/types'
 
 import { awaitKeyPress, keyIsNotPressed, keyIsPressed } from './keys'
 

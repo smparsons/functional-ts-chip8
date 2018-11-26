@@ -5,19 +5,16 @@ import { chip8Actions, chip8Selectors } from 'src/chip8/store'
 import { ActionType, getType } from 'typesafe-actions'
 
 function* startGame(action: ActionType<typeof chip8Actions.startGame>): SagaIterator {
-  yield put(chip8Actions.initializeChip8State())
-  yield put(chip8Actions.loadFontset())
-  yield call(loadGame, action.payload.gameName)
+  const game = yield call(getGameBytes, action.payload.gameName)
+  const initialSeed = yield call(generateRandomSeed)
 
-  const randomSeed = yield call(generateRandomSeed)
-  yield put(chip8Actions.initializeRandomGenerator(randomSeed))
-
+  yield put(chip8Actions.initializeChip8({ game, initialSeed }))
   yield call(emulatorLoop)
 }
 
-function* loadGame(gameName: string): SagaIterator {
+function* getGameBytes(gameName: string): SagaIterator {
   const buffer = yield call(axios.get, `/roms/${gameName}`, { responseType: 'arraybuffer' })
-  yield put(chip8Actions.loadGame(new Uint8Array(buffer.data)))
+  return new Uint8Array(buffer.data)
 }
 
 // Generates a random seed for creating a random number generator.

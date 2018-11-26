@@ -1,6 +1,5 @@
 import prand from 'pure-rand'
-import { parsedOpcodeInitialState } from 'src/chip8/services'
-import { chip8InitialState } from 'src/chip8/types'
+import { chip8InitialState, parsedOpcodeInitialState } from 'src/chip8/types'
 
 import {
     bitwiseAnd, bitwiseOr, bitwiseXor, randomBitwiseAnd, shiftLeft, shiftRight

@@ -40,8 +40,29 @@ export const chip8InitialState = {
   error: null
 } as Chip8
 
-export type OpcodeFunc = Func1<Chip8, Chip8>
+export interface ParsedOpcode {
+  readonly oneDigitConstant: number
+  readonly twoDigitConstant: number
+  readonly threeDigitConstant: number
+  readonly registerX: number
+  readonly registerY: number
+}
+
+export const parsedOpcodeInitialState = {
+  oneDigitConstant: 0,
+  twoDigitConstant: 0,
+  threeDigitConstant: 0,
+  registerX: 0,
+  registerY: 0
+} as ParsedOpcode
+
+export type Chip8Func = Func1<Chip8, Chip8>
 
 export interface StartGameRequest {
   readonly gameName: string
+}
+
+export interface InitializeChip8Request {
+  readonly game: Uint8Array
+  readonly initialSeed: number
 }

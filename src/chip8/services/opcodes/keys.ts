@@ -1,5 +1,4 @@
-import { ParsedOpcode } from 'src/chip8/services'
-import { Chip8, KeyState } from 'src/chip8/types'
+import { Chip8, KeyState, ParsedOpcode } from 'src/chip8/types'
 
 /*
   0xEX9E

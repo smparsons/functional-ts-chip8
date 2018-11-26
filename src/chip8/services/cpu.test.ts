@@ -1,9 +1,9 @@
 import { chip8InitialState } from 'src/chip8/types'
 
-import { chip8Timers } from './timers'
+import { cpu } from './cpu'
 
-describe('chip8Timers', () => {
-  describe('decrement', () => {
+describe('cpu', () => {
+  describe('decrementTimers', () => {
     describe('when the timers are non-zero', () => {
       const currentState = {
         ...chip8InitialState,
@@ -11,7 +11,7 @@ describe('chip8Timers', () => {
         delayTimer: 0x25
       }
 
-      const { soundTimer, delayTimer } = chip8Timers.decrement(currentState)
+      const { soundTimer, delayTimer } = cpu.decrementTimers(currentState)
 
       it('decrements the sound timer', () => {
         expect(soundTimer).toBe(0x20)
@@ -29,7 +29,7 @@ describe('chip8Timers', () => {
         delayTimer: 0x0
       }
 
-      const { soundTimer, delayTimer } = chip8Timers.decrement(currentState)
+      const { soundTimer, delayTimer } = cpu.decrementTimers(currentState)
 
       it('does not decrement the sound timer', () => {
         expect(soundTimer).toBe(0x0)
@@ -47,7 +47,7 @@ describe('chip8Timers', () => {
         audioFlag: false
       }
 
-      const { audioFlag, soundTimer } = chip8Timers.decrement(currentState)
+      const { audioFlag, soundTimer } = cpu.decrementTimers(currentState)
 
       it('decrements the sound timer', () => {
         expect(soundTimer).toBe(0x0)

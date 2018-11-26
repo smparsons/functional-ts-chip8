@@ -1,6 +1,5 @@
 import { Func1 } from 'redux'
-import { ParsedOpcode } from 'src/chip8/services'
-import { Chip8 } from 'src/chip8/types'
+import { Chip8, ParsedOpcode } from 'src/chip8/types'
 import { chip8NumberOfColumns, chip8NumberOfRows, chip8SpriteWidth } from 'src/constants'
 
 /*

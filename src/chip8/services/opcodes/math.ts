@@ -1,5 +1,4 @@
-import { ParsedOpcode } from 'src/chip8/services'
-import { Chip8 } from 'src/chip8/types'
+import { Chip8, ParsedOpcode } from 'src/chip8/types'
 
 /*
   0x8XY4

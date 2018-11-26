@@ -1,14 +1,10 @@
-import { StartGameRequest } from 'src/chip8/types'
+import { InitializeChip8Request, StartGameRequest } from 'src/chip8/types'
 import { ActionType, createStandardAction } from 'typesafe-actions'
 
 export const chip8Actions = {
   startGame: createStandardAction('[chip8] StartGame')<StartGameRequest>(),
-  initializeChip8State: createStandardAction('[chip8] InitializeChip8State')<void>(),
-  initializeRandomGenerator: createStandardAction('[chip8] InitializeRandomGenerator')<number>(),
-  loadFontset: createStandardAction('[chip8] LoadFontset')<void>(),
-  loadGame: createStandardAction('[chip8] LoadGame')<Uint8Array>(),
+  initializeChip8: createStandardAction('[chip8] InitializeChip8')<InitializeChip8Request>(),
   stopDrawing: createStandardAction('[chip8] StopDrawing')<void>(),
-  decrementTimers: createStandardAction('[chip8] DecrementTimers')<void>(),
   emulateCpuCycle: createStandardAction('[chip8] EmulateCpuCycle')<number>()
 }
 
