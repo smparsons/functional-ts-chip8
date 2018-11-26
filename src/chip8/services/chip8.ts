@@ -5,8 +5,8 @@ import { pipe2, pipe3 } from 'src/functional'
 
 import { cpu } from './cpu'
 
-const initializeChip8 = (game: Uint8Array, randomSeed: number): Chip8 =>
-  pipe3(initializeRandomGenerator(randomSeed), loadFontset, loadGame(game))(chip8InitialState)
+const initializeChip8 = (game: Uint8Array, initialSeed: number): Chip8 =>
+  pipe3(initializeRandomGenerator(initialSeed), loadFontset, loadGame(game))(chip8InitialState)
 
 const initializeRandomGenerator = (initialSeed: number): Chip8Func => (chip8State: Chip8) => ({
   ...chip8State,
