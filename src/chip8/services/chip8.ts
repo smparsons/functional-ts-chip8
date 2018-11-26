@@ -13,17 +13,6 @@ const initializeRandomGenerator = (initialSeed: number): Chip8Func => (chip8Stat
   randomGenerator: prand.congruential(initialSeed)
 })
 
-const loadGame = (game: Uint8Array): Chip8Func => (chip8State: Chip8): Chip8 => ({
-  ...chip8State,
-  memory: Object.assign(
-    Uint8Array.from({ length: 4096 }),
-    chip8State.memory,
-    ...Array.from(game).map((value, index) => ({
-      [index + 0x200]: value
-    }))
-  )
-})
-
 const loadFontset = (chip8State: Chip8): Chip8 => ({
   ...chip8State,
   memory: Object.assign(
@@ -31,6 +20,17 @@ const loadFontset = (chip8State: Chip8): Chip8 => ({
     chip8State.memory,
     ...Array.from(chip8Fontset).map((value, index) => ({
       [index]: value
+    }))
+  )
+})
+
+const loadGame = (game: Uint8Array): Chip8Func => (chip8State: Chip8): Chip8 => ({
+  ...chip8State,
+  memory: Object.assign(
+    Uint8Array.from({ length: 4096 }),
+    chip8State.memory,
+    ...Array.from(game).map((value, index) => ({
+      [index + 0x200]: value
     }))
   )
 })
