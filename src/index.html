@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Chip8 Emulator</title>
+    <script src="/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+  </head>
+  <body>
+    <div id="root">
+      <div id="page-container">
+        <div>
+          <canvas id="playing-field" width=64 height=32 />
+        </div>
+        <div id="game-selection-form-container">
+          <form id="game-selection-form">    
+            <select id="games-dropdown" name="selected-game" />        
+            <input type="submit" value="Play" id="play-button" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

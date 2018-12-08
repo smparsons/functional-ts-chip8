@@ -1,5 +1,4 @@
-import { Func1 } from 'redux'
-import { Chip8, ParsedOpcode } from 'src/chip8/types'
+import { Chip8, Func1, ParsedOpcode } from 'src/chip8/types'
 import { chip8NumberOfColumns, chip8NumberOfRows, chip8SpriteWidth } from 'src/constants'
 
 /*

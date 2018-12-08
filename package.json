@@ -1,38 +1,46 @@
 {
-  "name": "react-redux-chip8",
+  "name": "functional-ts-chip8",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "final-form": "^4.11.0",
-    "pure-rand": "^1.5.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-final-form": "^4.0.2",
-    "react-redux": "^5.1.1",
-    "react-scripts-ts": "3.1.0",
-    "redux": "^4.0.1",
-    "redux-saga": "^0.16.2",
-    "styled-components": "^4.1.1"
-  },
-  "scripts": {
-    "start": "NODE_PATH=./ react-scripts-ts start",
-    "build": "NODE_PATH=./ react-scripts-ts build",
-    "test": "NODE_PATH=./ react-scripts-ts test --env=jsdom",
-    "eject": "NODE_PATH=./ react-scripts-ts eject"
+    "pure-rand": "^1.5.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.9",
-    "@types/react": "^16.7.6",
-    "@types/react-dom": "^16.0.9",
-    "@types/react-redux": "^6.0.9",
-    "@types/styled-components": "^4.1.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "copy-webpack-plugin": "^4.6.0",
+    "jest": "^23.6.0",
     "prettier": "^1.15.2",
     "prettier-tslint": "^0.4.0",
-    "redux-devtools": "^3.4.2",
+    "source-map-loader": "^0.2.4",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
     "tslint-immutable": "^4.9.1",
-    "typesafe-actions": "^2.0.4",
-    "typescript": "^3.1.6"
+    "tslint-loader": "^3.5.4",
+    "typescript": "^3.1.6",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --port 9000 --inline --progress --profile --colors --watch --content-base src/ --mode development",
+    "build": "webpack --config webpack.config.js --mode production",
+    "test": "jest"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "moduleNameMapper": {
+      "src(.*)$": "<rootDir>/src/$1"
+    },
+    "transform": {
+      "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$"
   }
 }

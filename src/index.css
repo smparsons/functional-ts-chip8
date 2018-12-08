@@ -1,0 +1,38 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+}
+
+#page-container {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  height: 100%;
+}
+
+#playing-field {
+  width: 640px;
+  height: 320px;
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+}
+
+#game-selection-form-container {
+  display: grid;
+  grid-gap: 16px;
+  margin: 16px;
+  align-content: start;
+  justify-content: start;
+}
+
+#play-button {
+  justify-self: start;
+}
