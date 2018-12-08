@@ -10,14 +10,10 @@ describe('graphics', () => {
       graphics: Uint8Array.from({ length: 2048 }, () => 0x1)
     }
 
-    const { programCounter, drawFlag, graphics } = clearScreen(currentState)
+    const { programCounter, graphics } = clearScreen(currentState)
 
     it('clears the screen', () => {
       expect(graphics).toEqual(Uint8Array.from({ length: 2048 }))
-    })
-
-    it('sets draw flag to true', () => {
-      expect(drawFlag).toBe(true)
     })
 
     it('increments program counter by two', () => {
@@ -50,10 +46,7 @@ describe('graphics', () => {
         oneDigitConstant: 0x3
       }
 
-      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(
-        currentState,
-        parsedOpcode
-      )
+      const { programCounter, graphics, vRegisters } = drawGraphics(currentState, parsedOpcode)
 
       it('correctly updates pixel state using the xor operation', () => {
         const numberOfBytesToSlice = 8
@@ -73,10 +66,6 @@ describe('graphics', () => {
 
       it('sets carry register to zero', () => {
         expect(vRegisters[0xf]).toBe(0x0)
-      })
-
-      it('sets draw flag to true', () => {
-        expect(drawFlag).toBe(true)
       })
 
       it('increments program counter by two', () => {
@@ -118,10 +107,7 @@ describe('graphics', () => {
         oneDigitConstant: 0x3
       }
 
-      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(
-        currentState,
-        parsedOpcode
-      )
+      const { programCounter, graphics, vRegisters } = drawGraphics(currentState, parsedOpcode)
 
       it('correctly updates pixel state using the xor operation', () => {
         const numberOfBytesToSlice = 8
@@ -141,10 +127,6 @@ describe('graphics', () => {
 
       it('sets carry register to one', () => {
         expect(vRegisters[0xf]).toBe(0x1)
-      })
-
-      it('sets draw flag to true', () => {
-        expect(drawFlag).toBe(true)
       })
 
       it('increments program counter by two', () => {
@@ -185,10 +167,7 @@ describe('graphics', () => {
         oneDigitConstant: 0x3
       }
 
-      const { programCounter, drawFlag, graphics, vRegisters } = drawGraphics(
-        currentState,
-        parsedOpcode
-      )
+      const { programCounter, graphics, vRegisters } = drawGraphics(currentState, parsedOpcode)
 
       it('correctly updates pixel state using the xor operation, and wraps to the other side of the screen', () => {
         const numberOfBytesToSlice = 8
@@ -208,10 +187,6 @@ describe('graphics', () => {
 
       it('sets carry register to one', () => {
         expect(vRegisters[0xf]).toBe(0x1)
-      })
-
-      it('sets draw flag to true', () => {
-        expect(drawFlag).toBe(true)
       })
 
       it('increments program counter by two', () => {

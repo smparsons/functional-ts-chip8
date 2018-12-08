@@ -20,7 +20,6 @@ export interface Chip8 {
   readonly stackPointer: number
   readonly keyState: ReadonlyArray<KeyState>
   readonly randomGenerator: RandomGenerator
-  readonly drawFlag: boolean
   readonly audioFlag: boolean
   readonly error: string | null
 }
@@ -37,7 +36,6 @@ export const chip8InitialState = {
   stackPointer: 0x0000,
   keyState: Array.from({ length: 16 }, () => 0x0),
   randomGenerator: prand.congruential(0),
-  drawFlag: false,
   audioFlag: false,
   error: null
 } as Chip8

@@ -8,7 +8,6 @@ import { chip8NumberOfColumns, chip8NumberOfRows, chip8SpriteWidth } from 'src/c
 export const clearScreen = (chip8State: Chip8): Chip8 => ({
   ...chip8State,
   graphics: Uint8Array.from({ length: 2048 }),
-  drawFlag: true,
   programCounter: chip8State.programCounter + 0x2
 })
 
@@ -49,10 +48,7 @@ const calculatePixelUpdate = (
   chip8State: Chip8,
   coordinateX: number,
   coordinateY: number
-): Func1<CoordinateOffset, PixelUpdateResult> => ({
-  rowOffset,
-  columnOffset
-}: CoordinateOffset): PixelUpdateResult => {
+): Func1<CoordinateOffset, PixelUpdateResult> => ({ rowOffset, columnOffset }: CoordinateOffset): PixelUpdateResult => {
   const { graphics, memory, indexRegister } = chip8State
 
   const xCoordinateToUpdate = (coordinateX + columnOffset) % chip8NumberOfColumns
@@ -60,8 +56,7 @@ const calculatePixelUpdate = (
   const index = xCoordinateToUpdate + yCoordinateToUpdate * chip8NumberOfColumns
   const currentPixelState = graphics[index]
   const memoryPixelRow = memory[indexRegister + rowOffset]
-  const memoryPixel =
-    (memoryPixelRow & (0x80 >>> columnOffset)) >>> (chip8SpriteWidth - 1 - columnOffset)
+  const memoryPixel = (memoryPixelRow & (0x80 >>> columnOffset)) >>> (chip8SpriteWidth - 1 - columnOffset)
 
   return {
     index,
@@ -70,10 +65,7 @@ const calculatePixelUpdate = (
   }
 }
 
-export const drawGraphics = (
-  chip8State: Chip8,
-  { oneDigitConstant, registerX, registerY }: ParsedOpcode
-): Chip8 => {
+export const drawGraphics = (chip8State: Chip8, { oneDigitConstant, registerX, registerY }: ParsedOpcode): Chip8 => {
   const { graphics, vRegisters, programCounter } = chip8State
   const coordinateX = vRegisters[registerX]
   const coordinateY = vRegisters[registerY]
@@ -91,7 +83,6 @@ export const drawGraphics = (
     vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
       [0xf]: pixelUpdates.some(({ collision }) => collision) ? 0x1 : 0x0
     }),
-    drawFlag: true,
     programCounter: programCounter + 0x2
   }
 }
