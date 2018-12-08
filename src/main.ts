@@ -1,4 +1,4 @@
-import { Chip8Emulator, createChip8Emulator } from 'src/chip8'
+import { Chip8Emulator, createChip8Emulator, io } from 'src/chip8'
 import { Func0, Func1 } from 'src/chip8/types'
 import { chip8Games } from 'src/constants'
 
@@ -13,6 +13,8 @@ const setupPage = (document: Document): Func0<void> => (): void => {
   const gameSelectionForm = document.getElementById('game-selection-form')! as HTMLFormElement
   const canvasHtmlElement = document.getElementById('playing-field')! as HTMLCanvasElement
   const canvasContext = canvasHtmlElement.getContext('2d')!
+
+  io.clearCanvasScreen(canvasContext)
 
   gameSelectionForm.onsubmit = startEmulator(emulator, canvasContext, gameSelectionForm)
   document.onkeypress = pressKey(emulator)
