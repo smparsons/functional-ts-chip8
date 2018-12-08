@@ -1,4 +1,4 @@
-import { Chip8, chip8InitialState } from 'src/chip8/types'
+import { Chip8, chip8InitialState, StartGameRequest } from 'src/chip8/types'
 import { numberOfCyclesUntilDraw } from 'src/constants'
 
 import { chip8 } from './chip8'
@@ -17,8 +17,8 @@ export interface Chip8Emulator {
 
   readonly pressKey: (key: string) => void
   readonly releaseKey: (key: string) => void
-  readonly startGame: (gameName: string, canvasContext: CanvasRenderingContext2D) => Promise<void>
-  readonly stepFrame: (canvasContext: CanvasRenderingContext2D) => void
+  readonly startGame: (request: StartGameRequest) => Promise<void>
+  readonly stepFrame: (canvasContext: CanvasRenderingContext2D, audioContext: AudioContext) => void
   readonly reset: () => void
 }
 
@@ -34,24 +34,29 @@ export const createChip8Emulator = (): Chip8Emulator => ({
     this.chip8State = this.animationRequestId ? chip8.releaseKey(key)(this.chip8State) : this.chip8State
   },
 
-  async startGame(gameName: string, canvasContext: CanvasRenderingContext2D): Promise<void> {
+  async startGame({ gameName, canvasContext, audioContext }: StartGameRequest): Promise<void> {
     const game = await getGameBytes(gameName)
     const initialSeed = generateRandomSeed()
 
     this.chip8State = chip8.initializeChip8(game, initialSeed)
 
-    this.animationRequestId = requestAnimationFrame(() => this.stepFrame(canvasContext))
+    this.animationRequestId = requestAnimationFrame(() => this.stepFrame(canvasContext, audioContext))
   },
 
-  stepFrame(canvasContext: CanvasRenderingContext2D): void {
+  stepFrame(canvasContext: CanvasRenderingContext2D, audioContext: AudioContext): void {
     for (let i = 0; i < numberOfCyclesUntilDraw; i++) {
       const opcode = getNextOpcodeFromMemory(this.chip8State)
       this.chip8State = chip8.emulateCpuCycle(opcode)(this.chip8State)
+
+      if (this.chip8State.audioFlag) {
+        io.playBeep(audioContext)
+        this.chip8State = chip8.turnOffAudioFlag(this.chip8State)
+      }
     }
 
     io.renderGraphics(this.chip8State.graphics, canvasContext)
 
-    this.animationRequestId = requestAnimationFrame(() => this.stepFrame(canvasContext))
+    this.animationRequestId = requestAnimationFrame(() => this.stepFrame(canvasContext, audioContext))
   },
 
   reset(): void {

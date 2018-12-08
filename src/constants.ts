@@ -24,7 +24,30 @@ export const chip8KeyMapping = {
   ['v']: 0xf
 }
 
-export const chip8Games = ['15PUZZLE', 'BLINKY', 'BRIX', 'MAZE', 'PONG'] as ReadonlyArray<string>
+export const chip8Games = [
+  '15PUZZLE',
+  'BLINKY',
+  'BRIX',
+  'CONNECT4',
+  'GUESS',
+  'HIDDEN',
+  'INVADERS',
+  'KALEID',
+  'MAZE',
+  'MERLIN',
+  'MISSLE',
+  'PONG',
+  'PONG2',
+  'PUZZLE',
+  'SYZYGY',
+  'TANK',
+  'TETRIS',
+  'TICTAC',
+  'UFO',
+  'VBRIX',
+  'VERS',
+  'WIPEOFF'
+] as ReadonlyArray<string>
 
 // prettier-ignore
 export const chip8Fontset: Uint8Array = 

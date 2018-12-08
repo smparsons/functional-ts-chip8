@@ -16,7 +16,9 @@ const setupPage = (document: Document): Func0<void> => (): void => {
 
   io.clearCanvasScreen(canvasContext)
 
-  gameSelectionForm.onsubmit = startEmulator(emulator, canvasContext, gameSelectionForm)
+  const audioContext = new AudioContext()
+
+  gameSelectionForm.onsubmit = startEmulator(emulator, canvasContext, audioContext, gameSelectionForm)
   document.onkeypress = pressKey(emulator)
   document.onkeyup = releaseKey(emulator)
 }
@@ -32,13 +34,14 @@ const populateGameSelectionDropdown = (gameSelectionDropdown: HTMLSelectElement)
 const startEmulator = (
   emulator: Chip8Emulator,
   canvasContext: CanvasRenderingContext2D,
+  audioContext: AudioContext,
   gameSelectionForm: HTMLFormElement
 ): Func0<boolean> => (): boolean => {
   const formData = new FormData(gameSelectionForm)
   const gameName = formData.get('selected-game') as string
 
   emulator.reset()
-  emulator.startGame(gameName, canvasContext)
+  emulator.startGame({ gameName, canvasContext, audioContext })
 
   return false
 }

@@ -35,8 +35,7 @@ const loadGame = (game: Uint8Array): Chip8Func => (chip8State: Chip8): Chip8 => 
   )
 })
 
-const emulateCpuCycle = (opcode: number): Chip8Func =>
-  pipe2(cpu.executeOpcode(opcode), cpu.decrementTimers)
+const emulateCpuCycle = (opcode: number): Chip8Func => pipe2(cpu.executeOpcode(opcode), cpu.decrementTimers)
 
 const pressKey = (key: string): Chip8Func => (chip8State: Chip8): Chip8 => {
   const mappedKey = chip8KeyMapping[key]
@@ -62,4 +61,9 @@ const releaseKey = (key: string): Chip8Func => (chip8State: Chip8): Chip8 => {
     : chip8State
 }
 
-export const chip8 = { initializeChip8, emulateCpuCycle, pressKey, releaseKey }
+const turnOffAudioFlag = (chip8State: Chip8): Chip8 => ({
+  ...chip8State,
+  audioFlag: false
+})
+
+export const chip8 = { initializeChip8, emulateCpuCycle, pressKey, releaseKey, turnOffAudioFlag }

@@ -60,9 +60,6 @@ export type Chip8Func = Func1<Chip8, Chip8>
 
 export interface StartGameRequest {
   readonly gameName: string
-}
-
-export interface InitializeChip8Request {
-  readonly game: Uint8Array
-  readonly initialSeed: number
+  readonly canvasContext: CanvasRenderingContext2D
+  readonly audioContext: AudioContext
 }

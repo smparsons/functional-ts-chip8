@@ -22,4 +22,15 @@ const renderGraphics = (graphics: Uint8Array, canvasContext: CanvasRenderingCont
   }
 }
 
-export const io = { clearCanvasScreen, renderGraphics }
+const playBeep = (audioContext: AudioContext): void => {
+  const oscillator = audioContext.createOscillator()
+  const gain = audioContext.createGain()
+  oscillator.connect(gain)
+  oscillator.frequency.value = 400
+  gain.connect(audioContext.destination)
+  gain.gain.value = 1
+  oscillator.start(audioContext.currentTime)
+  oscillator.stop(audioContext.currentTime + 0.1)
+}
+
+export const io = { clearCanvasScreen, renderGraphics, playBeep }
