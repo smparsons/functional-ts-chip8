@@ -1,4 +1,4 @@
-import { chip8NumberOfColumns, chip8NumberOfRows } from 'src/constants'
+import { chip8NumberOfColumns, chip8NumberOfRows, defaultPixelColor } from 'src/constants'
 
 // tslint:disable:no-object-mutation
 // tslint:disable:no-let
@@ -16,7 +16,7 @@ const renderGraphics = (graphics: Uint8Array, canvasContext: CanvasRenderingCont
       const coordinateX = i % chip8NumberOfColumns
       const coordinateY = Math.floor(i / chip8NumberOfColumns)
 
-      canvasContext.fillStyle = '#ffffff'
+      canvasContext.fillStyle = defaultPixelColor
       canvasContext.fillRect(coordinateX, coordinateY, 1, 1)
     }
   }

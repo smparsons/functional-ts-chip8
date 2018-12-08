@@ -3,6 +3,8 @@ export const chip8NumberOfRows = 32
 export const chip8SpriteWidth = 8
 export const numberOfCyclesUntilDraw = 10
 
+export const defaultPixelColor = '#80ff80'
+
 export const chip8KeyMapping = {
   ['1']: 0x1,
   ['2']: 0x2,
