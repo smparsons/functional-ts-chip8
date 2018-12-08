@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { Chip8, chip8InitialState } from 'src/chip8/types'
 import { chip8NumberOfColumns, chip8NumberOfRows, numberOfCyclesUntilDraw } from 'src/constants'
 
@@ -27,15 +26,11 @@ export const createChip8Emulator = (): Chip8Emulator => ({
   animationRequestId: undefined,
 
   pressKey(key: string): void {
-    this.chip8State = this.animationRequestId
-      ? chip8.pressKey(key)(this.chip8State)
-      : this.chip8State
+    this.chip8State = this.animationRequestId ? chip8.pressKey(key)(this.chip8State) : this.chip8State
   },
 
   releaseKey(key: string): void {
-    this.chip8State = this.animationRequestId
-      ? chip8.releaseKey(key)(this.chip8State)
-      : this.chip8State
+    this.chip8State = this.animationRequestId ? chip8.releaseKey(key)(this.chip8State) : this.chip8State
   },
 
   async startGame(gameName: string, canvasContext: CanvasRenderingContext2D): Promise<void> {
@@ -69,8 +64,9 @@ export const createChip8Emulator = (): Chip8Emulator => ({
 })
 
 const getGameBytes = async (gameName: string): Promise<Uint8Array> => {
-  const buffer = await axios.get(`/roms/${gameName}`, { responseType: 'arraybuffer' })
-  return new Uint8Array(buffer.data)
+  const response = await fetch(`/roms/${gameName}`)
+  const buffer = await response.arrayBuffer()
+  return new Uint8Array(buffer)
 }
 
 const generateRandomSeed = (): number => Math.floor(Math.random() * 1000)
