@@ -14,7 +14,7 @@ I was a little concerned at first because a downside of not mutating state is sl
 
 ## How to Run
 
-You will need to have node and npm setup first because you can run this program locally. 
+You will need to have node and npm setup first before you can run this program locally. 
 
 ### Installing and Running
 
