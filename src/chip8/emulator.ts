@@ -35,8 +35,8 @@ export const createChip8Emulator = (): Chip8Emulator => ({
   },
 
   async startGame({ gameName, canvasContext, audioContext }: StartGameRequest): Promise<void> {
-    const game = await getGameBytes(gameName)
-    const initialSeed = generateRandomSeed()
+    const game = await io.getGameBytes(gameName)
+    const initialSeed = io.generateRandomSeed()
 
     this.chip8State = chip8.initializeChip8(game, initialSeed)
 
@@ -68,14 +68,6 @@ export const createChip8Emulator = (): Chip8Emulator => ({
     }
   }
 })
-
-const getGameBytes = async (gameName: string): Promise<Uint8Array> => {
-  const response = await fetch(`/roms/${gameName}`)
-  const buffer = await response.arrayBuffer()
-  return new Uint8Array(buffer)
-}
-
-const generateRandomSeed = (): number => Math.floor(Math.random() * 1000)
 
 const getNextOpcodeFromMemory = ({ memory, programCounter }: Chip8): number =>
   (memory[programCounter] << 8) | memory[programCounter + 1]

@@ -33,4 +33,12 @@ const playBeep = (audioContext: AudioContext): void => {
   oscillator.stop(audioContext.currentTime + 0.1)
 }
 
-export const io = { clearCanvasScreen, renderGraphics, playBeep }
+const getGameBytes = async (gameName: string): Promise<Uint8Array> => {
+  const response = await fetch(`/roms/${gameName}`)
+  const buffer = await response.arrayBuffer()
+  return new Uint8Array(buffer)
+}
+
+const generateRandomSeed = (): number => Math.floor(Math.random() * 1000)
+
+export const io = { clearCanvasScreen, renderGraphics, playBeep, getGameBytes, generateRandomSeed }
