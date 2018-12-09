@@ -1,4 +1,5 @@
 import { chip8InitialState, parsedOpcodeInitialState } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 import { clearScreen, drawGraphics } from './graphics'
 
@@ -26,12 +27,12 @@ describe('graphics', () => {
       const currentState = {
         ...chip8InitialState,
         indexRegister: 0x3ac,
-        memory: Object.assign(Uint8Array.from({ length: 4096 }), chip8InitialState.memory, {
+        memory: updateUint8Array(chip8InitialState.memory, {
           [0x3ac]: 0x25,
           [0x3ad]: 0x3c,
           [0x3ae]: 0xfd
         }),
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           [0x7]: 0x13,
           [0xb]: 0xa,
           [0xf]: 0x0
@@ -77,12 +78,12 @@ describe('graphics', () => {
       const currentState = {
         ...chip8InitialState,
         indexRegister: 0x2fd,
-        memory: Object.assign(Uint8Array.from({ length: 4096 }), chip8InitialState.memory, {
+        memory: updateUint8Array(chip8InitialState.memory, {
           [0x2fd]: 0x42,
           [0x2fe]: 0xfb,
           [0x2ff]: 0x1a
         }),
-        graphics: Object.assign(Uint8Array.from({ length: 2048 }), chip8InitialState.graphics, {
+        graphics: updateUint8Array(chip8InitialState.graphics, {
           [0x1c + 0x15 * 64]: 1,
           [0x1e + 0x15 * 64]: 1,
           [0x20 + 0x15 * 64]: 1,
@@ -92,7 +93,7 @@ describe('graphics', () => {
           [0x1a + 0x17 * 64]: 1,
           [0x1c + 0x17 * 64]: 1
         }),
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           [0xc]: 0x1a,
           [0xa]: 0x15,
           [0xf]: 0x0
@@ -138,12 +139,12 @@ describe('graphics', () => {
       const currentState = {
         ...chip8InitialState,
         indexRegister: 0x31b,
-        memory: Object.assign(Uint8Array.from({ length: 4096 }), chip8InitialState.memory, {
+        memory: updateUint8Array(chip8InitialState.memory, {
           [0x31b]: 0x25,
           [0x31c]: 0xa3,
           [0x31d]: 0x7c
         }),
-        graphics: Object.assign(Uint8Array.from({ length: 2048 }), chip8InitialState.graphics, {
+        graphics: updateUint8Array(chip8InitialState.graphics, {
           [0x28 + 0x1e * 64]: 1,
           [0x2a + 0x1e * 64]: 1,
           [0x2c + 0x1e * 64]: 1,
@@ -152,7 +153,7 @@ describe('graphics', () => {
           [0x28]: 1,
           [0x2a]: 1
         }),
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           [0xb]: 0x28,
           [0x5]: 0x1e,
           [0xf]: 0x0

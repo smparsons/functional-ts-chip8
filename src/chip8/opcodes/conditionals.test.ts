@@ -1,4 +1,5 @@
 import { chip8InitialState, parsedOpcodeInitialState } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 import {
     registerDoesNotEqualConstant, registerEqualsConstant, registersAreEqual, registersAreNotEqual
@@ -10,7 +11,7 @@ describe('conditionals', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x25b,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           10: 0x23
         })
       }
@@ -26,7 +27,7 @@ describe('conditionals', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x2d4,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           12: 0xe1
         })
       }
@@ -44,7 +45,7 @@ describe('conditionals', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x31c,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           5: 0x6c
         })
       }
@@ -60,7 +61,7 @@ describe('conditionals', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x23c,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           1: 0xa8
         })
       }
@@ -78,7 +79,7 @@ describe('conditionals', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x21a,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           11: 0x9a,
           13: 0x9a
         })
@@ -95,7 +96,7 @@ describe('conditionals', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x2ff,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           2: 0xe1,
           12: 0x3c
         })
@@ -114,7 +115,7 @@ describe('conditionals', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x231,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           12: 0x4a,
           2: 0x29
         })
@@ -131,7 +132,7 @@ describe('conditionals', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x2ee,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           11: 0x7c,
           15: 0x7c
         })

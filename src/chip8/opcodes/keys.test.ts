@@ -1,4 +1,5 @@
 import { chip8InitialState, KeyState, parsedOpcodeInitialState } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 import { awaitKeyPress, keyIsNotPressed, keyIsPressed } from './keys'
 
@@ -8,10 +9,10 @@ describe('keys', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x200,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           10: 0xc
         }),
-        keyState: Object.assign(Array.from({ length: 16 }), chip8InitialState.keyState, {
+        keyState: Object.assign([...chip8InitialState.keyState], {
           12: KeyState.Pressed
         })
       }
@@ -29,10 +30,10 @@ describe('keys', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x250,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           5: 0xa
         }),
-        keyState: Object.assign(Array.from({ length: 16 }), chip8InitialState.keyState, {
+        keyState: Object.assign([...chip8InitialState.keyState], {
           10: KeyState.Released
         })
       }
@@ -53,10 +54,10 @@ describe('keys', () => {
         ...chip8InitialState,
         opcode: 0xe7a1,
         programCounter: 0x220,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           7: 0x1
         }),
-        keyState: Object.assign(Array.from({ length: 16 }), chip8InitialState.keyState, {
+        keyState: Object.assign([...chip8InitialState.keyState], {
           1: KeyState.Released
         })
       }
@@ -74,10 +75,10 @@ describe('keys', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x27a,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           2: 0xd
         }),
-        keyState: Object.assign([], chip8InitialState.keyState, {
+        keyState: Object.assign([...chip8InitialState.keyState], {
           13: KeyState.Pressed
         })
       }
@@ -97,7 +98,7 @@ describe('keys', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x280,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           6: 0x3b
         })
       }
@@ -119,10 +120,10 @@ describe('keys', () => {
       const currentState = {
         ...chip8InitialState,
         programCounter: 0x312,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+        vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
           9: 0x7c
         }),
-        keyState: Object.assign(Array.from({ length: 16 }), chip8InitialState.keyState, {
+        keyState: Object.assign([...chip8InitialState.keyState], {
           3: KeyState.Pressed
         })
       }

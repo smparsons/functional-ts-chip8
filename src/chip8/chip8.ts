@@ -1,7 +1,7 @@
 import prand from 'pure-rand'
 import { Chip8, Chip8Func, chip8InitialState, KeyState } from 'src/chip8/types'
 import { chip8Fontset, chip8KeyMapping } from 'src/constants'
-import { pipe2, pipe3 } from 'src/functional'
+import { pipe2, pipe3, updateUint8Array } from 'src/functional'
 
 import { cpu } from './cpu'
 
@@ -15,8 +15,7 @@ const initializeRandomGenerator = (initialSeed: number): Chip8Func => (chip8Stat
 
 const loadFontset = (chip8State: Chip8): Chip8 => ({
   ...chip8State,
-  memory: Object.assign(
-    Uint8Array.from({ length: 4096 }),
+  memory: updateUint8Array(
     chip8State.memory,
     ...Array.from(chip8Fontset).map((value, index) => ({
       [index]: value
@@ -26,8 +25,7 @@ const loadFontset = (chip8State: Chip8): Chip8 => ({
 
 const loadGame = (game: Uint8Array): Chip8Func => (chip8State: Chip8): Chip8 => ({
   ...chip8State,
-  memory: Object.assign(
-    Uint8Array.from({ length: 4096 }),
+  memory: updateUint8Array(
     chip8State.memory,
     ...Array.from(game).map((value, index) => ({
       [index + 0x200]: value
@@ -42,7 +40,7 @@ const pressKey = (chip8State: Chip8, key: string): Chip8 => {
   return mappedKey
     ? {
         ...chip8State,
-        keyState: Object.assign(Array.from({ length: 16 }), chip8State.keyState, {
+        keyState: Object.assign([...chip8State.keyState], {
           [mappedKey]: KeyState.Pressed
         })
       }
@@ -54,7 +52,7 @@ const releaseKey = (chip8State: Chip8, key: string): Chip8 => {
   return mappedKey
     ? {
         ...chip8State,
-        keyState: Object.assign(Array.from({ length: 16 }), chip8State.keyState, {
+        keyState: Object.assign([...chip8State.keyState], {
           [mappedKey]: KeyState.Released
         })
       }

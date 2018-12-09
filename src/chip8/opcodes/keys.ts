@@ -1,4 +1,5 @@
 import { Chip8, KeyState, ParsedOpcode } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 /*
   0xEX9E
@@ -9,10 +10,7 @@ export const keyIsPressed = (chip8State: Chip8, { registerX }: ParsedOpcode): Ch
   const { keyState, programCounter, vRegisters } = chip8State
   return {
     ...chip8State,
-    programCounter:
-      keyState[vRegisters[registerX]] === KeyState.Pressed
-        ? programCounter + 0x4
-        : programCounter + 0x2
+    programCounter: keyState[vRegisters[registerX]] === KeyState.Pressed ? programCounter + 0x4 : programCounter + 0x2
   }
 }
 
@@ -25,10 +23,7 @@ export const keyIsNotPressed = (chip8State: Chip8, { registerX }: ParsedOpcode):
   const { keyState, programCounter, vRegisters } = chip8State
   return {
     ...chip8State,
-    programCounter:
-      keyState[vRegisters[registerX]] === KeyState.Released
-        ? programCounter + 0x4
-        : programCounter + 0x2
+    programCounter: keyState[vRegisters[registerX]] === KeyState.Released ? programCounter + 0x4 : programCounter + 0x2
   }
 }
 
@@ -44,7 +39,7 @@ export const awaitKeyPress = (chip8State: Chip8, { registerX }: ParsedOpcode): C
   return pressedKey !== -1
     ? {
         ...chip8State,
-        vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+        vRegisters: updateUint8Array(vRegisters, {
           [registerX]: pressedKey
         }),
         programCounter: programCounter + 0x2

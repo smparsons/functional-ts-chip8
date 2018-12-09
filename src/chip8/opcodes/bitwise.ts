@@ -1,5 +1,6 @@
 import prand from 'pure-rand'
 import { Chip8, ParsedOpcode } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 /*
   0x8XY1
@@ -9,7 +10,7 @@ export const bitwiseOr = (chip8State: Chip8, { registerX, registerY }: ParsedOpc
   const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+    vRegisters: updateUint8Array(vRegisters, {
       [registerX]: vRegisters[registerX] | vRegisters[registerY]
     }),
     programCounter: programCounter + 0x2
@@ -24,7 +25,7 @@ export const bitwiseAnd = (chip8State: Chip8, { registerX, registerY }: ParsedOp
   const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+    vRegisters: updateUint8Array(vRegisters, {
       [registerX]: vRegisters[registerX] & vRegisters[registerY]
     }),
     programCounter: programCounter + 0x2
@@ -35,15 +36,12 @@ export const bitwiseAnd = (chip8State: Chip8, { registerX, registerY }: ParsedOp
   0xCXNN
   Sets VX to the result of a bitwise and operation on a random number (Typically: 0 to 255) and NN.
 */
-export const randomBitwiseAnd = (
-  chip8State: Chip8,
-  { registerX, twoDigitConstant }: ParsedOpcode
-): Chip8 => {
+export const randomBitwiseAnd = (chip8State: Chip8, { registerX, twoDigitConstant }: ParsedOpcode): Chip8 => {
   const { vRegisters, programCounter, randomGenerator } = chip8State
   const [randomNumber, newRandomGenerator] = prand.uniformIntDistribution(0, 255)(randomGenerator)
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+    vRegisters: updateUint8Array(vRegisters, {
       [registerX]: randomNumber & twoDigitConstant
     }),
     randomGenerator: newRandomGenerator,
@@ -59,7 +57,7 @@ export const bitwiseXor = (chip8State: Chip8, { registerX, registerY }: ParsedOp
   const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+    vRegisters: updateUint8Array(vRegisters, {
       [registerX]: vRegisters[registerX] ^ vRegisters[registerY]
     }),
     programCounter: programCounter + 0x2
@@ -74,7 +72,7 @@ export const shiftRight = (chip8State: Chip8, { registerX }: ParsedOpcode): Chip
   const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+    vRegisters: updateUint8Array(vRegisters, {
       [registerX]: vRegisters[registerX] >>> 1,
       [0xf]: vRegisters[registerX] & 0x1
     }),
@@ -90,7 +88,7 @@ export const shiftLeft = (chip8State: Chip8, { registerX }: ParsedOpcode): Chip8
   const { vRegisters, programCounter } = chip8State
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+    vRegisters: updateUint8Array(vRegisters, {
       [registerX]: vRegisters[registerX] << 1,
       [0xf]: vRegisters[registerX] >>> 7
     }),

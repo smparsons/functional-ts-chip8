@@ -1,4 +1,5 @@
 import { Chip8, ParsedOpcode } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 /*
   0xFX07
@@ -8,7 +9,7 @@ export const setRegisterToDelayTimer = (chip8State: Chip8, { registerX }: Parsed
   const { vRegisters, delayTimer, programCounter } = chip8State
   return {
     ...chip8State,
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+    vRegisters: updateUint8Array(vRegisters, {
       [registerX]: delayTimer
     }),
     programCounter: programCounter + 0x2

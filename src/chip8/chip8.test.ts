@@ -32,7 +32,7 @@ describe('chip8', () => {
   describe('pressKey', () => {
     const currentState = {
       ...chip8InitialState,
-      keyState: Object.assign(Array.from({ length: 16 }), chip8InitialState.keyState, {
+      keyState: Object.assign([...chip8InitialState.keyState], {
         3: KeyState.Pressed,
         7: KeyState.Pressed
       })
@@ -65,7 +65,7 @@ describe('chip8', () => {
   describe('releaseKey', () => {
     const currentState = {
       ...chip8InitialState,
-      keyState: Object.assign(Array.from({ length: 16 }), chip8InitialState.keyState, {
+      keyState: Object.assign([...chip8InitialState.keyState], {
         5: KeyState.Pressed
       })
     }

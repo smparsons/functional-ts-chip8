@@ -1,4 +1,5 @@
 import { chip8InitialState, parsedOpcodeInitialState } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 import { assignToRegister } from './assignment'
 
@@ -7,7 +8,7 @@ describe('assignment', () => {
     const currentState = {
       ...chip8InitialState,
       programCounter: 0x27a,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         [0xc]: 0x25,
         [0x5]: 0xa1
       })

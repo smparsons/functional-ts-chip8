@@ -1,5 +1,6 @@
 import { Chip8, Func1, ParsedOpcode } from 'src/chip8/types'
 import { chip8NumberOfColumns, chip8NumberOfRows, chip8SpriteWidth } from 'src/constants'
+import { updateUint8Array } from 'src/functional'
 
 /*
   0x00E0
@@ -75,12 +76,8 @@ export const drawGraphics = (chip8State: Chip8, { oneDigitConstant, registerX, r
 
   return {
     ...chip8State,
-    graphics: Object.assign(
-      Uint8Array.from({ length: 2048 }),
-      graphics,
-      ...pixelUpdates.map(({ index, result }) => ({ [index]: result }))
-    ),
-    vRegisters: Object.assign(Uint8Array.from({ length: 16 }), vRegisters, {
+    graphics: updateUint8Array(graphics, ...pixelUpdates.map(({ index, result }) => ({ [index]: result }))),
+    vRegisters: updateUint8Array(vRegisters, {
       [0xf]: pixelUpdates.some(({ collision }) => collision) ? 0x1 : 0x0
     }),
     programCounter: programCounter + 0x2

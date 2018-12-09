@@ -1,5 +1,6 @@
 import prand from 'pure-rand'
 import { chip8InitialState, parsedOpcodeInitialState } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 import {
     bitwiseAnd, bitwiseOr, bitwiseXor, randomBitwiseAnd, shiftLeft, shiftRight
@@ -10,7 +11,7 @@ describe('bitwise', () => {
     const currentState = {
       ...chip8InitialState,
       programCounter: 0x24a,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         11: 0xce,
         13: 0xa1
       })
@@ -33,7 +34,7 @@ describe('bitwise', () => {
     const currentState = {
       ...chip8InitialState,
       programCounter: 0x28c,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         3: 0x0a,
         7: 0xcf
       })
@@ -57,7 +58,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       programCounter: 0x24d,
       randomGenerator: prand.congruential(1),
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         5: 0xde
       })
     }
@@ -79,7 +80,7 @@ describe('bitwise', () => {
     const currentState = {
       ...chip8InitialState,
       programCounter: 0x27d,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         5: 0xc1,
         10: 0x0f
       })
@@ -102,7 +103,7 @@ describe('bitwise', () => {
     const currentState = {
       ...chip8InitialState,
       programCounter: 0x31e,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         7: 0xb1
       })
     }
@@ -129,7 +130,7 @@ describe('bitwise', () => {
       ...chip8InitialState,
       opcode: 0x812e,
       programCounter: 0x30f,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         1: 0xb7
       })
     }

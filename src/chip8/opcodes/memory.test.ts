@@ -1,4 +1,5 @@
 import { chip8InitialState, parsedOpcodeInitialState } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 import {
     addRegisterXToIndexRegister, registerDump, registerLoad, setIndexRegisterToAddress, storeBCD,
@@ -29,7 +30,7 @@ describe('memory', () => {
     const currentState = {
       ...chip8InitialState,
       indexRegister: 0x2bf,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         12: 0x5c
       }),
       programCounter: 0x2fd
@@ -37,10 +38,7 @@ describe('memory', () => {
 
     const parsedOpcode = { ...parsedOpcodeInitialState, registerX: 0xc }
 
-    const { indexRegister, programCounter } = addRegisterXToIndexRegister(
-      currentState,
-      parsedOpcode
-    )
+    const { indexRegister, programCounter } = addRegisterXToIndexRegister(currentState, parsedOpcode)
 
     it('adds register x to index register', () => {
       expect(indexRegister).toBe(0x31b)
@@ -55,7 +53,7 @@ describe('memory', () => {
     const currentState = {
       ...chip8InitialState,
       indexRegister: 0x1ac,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         0: 0x13,
         1: 0x2a,
         2: 0x5c,
@@ -89,7 +87,7 @@ describe('memory', () => {
       ...chip8InitialState,
       opcode: 0xf565,
       indexRegister: 0x20c,
-      memory: Object.assign(Uint8Array.from({ length: 4096 }), chip8InitialState.memory, {
+      memory: updateUint8Array(chip8InitialState.memory, {
         [0x20c]: 0x7a,
         [0x20d]: 0xc1,
         [0x20e]: 0x3b,
@@ -119,7 +117,7 @@ describe('memory', () => {
     const currentState = {
       ...chip8InitialState,
       indexRegister: 0x17b,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         7: 0xaf
       }),
       programCounter: 0x232
@@ -145,7 +143,7 @@ describe('memory', () => {
     const currentState = {
       ...chip8InitialState,
       indexRegister: 0x213,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         5: 0xa
       }),
       programCounter: 0x240

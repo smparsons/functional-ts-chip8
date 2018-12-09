@@ -1,13 +1,11 @@
 import { Chip8, ParsedOpcode } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 /*
   0xANNN
   Sets I to the address NNN.
 */
-export const setIndexRegisterToAddress = (
-  chip8State: Chip8,
-  { threeDigitConstant }: ParsedOpcode
-): Chip8 => {
+export const setIndexRegisterToAddress = (chip8State: Chip8, { threeDigitConstant }: ParsedOpcode): Chip8 => {
   const { programCounter } = chip8State
   return {
     ...chip8State,
@@ -20,10 +18,7 @@ export const setIndexRegisterToAddress = (
   0xFX1E
   Adds VX to I.
 */
-export const addRegisterXToIndexRegister = (
-  chip8State: Chip8,
-  { registerX }: ParsedOpcode
-): Chip8 => {
+export const addRegisterXToIndexRegister = (chip8State: Chip8, { registerX }: ParsedOpcode): Chip8 => {
   const { vRegisters, programCounter, indexRegister } = chip8State
   return {
     ...chip8State,
@@ -43,8 +38,7 @@ export const registerDump = (chip8State: Chip8, { registerX }: ParsedOpcode): Ch
 
   return {
     ...chip8State,
-    memory: Object.assign(
-      Uint8Array.from({ length: 4096 }),
+    memory: updateUint8Array(
       memory,
       ...registersToProcess.map((value, index) => ({
         [indexRegister + index]: value
@@ -62,17 +56,11 @@ export const registerDump = (chip8State: Chip8, { registerX }: ParsedOpcode): Ch
 export const registerLoad = (chip8State: Chip8, { registerX }: ParsedOpcode): Chip8 => {
   const { vRegisters, programCounter, indexRegister, memory } = chip8State
   const numberOfBytesToSlice = registerX + 1
-  const memoryValuesToProcess = Array.from(
-    memory.slice(indexRegister, indexRegister + numberOfBytesToSlice)
-  )
+  const memoryValuesToProcess = Array.from(memory.slice(indexRegister, indexRegister + numberOfBytesToSlice))
 
   return {
     ...chip8State,
-    vRegisters: Object.assign(
-      Uint8Array.from({ length: 16 }),
-      vRegisters,
-      ...memoryValuesToProcess.map((value, index) => ({ [index]: value }))
-    ),
+    vRegisters: updateUint8Array(vRegisters, ...memoryValuesToProcess.map((value, index) => ({ [index]: value }))),
     programCounter: programCounter + 0x2
   }
 }
@@ -88,7 +76,7 @@ export const storeBCD = (chip8State: Chip8, { registerX }: ParsedOpcode): Chip8 
   const { vRegisters, programCounter, indexRegister, memory } = chip8State
   return {
     ...chip8State,
-    memory: Object.assign(Uint8Array.from({ length: 4096 }), memory, {
+    memory: updateUint8Array(memory, {
       [indexRegister]: vRegisters[registerX] / 100,
       [indexRegister + 1]: (vRegisters[registerX] / 10) % 10,
       [indexRegister + 2]: (vRegisters[registerX] % 100) % 10

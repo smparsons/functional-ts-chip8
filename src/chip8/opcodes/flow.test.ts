@@ -1,4 +1,5 @@
 import { chip8InitialState, parsedOpcodeInitialState } from 'src/chip8/types'
+import { updateUint8Array } from 'src/functional'
 
 import {
     callSubroutine, jumpToAddress, jumpToAddressPlusRegisterZero, returnFromSubroutine
@@ -79,7 +80,7 @@ describe('flow', () => {
   describe('jumpToAddressPlusRegisterZero', () => {
     const currentState = {
       ...chip8InitialState,
-      vRegisters: Object.assign(Uint8Array.from({ length: 16 }), chip8InitialState.vRegisters, {
+      vRegisters: updateUint8Array(chip8InitialState.vRegisters, {
         0: 0x51
       }),
       programCounter: 0x12a
