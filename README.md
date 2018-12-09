@@ -4,7 +4,7 @@
 
 This is my CHIP-8 emulator written in Typescript with ES6. I also wrote this emulator using the functional programming paradigm. All of the CPU has been coded using pure functions that do not mutate state. I have also tried to push all side effects to the edges of my program as much as possible. `emulator.ts` is the one area of the program where I was forced to use a stateful object. 
 
-This program also has only one dependency. This program was originally written using React and Redux, but I removed these dependencies because they weren't providing any benefit at all. 
+This program also has only one dependency. It was originally written using React and Redux, but I removed these dependencies because they weren't providing any benefit at all. 
 
 ## Why Functional Programming?
 
