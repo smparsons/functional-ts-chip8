@@ -2,14 +2,24 @@ import { Chip8Emulator, createChip8Emulator, io } from 'src/chip8'
 import { Func0, Func1 } from 'src/chip8/types'
 import { chip8Games } from 'src/constants'
 
+const documentIds = {
+  gamesDropdown: 'games-dropdown',
+  gameSelectionForm: 'game-selection-form',
+  playingField: 'playing-field'
+}
+
+const formFields = {
+  selectedGame: 'selected-game'
+}
+
 const setupPage = (document: Document): Func0<void> => (): void => {
-  const gameSelectionDropdown = document.getElementById('games-dropdown')! as HTMLSelectElement
-  populateGameSelectionDropdown(gameSelectionDropdown)
+  const gameSelectionDropdown = document.getElementById(documentIds.gamesDropdown)! as HTMLSelectElement
+  populateDropdownWithGames(gameSelectionDropdown)
 
   const emulator = createChip8Emulator()
 
-  const gameSelectionForm = document.getElementById('game-selection-form')! as HTMLFormElement
-  const canvasHtmlElement = document.getElementById('playing-field')! as HTMLCanvasElement
+  const gameSelectionForm = document.getElementById(documentIds.gameSelectionForm)! as HTMLFormElement
+  const canvasHtmlElement = document.getElementById(documentIds.playingField)! as HTMLCanvasElement
   const canvasContext = canvasHtmlElement.getContext('2d')!
 
   io.clearCanvasScreen(canvasContext)
@@ -21,11 +31,11 @@ const setupPage = (document: Document): Func0<void> => (): void => {
   document.onkeyup = releaseKey(emulator)
 }
 
-const populateGameSelectionDropdown = (gameSelectionDropdown: HTMLSelectElement): void => {
+const populateDropdownWithGames = (dropdown: HTMLSelectElement): void => {
   chip8Games
     .map(gameName => new Option(gameName, gameName))
     .forEach(gameDropdownOption => {
-      gameSelectionDropdown.options.add(gameDropdownOption)
+      dropdown.options.add(gameDropdownOption)
     })
 }
 
@@ -36,7 +46,7 @@ const startEmulator = (
   gameSelectionForm: HTMLFormElement
 ): Func0<boolean> => (): boolean => {
   const formData = new FormData(gameSelectionForm)
-  const gameName = formData.get('selected-game') as string
+  const gameName = formData.get(formFields.selectedGame) as string
 
   emulator.reset()
   emulator.startGame({ gameName, canvasContext, audioContext })
