@@ -23,9 +23,9 @@ const playBeep = (audioContext: AudioContext): void => {
   const oscillator = audioContext.createOscillator()
   const gain = audioContext.createGain()
   oscillator.connect(gain)
-  oscillator.frequency.value = 400
+  oscillator.frequency.setTargetAtTime(400, audioContext.currentTime, 0.01)
   gain.connect(audioContext.destination)
-  gain.gain.value = 1
+  gain.gain.setTargetAtTime(1, audioContext.currentTime, 0.01)
   oscillator.start(audioContext.currentTime)
   oscillator.stop(audioContext.currentTime + 0.1)
 }
