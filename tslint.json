@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-prettier", "tslint-immutable"],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
@@ -14,19 +14,8 @@
     "interface-name": false,
     "no-any": true,
     "no-bitwise": false,
-    "no-class": true,
-    "no-delete": true,
-    "no-if-statement": false,
-    "no-let": true,
-    "no-method-signature": true,
-    "no-mixed-interface": true,
-    "no-object-mutation": true,
-    "no-parameter-reassignment": true,
-    "no-this": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
-    "readonly-array": true,
-    "readonly-keyword": true,
     "typedef": [true, "call-signature"]
   }
 }

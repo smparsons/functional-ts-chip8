@@ -2,8 +2,6 @@ import { Chip8Emulator, createChip8Emulator, io } from 'src/chip8'
 import { Func0, Func1 } from 'src/chip8/types'
 import { chip8Games } from 'src/constants'
 
-// tslint:disable:no-object-mutation
-
 const setupPage = (document: Document): Func0<void> => (): void => {
   const gameSelectionDropdown = document.getElementById('games-dropdown')! as HTMLSelectElement
   populateGameSelectionDropdown(gameSelectionDropdown)

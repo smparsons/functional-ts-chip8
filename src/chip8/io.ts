@@ -1,8 +1,5 @@
 import { chip8NumberOfColumns, chip8NumberOfRows, defaultPixelColor } from 'src/constants'
 
-// tslint:disable:no-object-mutation
-// tslint:disable:no-let
-
 const clearCanvasScreen = (canvasContext: CanvasRenderingContext2D): void => {
   canvasContext.fillStyle = '#000000'
   canvasContext.fillRect(0, 0, chip8NumberOfColumns, chip8NumberOfRows)

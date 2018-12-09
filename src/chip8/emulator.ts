@@ -4,13 +4,6 @@ import { numberOfCyclesUntilDraw } from 'src/constants'
 import { chip8 } from './chip8'
 import { io } from './io'
 
-// tslint:disable:no-mixed-interface
-// tslint:disable:readonly-keyword
-// tslint:disable:no-object-mutation
-// tslint:disable:no-this
-// tslint:disable:prefer-for-of
-// tslint:disable:no-let
-
 export interface Chip8Emulator {
   chip8State: Chip8
   animationRequestId: number | undefined
