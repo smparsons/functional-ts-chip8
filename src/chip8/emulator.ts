@@ -27,11 +27,11 @@ export const createChip8Emulator = (): Chip8Emulator => ({
   animationRequestId: undefined,
 
   pressKey(key: string): void {
-    this.chip8State = this.animationRequestId ? chip8.pressKey(key)(this.chip8State) : this.chip8State
+    this.chip8State = this.animationRequestId ? chip8.pressKey(this.chip8State, key) : this.chip8State
   },
 
   releaseKey(key: string): void {
-    this.chip8State = this.animationRequestId ? chip8.releaseKey(key)(this.chip8State) : this.chip8State
+    this.chip8State = this.animationRequestId ? chip8.releaseKey(this.chip8State, key) : this.chip8State
   },
 
   async startGame({ gameName, canvasContext, audioContext }: StartGameRequest): Promise<void> {
@@ -45,8 +45,7 @@ export const createChip8Emulator = (): Chip8Emulator => ({
 
   stepFrame(canvasContext: CanvasRenderingContext2D, audioContext: AudioContext): void {
     for (let i = 0; i < numberOfCyclesUntilDraw; i++) {
-      const opcode = getNextOpcodeFromMemory(this.chip8State)
-      this.chip8State = chip8.emulateCpuCycle(opcode)(this.chip8State)
+      this.chip8State = chip8.emulateCpuCycle(this.chip8State)
 
       if (this.chip8State.audioFlag) {
         io.playBeep(audioContext)
@@ -68,6 +67,3 @@ export const createChip8Emulator = (): Chip8Emulator => ({
     }
   }
 })
-
-const getNextOpcodeFromMemory = ({ memory, programCounter }: Chip8): number =>
-  (memory[programCounter] << 8) | memory[programCounter + 1]

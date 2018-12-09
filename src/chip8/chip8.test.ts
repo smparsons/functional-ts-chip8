@@ -38,7 +38,7 @@ describe('chip8', () => {
       })
     }
 
-    const { keyState } = chip8.pressKey('2')(currentState)
+    const { keyState } = chip8.pressKey(currentState, '2')
 
     it('correctly stores key press', () => {
       expect(keyState).toEqual([
@@ -70,7 +70,7 @@ describe('chip8', () => {
       })
     }
 
-    const { keyState } = chip8.releaseKey('w')(currentState)
+    const { keyState } = chip8.releaseKey(currentState, 'w')
 
     it('correctly stores key release', () => {
       expect(keyState).toEqual([

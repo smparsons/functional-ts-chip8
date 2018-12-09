@@ -1,4 +1,4 @@
-import { Chip8, Chip8Func, ParsedOpcode } from 'src/chip8/types'
+import { Chip8, ParsedOpcode } from 'src/chip8/types'
 
 import { chip8Opcodes } from './opcodes'
 
@@ -9,7 +9,8 @@ const decrementTimers = (chip8State: Chip8): Chip8 => ({
   audioFlag: chip8State.soundTimer === 1
 })
 
-export const executeOpcode = (opcode: number): Chip8Func => (chip8State: Chip8): Chip8 => {
+export const executeOpcode = (chip8State: Chip8): Chip8 => {
+  const opcode = getNextOpcodeFromMemory(chip8State)
   const parsedOpcode = parseOpcode(opcode)
 
   switch (opcode & 0xf000) {
@@ -109,6 +110,9 @@ export const executeOpcode = (opcode: number): Chip8Func => (chip8State: Chip8):
       return storeUnknownOpcodeError(chip8State, opcode)
   }
 }
+
+const getNextOpcodeFromMemory = ({ memory, programCounter }: Chip8): number =>
+  (memory[programCounter] << 8) | memory[programCounter + 1]
 
 const parseOpcode = (opcode: number): ParsedOpcode => ({
   oneDigitConstant: opcode & 0x000f,
