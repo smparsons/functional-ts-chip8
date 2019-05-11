@@ -31,7 +31,7 @@ const playBeep = (audioContext: AudioContext): void => {
 }
 
 const getGameBytes = async (gameName: string): Promise<Uint8Array> => {
-  const response = await fetch(`/roms/${gameName}`)
+  const response = await fetch(`roms/${gameName}`)
   const buffer = await response.arrayBuffer()
   return new Uint8Array(buffer)
 }
