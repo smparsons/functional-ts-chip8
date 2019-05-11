@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const DESTINATION = path.resolve(__dirname, 'dist')
+const DESTINATION = path.resolve(__dirname, 'build')
 
 module.exports = {
   entry: ['./src/main.ts'],
@@ -46,6 +46,6 @@ module.exports = {
   ],
   devtool: 'cheap-module-source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist')
+    contentBase: path.resolve(__dirname, 'build')
   }
 }
