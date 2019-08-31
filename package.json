@@ -4,26 +4,26 @@
   "private": true,
   "homepage": "https://smparsons.github.io/functional-ts-chip8",
   "dependencies": {
-    "pure-rand": "^1.5.0"
+    "pure-rand": "^1.6.2"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.9",
-    "@types/node": "^10.12.9",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.3",
     "awesome-typescript-loader": "^5.2.1",
-    "copy-webpack-plugin": "^4.6.0",
-    "gh-pages": "^2.0.1",
-    "jest": "^23.6.0",
-    "prettier": "^1.15.2",
-    "prettier-tslint": "^0.4.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "gh-pages": "^2.1.1",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "prettier-tslint": "^0.4.2",
     "source-map-loader": "^0.2.4",
-    "ts-jest": "^23.10.5",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.17.0",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.19.0",
+    "tslint-config-prettier": "^1.18.0",
     "tslint-loader": "^3.5.4",
-    "typescript": "^3.1.6",
-    "webpack": "^4.26.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "typescript": "^3.6.2",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0"
   },
   "scripts": {
     "start": "webpack-dev-server --port 9000 --inline --progress --profile --colors --watch --content-base src/ --mode development",
